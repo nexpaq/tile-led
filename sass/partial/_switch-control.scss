@@ -1,0 +1,57 @@
+.onoffswitch {
+  position:absolute;
+  left: 32vw;
+  -webkit-user-select:none; 
+  -moz-user-select:none;
+  -ms-user-select: none;
+  width:44px;
+  height:44px;
+
+
+  .checkbox {
+    display: none;
+    &:checked + .switch-label{
+    background-color: rgba(0,0,0,0.50);
+    border-radius:3px;
+    }
+    
+    #wrapper:not([data-color="white"]) & + .switch-label::before {
+     background-image: url(../img/lock.svg);
+    }
+
+    #wrapper:not([data-color="white"]) &:checked + .switch-label::before {
+    background-image: url(../img/lock_active.svg);
+    }
+    
+
+    #wrapper[data-color="white"] &:checked + .switch-label:before {
+    background-image: url(../img/lock_active.svg);
+    }
+
+  }
+
+  .switch-label {
+    display: block; 
+    position: relative;
+    overflow: hidden; 
+    width:44px;
+    height:44px; 
+    
+
+    &::before {
+      content:"";
+      display: block; 
+      position: relative;
+      top:50%;
+      left:50%;
+      @include transform(translateX(-50%) translateY(-50%));
+      width:24px;
+      height:24px; 
+      background-image: url(../img/lock_black.svg);
+      background-repeat: no-repeat;
+      background-size: auto 100%;
+    }
+  }
+}
+
+

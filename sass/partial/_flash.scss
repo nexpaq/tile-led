@@ -1,0 +1,26 @@
+.flashcontrol {
+  @include position(absolute, 75% null null 12.5%);
+  display: block;
+}
+
+.flashbutton_left {
+@include flashplace(3vw);
+#wrapper[data-color="white"] &:not(.active) {
+  background-image: url(../img/flash_black.svg);
+}
+
+&.active {
+  background-image: url(../img/flash_active.svg);
+}
+
+}
+
+.flashbutton_right {
+@include flashplace(61vw);
+#wrapper[data-color="white"] &:not(.active) {
+  background-image: url(../img/flash_black.svg);
+}
+&.active {
+  background-image: url(../img/flash_active.svg);
+}
+}

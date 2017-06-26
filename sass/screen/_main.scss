@@ -1,0 +1,17 @@
+.wrapper {
+  &[data-color='white'] {
+    color: $white;
+  }
+  &[data-color='red'] {
+    color: $red;
+  }
+  &[data-color='green'] {
+    color: $green;
+  }
+  &[data-color='blue'] {
+    color: $blue;
+  }
+  &[data-color='yellow'] {
+    color: $yellow;
+  }
+}
