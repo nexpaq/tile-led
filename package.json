@@ -4,30 +4,32 @@
   "description": "",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npx webpack --config webpack.dev.js",
+    "build": "npx webpack --config webpack.prod.js"
   },
   "author": "Alex Chernov",
   "license": "ISC",
-  "buildFiles": [
-    "manifest.json",
-    "icon.svg",
-    "index.html",
-    "node_modules/webview-tile-header/WebViewTileHeader.js",
-    "css/**/*",
-    "fonts/**/",
-    "img/**/",
-    "js/**/",
-    "vendor/**/"
-  ],
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
     "bourbon": "^4.3.4",
-    "gulp": "^3.9.1",
-    "gulp-file-include": "^0.13.7",
-    "gulp-sass": "^2.2.0",
-    "gulp-zip": "^3.2.0",
-    "rimraf": "^2.6.1"
+    "copy-webpack-plugin": "^4.5.1",
+    "css-loader": "^0.28.11",
+    "file-loader": "^1.1.11",
+    "html-webpack-plugin": "^3.0.6",
+    "navigo": "^7.1.1",
+    "node-sass": "^4.8.2",
+    "reset-css": "^3.0.0",
+    "sass-loader": "^6.0.7",
+    "style-loader": "^0.20.3",
+    "swiper": "^4.2.0",
+    "vue": "^2.5.16",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.12",
+    "webpack-merge": "^4.1.2",
+    "webview-tile-header": "git+https://github.com/moduware/webview-tile-header.git",
+    "zip-webpack-plugin": "^3.0.0"
   },
-  "dependencies": {
-    "webview-tile-header": "https://github.com/moduware/webview-tile-header"
-  }
+  "dependencies": {}
 }
