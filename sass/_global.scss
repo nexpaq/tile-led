@@ -37,7 +37,7 @@ button {
 }
 #wrapper {
 	@extend .no-overflow;
-	@include position(fixed, 0 0 null null);
+	@include position(absolute, 0 0 null null);
 	width: 100%;
 	height: 100%;
 }
