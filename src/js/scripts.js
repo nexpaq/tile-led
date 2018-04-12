@@ -55,7 +55,7 @@ function colorButtonClickHandler(e) {
 	color = this.dataset.color;
 	backgroundColor = this.style.backgroundColor;
 	document.getElementById('wrapper').dataset.color = color;
-	document.getElementById('wrapper').style.backgroundColor = backgroundColor;
+	//document.getElementById('wrapper').style.backgroundColor = backgroundColor;
   Nexpaq.Header.customize({backgroundColor:backgroundColor,color:"#FFFFFF",iconColor:"#FFFFFF"});
   Nexpaq.Header.cleanButtons();
   Nexpaq.Header.addButton({image:"img/picker.svg"}, pickerHandler);
@@ -192,7 +192,7 @@ function dragHandler(val) {
 
 function pickerHandler() {
   document.getElementById('wrapper').dataset.color= 'white';
-  document.getElementById('wrapper').style.backgroundColor = 'white';
+  //document.getElementById('wrapper').style.backgroundColor = 'white';
   Nexpaq.Header.customize({backgroundColor:"#FFFFFF",color:"black",iconColor:"black"});
 
 
@@ -261,7 +261,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     backgroundColor: '#FFFFFF',
     color: 'black',
     iconColor: 'black',
-    borderBottom: 'none '
+    borderBottom: 'none'
   };
   Nexpaq.Header.customize(header);
   Nexpaq.Header.addButton({image:"img/picker_black.svg"}, pickerHandler);
@@ -297,7 +297,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   //Creates the color-wheel
   $wheel = document.getElementById('wheel');
-  cw = Raphael.colorwheel($wheel,220,400);
+  cw = Raphael.colorwheel($wheel, 220, 400);
 
   cw.onchange(function(colorID){
     console.log(cw.color_hsb());
