@@ -36,34 +36,39 @@
   <body>
   <style id="synamic_styles"></style>
     <div id="wrapper" class="wrapper" data-color="white">
-     
+
+      <button class="led-button" data-color="white" id="main-button"></button>
+      
+      <!-- <div id="wheel-control" class="wheel-control hidden">
+        <div class="wheel" id="wheel"></div> 
+      </div> -->
+      
       <div class= "flashcontrol">
-       <div class="onoffswitch">
-        <input type="checkbox" name="onoffswitch" class="checkbox" id="myonoffswitch" checked>
-        <label class="switch-label" for="myonoffswitch"></label>
-      </div>
+        <div class="onoffswitch">
+          <input type="checkbox" name="onoffswitch" class="checkbox" id="myonoffswitch" checked>
+          <label class="switch-label" for="myonoffswitch"></label>
+        </div>
         <button id="flashbutton_left" class="flashbutton_left"></button>
         <button id="flashbutton_right" class="flashbutton_right"></button>
       </div>
-      <button class="led-button" data-color="white" id="main-button">
-      </button>
-      <div id= "wheel-control" class="wheel-control hidden">
-      <div class="brightness-control">
+      
+      
+      <!-- <div class="brightness-control">
         <div id="textbox">
           <p class="alignleft">Darker</p>
           <p class="alignright">Lighter</p>
         </div>
         <input type="range" id="nxprange" class="nxprange" min="1" max="100" step="1" value="50">
         <output for="nxprange" id="position"></output>
-      </div>
-      <div class= "wheel" id="wheel"></div> 
-      </div>
-      <div id ="color-control" class="color-control">
-          <button data-color="white" style="background-color:white"></button>
-          <button data-color="red" style="background-color:#ff4646"></button>
-          <button data-color="green" style="background-color:#40d78b" ></button>
-          <button data-color="blue" style="background-color:#00bfde"></button>
-          <button data-color="yellow" style="background-color:#fbec00"></button>
+      </div> -->
+
+      <div id="color-control" class="color-control">
+
+        <button v-for="(key, value) in predefinedColors" data-color="{{ key }}" style="background-color: rgb({{value[0]}}, {{value[1]}}, {{value[2]}})" ></button>
+        <!-- <button data-color="" style="background-color:rgb(255, 70, 70)"></button>
+        <button data-color="green" style="background-color:rgb(64, 215, 139)" ></button>
+        <button data-color="blue" style="background-color:rgb(0, 191, 222)"></button>
+        <button data-color="yellow" style="background-color:rgb(251, 236, 0)"></button> -->
       </div>
     </div>
   </body>
