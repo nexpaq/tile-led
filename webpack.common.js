@@ -53,14 +53,14 @@ module.exports = {
         test: /\.(woff)$/,
         loader: 'file-loader?name=./fonts/[name].[ext]'
       },
-      {
-        test: /\.js$/, // Check for all js files
-        exclude: /node_modules\/(?!(dom7|swiper)\/).*/,
-        loader: 'babel-loader',
-        options: {
-          presets: ['babel-preset-env']
-        }
-      }
+      // {
+      //   test: /\.js$/, // Check for all js files
+      //   exclude: /(node_modules|bower_components)/,
+      //   loader: 'babel-loader',
+      //   options: {
+      //     presets: ['babel-preset-env']
+      //   }
+      // }
     ]
   },
   plugins: [
