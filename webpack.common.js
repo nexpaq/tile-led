@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -68,9 +69,15 @@ module.exports = {
       title: 'LED',
       template: './src/index.html'
     }),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery'
+    }),
     new CopyWebpackPlugin([
       { from: 'manifest.json', to: 'manifest.json' },
-      { from: 'icon.svg', to: 'icon.svg' }
+      { from: 'icon.svg', to: 'icon.svg' },
+      { from: 'vendor/raphael.min.js', to: 'vendor/raphael.min.js' },
+      { from: 'vendor/colorwheel.js', to: 'vendor/colorwheel.js' }
     ], {})
   ]
 };
