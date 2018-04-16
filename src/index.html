@@ -63,12 +63,7 @@
       </div> -->
 
       <div id="color-control" class="color-control">
-
-        <button v-for="(key, value) in predefinedColors" data-color="{{ key }}" style="background-color: rgb({{value[0]}}, {{value[1]}}, {{value[2]}})" ></button>
-        <!-- <button data-color="" style="background-color:rgb(255, 70, 70)"></button>
-        <button data-color="green" style="background-color:rgb(64, 215, 139)" ></button>
-        <button data-color="blue" style="background-color:rgb(0, 191, 222)"></button>
-        <button data-color="yellow" style="background-color:rgb(251, 236, 0)"></button> -->
+        <button v-for="(color, key) in predefinedColors" :data-color="key" :style="{ 'background-color': 'rgb(' + color.red() +',' + color.green() + ',' + color.blue() + ')' }" ></button>
       </div>
     </div>
   </body>

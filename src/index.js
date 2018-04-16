@@ -10,21 +10,22 @@ import 'webview-tile-header/WebViewTileHeader.js';
 import $ from 'jquery';
 window.$ = $;
 import Vue from 'vue';
+import Color from 'color';
 
 const tile = new Vue({
   el: '#wrapper',
   data: {
-    color: [
-      255, // R
-      255, // G
-      255  // B 
-    ],
+    // color: [
+    //   255, // R
+    //   255, // G
+    //   255  // B 
+    // ],
     predefinedColors: {
-      white: [255, 255, 255],
-      red: [255, 70, 70],
-      green: [64, 215, 139],
-      blue: [0, 191, 222],
-      yellow: [251, 236, 0]
+      white: Color.rgb(255, 255, 255),
+      red: Color.rgb(255, 70, 70),
+      green: Color.rgb(64, 215, 139),
+      blue: Color.rgb(0, 191, 222),
+      yellow: Color.rgb(251, 236, 0)
     }
   },
   methods: {
