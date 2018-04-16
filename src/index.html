@@ -38,15 +38,15 @@
     <div id="wrapper" class="wrapper" :data-color="backgroundColor">
 
       <div class="page page__controls">
-        <div class="simple-controls">
+        <div class="simple-controls" :class="{ hidden: controlsType != 'simple' }">
           <div class="color-control">
             <button v-for="(color, key) in predefinedColors" @click="setColor(color.moduleColor)" :style="{ 'background-color': 'rgb(' + color.uiColor.red() +',' + color.uiColor.green() + ',' + color.uiColor.blue() + ')' }" ></button>
           </div>
         </div> <!-- /.simple-controls -->
   
-        <div class="picker-controls hidden">
-          <div id="wheel-control" class="wheel-control hidden">
-            <div class="wheel" id="wheel"></div> 
+        <div class="picker-controls" :class="{ hidden: controlsType != 'picker' }">
+          <div class="wheel-control">
+            <div class="wheel" id="colorWheel"></div> 
           </div>
   
           <div class="brightness-control">

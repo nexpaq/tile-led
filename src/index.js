@@ -7,6 +7,7 @@ import headerPaletteIcon from './img/palette.svg';
 
 import 'webview-tile-header/WebViewTileHeader.js';
 import LedPartState from './enums/LedPartState';
+import ControlsType from './enums/ControlsType';
 
 import $ from 'jquery';
 window.$ = $;
@@ -20,6 +21,9 @@ const tile = new Vue({
     flashLedLeftState: LedPartState.Off,
     flashLedRightState: LedPartState.Off,
     lockState: LedPartState.On,
+
+    controlsType: ControlsType.Simple,
+
     currentColor: Color('white'),
     predefinedColors: {
       white: { 
@@ -70,11 +74,21 @@ const tile = new Vue({
   watch: {
     backgroundColor: function(newBackgroundColor, oldBackgroundColor) {
       const color = this.predefinedColors[newBackgroundColor];
+      
       Nexpaq.Header.customize({ backgroundColor: `rgb(${color.uiColor.red()}, ${color.uiColor.green()}, ${color.uiColor.blue()})` });
       if(newBackgroundColor == 'white') {
         Nexpaq.Header.customize({ color: 'black', iconColor: 'black' });
       } else {
         Nexpaq.Header.customize({ color: 'white', iconColor: 'white' });
+      }
+
+      if(this.controlsType == ControlsType.Simple) {
+        const headerIconElement = document.getElementById('headerControlsToggleButton').children[0];
+        if(newBackgroundColor == 'white') {
+          headerIconElement.src = headerPickerBlackIcon;
+        } else {
+          headerIconElement.src = headerPickerIcon;
+        }
       }
     },
 
@@ -105,6 +119,9 @@ const tile = new Vue({
   computed: {
     backgroundColor: function() {
       let backgroundColor = 'white';
+      
+      if(this.controlsType == ControlsType.Picker) return backgroundColor;
+
       for(let predefinedColorName in this.predefinedColors) {
         let predefinedColor = this.predefinedColors[predefinedColorName].moduleColor;
         if(isSameColor(this.currentColor, predefinedColor)) {
@@ -129,6 +146,17 @@ function flashLedStateWatcher() {
   Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetFlashes', [left, right]);
 }
 
+function toggleControls() {
+  const headerIconElement = document.getElementById('headerControlsToggleButton').children[0];
+  if(tile.controlsType == ControlsType.Simple) {
+    tile.controlsType = ControlsType.Picker;
+    headerIconElement.src = headerPaletteIcon;
+  } else {
+    tile.controlsType = ControlsType.Simple;
+    headerIconElement.src = headerPickerBlackIcon;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   /* Revealing UI */
   //document.getElementById('wrapper').style.opacity = 1;
@@ -143,7 +171,13 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   Nexpaq.Header.customize(headerStyles);
   // TODO: replace the original picker handler with refactored version
-  // Nexpaq.Header.addButton({ image: headerPickerBlackIcon }, pickerHandler);
+  Nexpaq.Header.addButton({ image: headerPickerBlackIcon, id: 'headerControlsToggleButton' }, toggleControls);
+
+  const colorWheelElement = document.getElementById('colorWheel');
+  const colorWheel = Raphael.colorwheel(colorWheelElement, 220, 400);
+  colorWheel.onchange(function(newColor) {
+    tile.setColor(Color.rgb(newColor.r, newColor.g, newColor.b));
+  });
 
   document.body.removeEventListener('contextmenu', (e) => {
     e.preventDefault();
