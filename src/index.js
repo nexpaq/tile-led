@@ -15,7 +15,7 @@ import Color from 'color';
 const tile = new Vue({
   el: '#wrapper',
   data: {
-    currentColor: Color.rgb(255, 70, 70),//Color('white'),
+    currentColor: Color('white'),
     predefinedColors: {
       white: Color.rgb(255, 255, 255),
       red: Color.rgb(255, 70, 70),
@@ -30,7 +30,15 @@ const tile = new Vue({
     }
   },
   watch: {
-      
+    backgroundColor: function(newBackgroundColor, oldBackgroundColor) {
+      const color = this.predefinedColors[newBackgroundColor];
+      Nexpaq.Header.customize({ backgroundColor: `rgb(${color.red()}, ${color.green()}, ${color.blue()})` });
+      if(newBackgroundColor == 'white') {
+        Nexpaq.Header.customize({ color: 'black', iconColor: 'black' });
+      } else {
+        Nexpaq.Header.customize({ color: 'white', iconColor: 'white' });
+      }
+    }
   },
   computed: {
     backgroundColor: function() {

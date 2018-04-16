@@ -63,7 +63,7 @@
       </div> -->
 
       <div id="color-control" class="color-control">
-        <button v-for="(color, key) in predefinedColors" @click="setColor(color)" :data-color="key" :style="{ 'background-color': 'rgb(' + color.red() +',' + color.green() + ',' + color.blue() + ')' }" ></button>
+        <button v-for="(color, key) in predefinedColors" @click="setColor(color)" :style="{ 'background-color': 'rgb(' + color.red() +',' + color.green() + ',' + color.blue() + ')' }" ></button>
       </div>
     </div>
   </body>
