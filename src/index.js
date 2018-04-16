@@ -61,7 +61,28 @@ const tile = new Vue({
       } else {
         Nexpaq.Header.customize({ color: 'white', iconColor: 'white' });
       }
-    }
+    },
+
+    ledsState: function(newState, oldState) {
+      if(newState == LedPartState.On) {
+        Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [
+          this.currentColor.red(), 
+          this.currentColor.green(), 
+          this.currentColor.blue()
+        ]);
+      } else {
+        Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [0,0,0]);
+      }
+    },
+
+    currentColor: function(newColor, oldColor) {
+      if(this.ledsState != LedPartState.On) return;
+      Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [
+        this.currentColor.red(), 
+        this.currentColor.green(), 
+        this.currentColor.blue()
+      ]);
+    }    
   },
   computed: {
     backgroundColor: function() {
