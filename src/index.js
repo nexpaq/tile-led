@@ -19,6 +19,7 @@ const tile = new Vue({
     ledsState: LedPartState.Off,
     flashLedLeftState: LedPartState.Off,
     flashLedRightState: LedPartState.Off,
+    lockState: LedPartState.On,
     currentColor: Color('white'),
     predefinedColors: {
       white: Color.rgb(255, 255, 255),
@@ -32,10 +33,24 @@ const tile = new Vue({
     setColor: function(color) {
       this.currentColor = color;
     },
-    toggleLedsState: function() {
-      // inverting value
-      this.ledsState = this.ledsState == LedPartState.On ? LedPartState.Off : LedPartState.On;
+
+    ledButtonPressedHandler: function() {
+      this.ledsState = !this.ledsState;
     },
+
+    ledButtonReleasedHandler: function() {
+      if(this.lockState == LedPartState.Off) {
+        this.ledsState = !this.ledsState;
+      }
+    },
+
+    toggleFlashLedState: function(position) {
+      if(position == 'left') {
+        this.flashLedLeftState = !this.flashLedLeftState;
+      } else {
+        this.flashLedRightState = !this.flashLedRightState;
+      }
+    }
   },
   watch: {
     backgroundColor: function(newBackgroundColor, oldBackgroundColor) {
@@ -85,6 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // TODO: replace the original picker handler with refactored version
   // Nexpaq.Header.addButton({ image: headerPickerBlackIcon }, pickerHandler);
 
+  document.body.removeEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    return false;
+  });
 });
 
 // TODO: the legacy code requires refactory

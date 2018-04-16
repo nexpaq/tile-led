@@ -37,19 +37,21 @@
   <!-- <style id="synamic_styles"></style> -->
     <div id="wrapper" class="wrapper" :data-color="backgroundColor">
 
-      <button class="led-button" id="main-button" :class="{ active: ledsState }" @click="toggleLedsState"></button>
+      <button class="led-button" :class="{ active: ledsState }" @mousedown="ledButtonPressedHandler" @mouseup="ledButtonReleasedHandler"></button>
       
       <!-- <div id="wheel-control" class="wheel-control hidden">
         <div class="wheel" id="wheel"></div> 
       </div> -->
       
-      <div class= "flashcontrol">
+      <div class="flashcontrol">
+        <button class="flashcontrol__flashbutton" :class="{ 'flashcontrol__flashbutton--active': flashLedLeftState }" @click="toggleFlashLedState('left')"></button>
+        
         <div class="onoffswitch">
-          <input type="checkbox" name="onoffswitch" class="checkbox" id="myonoffswitch" checked>
+          <input type="checkbox" name="onoffswitch" class="checkbox" id="myonoffswitch" v-model="lockState">
           <label class="switch-label" for="myonoffswitch"></label>
         </div>
-        <button id="flashbutton_left" class="flashbutton_left"></button>
-        <button id="flashbutton_right" class="flashbutton_right"></button>
+
+        <button class="flashcontrol__flashbutton" :class="{ 'flashcontrol__flashbutton--active': flashLedRightState }" @click="toggleFlashLedState('right')"></button>
       </div>
       
       
