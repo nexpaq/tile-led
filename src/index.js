@@ -22,11 +22,26 @@ const tile = new Vue({
     lockState: LedPartState.On,
     currentColor: Color('white'),
     predefinedColors: {
-      white: Color.rgb(255, 255, 255),
-      red: Color.rgb(255, 70, 70),
-      green: Color.rgb(64, 215, 139),
-      blue: Color.rgb(0, 191, 222),
-      yellow: Color.rgb(251, 236, 0)
+      white: { 
+        uiColor: Color.rgb(255, 255, 255),
+        moduleColor: Color('white')
+      },
+      red: { 
+        uiColor: Color.rgb(255, 70, 70),
+        moduleColor: Color('red')
+      },
+      green: { 
+        uiColor: Color.rgb(64, 215, 139),
+        moduleColor: Color('green')
+      },
+      blue: { 
+        uiColor: Color.rgb(0, 191, 222),
+        moduleColor: Color('blue')
+      },
+      yellow: { 
+        uiColor: Color.rgb(251, 236, 0),
+        moduleColor: Color('yellow')
+      }
     }
   },
   methods: {
@@ -55,7 +70,7 @@ const tile = new Vue({
   watch: {
     backgroundColor: function(newBackgroundColor, oldBackgroundColor) {
       const color = this.predefinedColors[newBackgroundColor];
-      Nexpaq.Header.customize({ backgroundColor: `rgb(${color.red()}, ${color.green()}, ${color.blue()})` });
+      Nexpaq.Header.customize({ backgroundColor: `rgb(${color.uiColor.red()}, ${color.uiColor.green()}, ${color.uiColor.blue()})` });
       if(newBackgroundColor == 'white') {
         Nexpaq.Header.customize({ color: 'black', iconColor: 'black' });
       } else {
@@ -91,7 +106,7 @@ const tile = new Vue({
     backgroundColor: function() {
       let backgroundColor = 'white';
       for(let predefinedColorName in this.predefinedColors) {
-        let predefinedColor = this.predefinedColors[predefinedColorName];
+        let predefinedColor = this.predefinedColors[predefinedColorName].moduleColor;
         if(isSameColor(this.currentColor, predefinedColor)) {
           backgroundColor = predefinedColorName;
           break;
