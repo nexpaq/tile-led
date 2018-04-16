@@ -82,7 +82,10 @@ const tile = new Vue({
         this.currentColor.green(), 
         this.currentColor.blue()
       ]);
-    }    
+    },
+
+    flashLedLeftState: flashLedStateWatcher,
+    flashLedRightState: flashLedStateWatcher
   },
   computed: {
     backgroundColor: function() {
@@ -103,6 +106,12 @@ function isSameColor(color1, color2) {
   return  color1.red() == color2.red() && 
           color1.green() == color2.green() &&
           color1.blue() == color2.blue();
+}
+
+function flashLedStateWatcher() {
+  const left = this.flashLedLeftState ? 8000 : 0;
+  const right = this.flashLedRightState ? 8000 : 0;
+  Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetFlashes', [left, right]);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
