@@ -37,36 +37,43 @@
   <!-- <style id="synamic_styles"></style> -->
     <div id="wrapper" class="wrapper" :data-color="backgroundColor">
 
-      <button class="led-button" :class="{ active: ledsState }" @touchstart="ledButtonPressedHandler" @touchend="ledButtonReleasedHandler"></button>
-      
-      <!-- <div id="wheel-control" class="wheel-control hidden">
-        <div class="wheel" id="wheel"></div> 
-      </div> -->
-      
-      <div class="flashcontrol">
-        <button class="flashcontrol__flashbutton" :class="{ 'flashcontrol__flashbutton--active': flashLedLeftState }" @click="toggleFlashLedState('left')"></button>
+      <div class="page page__controls">
+        <div class="simple-controls">
+          <div class="color-control">
+            <button v-for="(color, key) in predefinedColors" @click="setColor(color.moduleColor)" :style="{ 'background-color': 'rgb(' + color.uiColor.red() +',' + color.uiColor.green() + ',' + color.uiColor.blue() + ')' }" ></button>
+          </div>
+        </div> <!-- /.simple-controls -->
+  
+        <div class="picker-controls hidden">
+          <div id="wheel-control" class="wheel-control hidden">
+            <div class="wheel" id="wheel"></div> 
+          </div>
+  
+          <div class="brightness-control">
+            <div id="textbox">
+              <p class="alignleft">Darker</p>
+              <p class="alignright">Lighter</p>
+            </div>
+            <input type="range" id="nxprange" class="nxprange" min="1" max="100" step="1" value="50">
+            <output for="nxprange" id="position"></output>
+          </div>
+        </div> <!-- /.picker-controls -->
         
-        <div class="onoffswitch">
-          <input type="checkbox" name="onoffswitch" class="checkbox" id="myonoffswitch" v-model="lockState">
-          <label class="switch-label" for="myonoffswitch"></label>
-        </div>
-
-        <button class="flashcontrol__flashbutton" :class="{ 'flashcontrol__flashbutton--active': flashLedRightState }" @click="toggleFlashLedState('right')"></button>
-      </div>
+        <div class="shared-controls">
+          <button class="led-button" :class="{ active: ledsState }" @touchstart="ledButtonPressedHandler" @touchend="ledButtonReleasedHandler"></button>
       
-      
-      <!-- <div class="brightness-control">
-        <div id="textbox">
-          <p class="alignleft">Darker</p>
-          <p class="alignright">Lighter</p>
-        </div>
-        <input type="range" id="nxprange" class="nxprange" min="1" max="100" step="1" value="50">
-        <output for="nxprange" id="position"></output>
-      </div> -->
-
-      <div id="color-control" class="color-control">
-        <button v-for="(color, key) in predefinedColors" @click="setColor(color.moduleColor)" :style="{ 'background-color': 'rgb(' + color.uiColor.red() +',' + color.uiColor.green() + ',' + color.uiColor.blue() + ')' }" ></button>
-      </div>
-    </div>
+          <div class="flashcontrol">
+            <button class="flashcontrol__flashbutton" :class="{ 'flashcontrol__flashbutton--active': flashLedLeftState }" @click="toggleFlashLedState('left')"></button>
+            
+            <div class="onoffswitch">
+              <input type="checkbox" name="onoffswitch" class="checkbox" id="myonoffswitch" v-model="lockState">
+              <label class="switch-label" for="myonoffswitch"></label>
+            </div>
+    
+            <button class="flashcontrol__flashbutton" :class="{ 'flashcontrol__flashbutton--active': flashLedRightState }" @click="toggleFlashLedState('right')"></button>
+          </div>
+        </div> <!-- /.shared-controls -->
+      </div> <!-- /.page__controls -->
+    </div> <!-- /.wrapper -->
   </body>
 </html>
