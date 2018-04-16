@@ -15,11 +15,7 @@ import Color from 'color';
 const tile = new Vue({
   el: '#wrapper',
   data: {
-    // color: [
-    //   255, // R
-    //   255, // G
-    //   255  // B 
-    // ],
+    currentColor: Color.rgb(255, 70, 70),//Color('white'),
     predefinedColors: {
       white: Color.rgb(255, 255, 255),
       red: Color.rgb(255, 70, 70),
@@ -29,15 +25,33 @@ const tile = new Vue({
     }
   },
   methods: {
-      
+    setColor: function(color) {
+      this.currentColor = color;
+    }
   },
   watch: {
       
   },
   computed: {
-    
+    backgroundColor: function() {
+      let backgroundColor = 'white';
+      for(let predefinedColorName in this.predefinedColors) {
+        let predefinedColor = this.predefinedColors[predefinedColorName];
+        if(isSameColor(this.currentColor, predefinedColor)) {
+          backgroundColor = predefinedColorName;
+          break;
+        }
+      }
+      return backgroundColor;
+    }
   },
 });
+
+function isSameColor(color1, color2) {
+  return  color1.red() == color2.red() && 
+          color1.green() == color2.green() &&
+          color1.blue() == color2.blue();
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   /* Revealing UI */

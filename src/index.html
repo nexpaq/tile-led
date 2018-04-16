@@ -34,8 +34,8 @@
   
   </head>
   <body>
-  <style id="synamic_styles"></style>
-    <div id="wrapper" class="wrapper" data-color="white">
+  <!-- <style id="synamic_styles"></style> -->
+    <div id="wrapper" class="wrapper" :data-color="backgroundColor">
 
       <button class="led-button" data-color="white" id="main-button"></button>
       
@@ -63,7 +63,7 @@
       </div> -->
 
       <div id="color-control" class="color-control">
-        <button v-for="(color, key) in predefinedColors" :data-color="key" :style="{ 'background-color': 'rgb(' + color.red() +',' + color.green() + ',' + color.blue() + ')' }" ></button>
+        <button v-for="(color, key) in predefinedColors" @click="setColor(color)" :data-color="key" :style="{ 'background-color': 'rgb(' + color.red() +',' + color.green() + ',' + color.blue() + ')' }" ></button>
       </div>
     </div>
   </body>
