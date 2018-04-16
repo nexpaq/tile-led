@@ -37,7 +37,7 @@
   <!-- <style id="synamic_styles"></style> -->
     <div id="wrapper" class="wrapper" :data-color="backgroundColor">
 
-      <button class="led-button" data-color="white" id="main-button"></button>
+      <button class="led-button" id="main-button" :class="{ active: ledsState }" @click="toggleLedsState"></button>
       
       <!-- <div id="wheel-control" class="wheel-control hidden">
         <div class="wheel" id="wheel"></div> 

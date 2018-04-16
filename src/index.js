@@ -6,6 +6,7 @@ import headerPickerIcon from './img/picker.svg';
 import headerPaletteIcon from './img/palette.svg';
 
 import 'webview-tile-header/WebViewTileHeader.js';
+import LedPartState from './enums/LedPartState';
 
 import $ from 'jquery';
 window.$ = $;
@@ -15,6 +16,9 @@ import Color from 'color';
 const tile = new Vue({
   el: '#wrapper',
   data: {
+    ledsState: LedPartState.Off,
+    flashLedLeftState: LedPartState.Off,
+    flashLedRightState: LedPartState.Off,
     currentColor: Color('white'),
     predefinedColors: {
       white: Color.rgb(255, 255, 255),
@@ -27,7 +31,11 @@ const tile = new Vue({
   methods: {
     setColor: function(color) {
       this.currentColor = color;
-    }
+    },
+    toggleLedsState: function() {
+      // inverting value
+      this.ledsState = this.ledsState == LedPartState.On ? LedPartState.Off : LedPartState.On;
+    },
   },
   watch: {
     backgroundColor: function(newBackgroundColor, oldBackgroundColor) {
