@@ -22,9 +22,10 @@ const tile = new Vue({
     flashLedRightState: LedPartState.Off,
     lockState: LedPartState.On,
 
-    controlsType: ControlsType.Simple,
+    controlsType: ControlsType.Picker,//Simple,
 
     currentColor: Color('white'),
+    lightness: 0,
     predefinedColors: {
       white: { 
         uiColor: Color.rgb(255, 255, 255),
@@ -95,21 +96,21 @@ const tile = new Vue({
     ledsState: function(newState, oldState) {
       if(newState == LedPartState.On) {
         Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [
-          this.currentColor.red(), 
-          this.currentColor.green(), 
-          this.currentColor.blue()
+          this.adjustedCurrentColor.red(), 
+          this.adjustedCurrentColor.green(), 
+          this.adjustedCurrentColor.blue()
         ]);
       } else {
         Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [0,0,0]);
       }
     },
 
-    currentColor: function(newColor, oldColor) {
+    adjustedCurrentColor: function(newColor, oldColor) {
       if(this.ledsState != LedPartState.On) return;
       Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [
-        this.currentColor.red(), 
-        this.currentColor.green(), 
-        this.currentColor.blue()
+        this.adjustedCurrentColor.red(), 
+        this.adjustedCurrentColor.green(), 
+        this.adjustedCurrentColor.blue()
       ]);
     },
 
@@ -130,6 +131,22 @@ const tile = new Vue({
         }
       }
       return backgroundColor;
+    },
+
+    adjustedCurrentColor: function() {
+      if(this.controlsType == ControlsType.Simple) return this.currentColor;
+
+      let color = this.currentColor;
+
+      if(this.lightness > 0) {
+        const lighten = this.lightness;
+        color = color.lighten(lighten);
+      } else {
+        const darken = this.lightness * -1;
+        color = color.darken(darken);
+      }
+
+      return color;
     }
   },
 });
