@@ -22,35 +22,3 @@
 .flashcontrol__flashbutton--active {
   background-image: url(../img/flash_active.svg);
 }
-
-// .flashbutton_left,
-// .flashbutton_right {
-//   position:absolute;
-//   width: 44px; 
-//   height: 44px;
-//   background-image: url(../img/flash.svg);
-// }
-
-// .flashbutton_left {
-//   left: 3vw;
-
-//   #wrapper[data-color="white"] &:not(.active) {
-//     background-image: url(../img/flash_black.svg);
-//   }
-
-//   &.active {
-//     background-image: url(../img/flash_active.svg);
-//   }
-
-// }
-
-// .flashbutton_right {
-//   right: 3vw;
-
-//   #wrapper[data-color="white"] &:not(.active) {
-//     background-image: url(../img/flash_black.svg);
-//   }
-//   &.active {
-//     background-image: url(../img/flash_active.svg);
-//   }
-// }

@@ -151,7 +151,7 @@ const tile = new Vue({
 
 document.addEventListener('DOMContentLoaded', () => {
   /* Revealing UI */
-  //document.getElementById('wrapper').style.opacity = 1;
+  document.getElementById('wrapper').style.opacity = 1;
 
   WebViewTileHeader.create('LED');
   //Header Customization
