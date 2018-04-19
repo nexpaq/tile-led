@@ -5,7 +5,7 @@ import headerPickerBlackIcon from './img/picker_black.svg';
 import headerPickerIcon from './img/picker.svg';
 import headerPaletteIcon from './img/palette.svg';
 
-import 'webview-tile-header/WebViewTileHeader.js';
+import WebViewTileHeader from 'webview-tile-header/WebViewTileHeader.js';
 import LedPartState from './enums/LedPartState';
 import ControlsType from './enums/ControlsType';
 import predefinedColors from './predefined-colors';
@@ -72,11 +72,11 @@ const tile = new Vue({
       
       // Changing colour of header and icons in it according to the background colour
       const [r, g, b] = [color.red(), color.green(), color.blue()]; 
-      Nexpaq.Header.customize({ backgroundColor: `rgb(${r}, ${g}, ${b})` });
+      WebViewTileHeader.customize({ backgroundColor: `rgb(${r}, ${g}, ${b})` });
       if(newBackgroundColor == 'white') {
-        Nexpaq.Header.customize({ color: 'black', iconColor: 'black' });
+        WebViewTileHeader.customize({ color: 'black', iconColor: 'black' });
       } else {
-        Nexpaq.Header.customize({ color: 'white', iconColor: 'white' });
+        WebViewTileHeader.customize({ color: 'white', iconColor: 'white' });
       }
 
       // In simple mode we also need adjust header button icon color
@@ -135,7 +135,7 @@ const tile = new Vue({
     toggleControls: function() {
       // We need to change header button icon when we are switching controls
       const headerIconElement = document.getElementById('headerControlsToggleButton').children[0];
-      
+
       if(this.controlsType == ControlsType.Simple) {
         this.controlsType = ControlsType.Picker;
         headerIconElement.src = headerPaletteIcon;
@@ -153,15 +153,15 @@ document.addEventListener('DOMContentLoaded', () => {
   /* Revealing UI */
   //document.getElementById('wrapper').style.opacity = 1;
 
-  Nexpaq.Header.create('LED');
+  WebViewTileHeader.create('LED');
   //Header Customization
-  Nexpaq.Header.customize({
+  WebViewTileHeader.customize({
     backgroundColor: '#FFFFFF',
     color: 'black',
     iconColor: 'black',
     borderBottom: 'none'
   });
-  Nexpaq.Header.addButton({ image: headerPickerBlackIcon, id: 'headerControlsToggleButton' }, () => tile.toggleControls.call(tile));
+  WebViewTileHeader.addButton({ image: headerPickerBlackIcon, id: 'headerControlsToggleButton' }, () => tile.toggleControls.call(tile));
 
   const colorWheelElement = document.getElementById('colorWheel');
   const colorWheel = Raphael.colorwheel(colorWheelElement, 220, 400);
