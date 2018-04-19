@@ -1,0 +1,24 @@
+.flashcontrol {
+  position: absolute;
+  width: 100%;
+  top: 75%; left: 0;
+  display: flex;
+  box-sizing: border-box;
+  padding-left: 3vw;
+  padding-right: 3vw;
+  justify-content: space-between;
+}
+
+.flashcontrol__flashbutton {
+  width: 44px; 
+  height: 44px;
+  background-image: url(../img/flash.svg);
+}
+
+#wrapper[data-color="white"] .flashcontrol__flashbutton:not(.flashcontrol__flashbutton--active) {
+  background-image: url(../img/flash_black.svg);
+}
+
+.flashcontrol__flashbutton--active {
+  background-image: url(../img/flash_active.svg);
+}

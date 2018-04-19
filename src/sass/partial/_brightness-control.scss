@@ -20,8 +20,9 @@
     font-weight:500;
   }
   .nxprange {
-    @include position(absolute, 90% null null 50%);
-    @include transform(translateX(-50%) translateY(-50%));
+    position: absolute;
+    top: 90%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
     -webkit-appearance: none;
     background-color: transparent;
     width: 100%;
