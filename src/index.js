@@ -8,81 +8,78 @@ import headerPaletteIcon from './img/palette.svg';
 import 'webview-tile-header/WebViewTileHeader.js';
 import LedPartState from './enums/LedPartState';
 import ControlsType from './enums/ControlsType';
+import predefinedColors from './predefined-colors';
+import {isSameColor, adjustColor} from './utils';
 
 import $ from 'jquery';
 window.$ = $;
 import Vue from 'vue';
 import Color from 'color';
 
+const maxFlashLedBrightness = 8000;
+
 const tile = new Vue({
   el: '#wrapper',
   data: {
+    // State of 6 colour LEDs
     ledsState: LedPartState.Off,
+    // States of left and right colour LEDs
     flashLedLeftState: LedPartState.Off,
     flashLedRightState: LedPartState.Off,
+    // Lock mode state
     lockState: LedPartState.On,
 
-    controlsType: ControlsType.Picker,//Simple,
+    // Type of controls to show
+    controlsType: ControlsType.Simple,
 
+    // Current user selected color for colour leds
     currentColor: Color('white'),
-    lightness: 0,
-    predefinedColors: {
-      white: { 
-        uiColor: Color.rgb(255, 255, 255),
-        moduleColor: Color('white')
-      },
-      red: { 
-        uiColor: Color.rgb(255, 70, 70),
-        moduleColor: Color('red')
-      },
-      green: { 
-        uiColor: Color.rgb(64, 215, 139),
-        moduleColor: Color('green')
-      },
-      blue: { 
-        uiColor: Color.rgb(0, 191, 222),
-        moduleColor: Color('blue')
-      },
-      yellow: { 
-        uiColor: Color.rgb(251, 236, 0),
-        moduleColor: Color('yellow')
-      }
-    }
+    lightness: 0, // -1 <= x <= 1
+    predefinedColors: predefinedColors
   },
-  methods: {
-    setColor: function(color) {
-      this.currentColor = color;
-    },
+  computed: {
+    backgroundColor: function() {
+      // Background color changes only for Simple mode
+      if(this.controlsType != ControlsType.Simple) return 'white';
 
-    ledButtonPressedHandler: function() {
-      this.ledsState = !this.ledsState;
-    },
-
-    ledButtonReleasedHandler: function() {
-      if(this.lockState == LedPartState.Off) {
-        this.ledsState = !this.ledsState;
+      // Looking in predefined colors
+      for(let predefinedColorName in this.predefinedColors) {
+        let predefinedColor = this.predefinedColors[predefinedColorName].moduleColor;
+        
+        // If current color is same as one of predefined colours
+        if(isSameColor(this.currentColor, predefinedColor)) {
+          // returning predefined colour name
+          return predefinedColorName;
+        }
       }
     },
 
-    toggleFlashLedState: function(position) {
-      if(position == 'left') {
-        this.flashLedLeftState = !this.flashLedLeftState;
-      } else {
-        this.flashLedRightState = !this.flashLedRightState;
-      }
+    // We are adjusting user selected colour with user selected lightness
+    adjustedCurrentColor: function() {
+      // We are not ajusting colour in simple mode
+      if(this.controlsType == ControlsType.Simple) return this.currentColor;
+
+      // Adjusting user selected colour with user selected lightness
+      let adjustedColor = adjustColor(this.currentColor, this.lightness);
+      return adjustedColor;
     }
   },
   watch: {
-    backgroundColor: function(newBackgroundColor, oldBackgroundColor) {
-      const color = this.predefinedColors[newBackgroundColor];
+    // Watching changes on background color to adjust header styles
+    backgroundColor: function(newBackgroundColor) {
+      // Getting colour by name
+      const color = this.predefinedColors[newBackgroundColor].uiColor;
       
-      Nexpaq.Header.customize({ backgroundColor: `rgb(${color.uiColor.red()}, ${color.uiColor.green()}, ${color.uiColor.blue()})` });
+      // Changing colour of header and icons in it according to the background colour
+      const [r, g, b] = [color.red(), color.green(), color.blue()]; 
+      Nexpaq.Header.customize({ backgroundColor: `rgb(${r}, ${g}, ${b})` });
       if(newBackgroundColor == 'white') {
         Nexpaq.Header.customize({ color: 'black', iconColor: 'black' });
       } else {
         Nexpaq.Header.customize({ color: 'white', iconColor: 'white' });
       }
 
+      // In simple mode we also need adjust header button icon color
       if(this.controlsType == ControlsType.Simple) {
         const headerIconElement = document.getElementById('headerControlsToggleButton').children[0];
         if(newBackgroundColor == 'white') {
@@ -93,86 +90,64 @@ const tile = new Vue({
       }
     },
 
-    ledsState: function(newState, oldState) {
+    // Watching states of colour LEDS so we can send Moduware command when required
+    ledsState: function(newState) {
       if(newState == LedPartState.On) {
-        Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [
-          this.adjustedCurrentColor.red(), 
-          this.adjustedCurrentColor.green(), 
-          this.adjustedCurrentColor.blue()
-        ]);
+        const [r, g, b] = [this.adjustedCurrentColor.red(), this.adjustedCurrentColor.green(), this.adjustedCurrentColor.blue()]; 
+        Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [r, g, b]);
       } else {
-        Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [0,0,0]);
+        // Turning LEDs off
+        Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [0, 0, 0]);
       }
     },
 
-    adjustedCurrentColor: function(newColor, oldColor) {
+    // Tracking changes to adjusted color, so we can send colour change command to module
+    adjustedCurrentColor: function(newColor) {
+      // We are sending command only if LEDs are on
       if(this.ledsState != LedPartState.On) return;
-      Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [
-        this.adjustedCurrentColor.red(), 
-        this.adjustedCurrentColor.green(), 
-        this.adjustedCurrentColor.blue()
-      ]);
-    },
-
-    flashLedLeftState: flashLedStateWatcher,
-    flashLedRightState: flashLedStateWatcher
-  },
-  computed: {
-    backgroundColor: function() {
-      let backgroundColor = 'white';
       
-      if(this.controlsType == ControlsType.Picker) return backgroundColor;
-
-      for(let predefinedColorName in this.predefinedColors) {
-        let predefinedColor = this.predefinedColors[predefinedColorName].moduleColor;
-        if(isSameColor(this.currentColor, predefinedColor)) {
-          backgroundColor = predefinedColorName;
-          break;
-        }
-      }
-      return backgroundColor;
+      const [r, g, b] = [this.adjustedCurrentColor.red(), this.adjustedCurrentColor.green(), this.adjustedCurrentColor.blue()]; 
+      Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [r, g, b]);
     },
 
-    adjustedCurrentColor: function() {
-      if(this.controlsType == ControlsType.Simple) return this.currentColor;
-
-      let color = this.currentColor;
-
-      if(this.lightness > 0) {
-        const lighten = this.lightness;
-        color = color.lighten(lighten);
-      } else {
-        const darken = this.lightness * -1;
-        color = color.darken(darken);
-      }
-
-      return color;
-    }
+    // When flash LEDs change sending appropriate Moduware commands
+    flashLedLeftState: () => tile.watchFlashLedState(),
+    flashLedRightState: () => tile.watchFlashLedState()
   },
+  methods: {
+    watchFlashLedState: function() {
+      const left = this.flashLedLeftState ? maxFlashLedBrightness : 0;
+      const right = this.flashLedRightState ? maxFlashLedBrightness : 0;
+      Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetFlashes', [left, right]);
+    },
+    
+    // We are changing state of colour LEDs when user press main button
+    ledButtonPressedHandler: function() {
+      this.ledsState = !this.ledsState;
+    },
+
+    ledButtonReleasedHandler: function() {
+      // When state isn't locked we are restoring value when user release the button
+      if(this.lockState == LedPartState.Off) {
+        this.ledsState = !this.ledsState;
+      }
+    },
+    toggleControls: function() {
+      // We need to change header button icon when we are switching controls
+      const headerIconElement = document.getElementById('headerControlsToggleButton').children[0];
+      
+      if(this.controlsType == ControlsType.Simple) {
+        this.controlsType = ControlsType.Picker;
+        headerIconElement.src = headerPaletteIcon;
+      } else {
+        this.controlsType = ControlsType.Simple;
+        headerIconElement.src = headerPickerBlackIcon;
+      }
+    }
+  }
 });
 
-function isSameColor(color1, color2) {
-  return  color1.red() == color2.red() && 
-          color1.green() == color2.green() &&
-          color1.blue() == color2.blue();
-}
 
-function flashLedStateWatcher() {
-  const left = this.flashLedLeftState ? 8000 : 0;
-  const right = this.flashLedRightState ? 8000 : 0;
-  Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetFlashes', [left, right]);
-}
-
-function toggleControls() {
-  const headerIconElement = document.getElementById('headerControlsToggleButton').children[0];
-  if(tile.controlsType == ControlsType.Simple) {
-    tile.controlsType = ControlsType.Picker;
-    headerIconElement.src = headerPaletteIcon;
-  } else {
-    tile.controlsType = ControlsType.Simple;
-    headerIconElement.src = headerPickerBlackIcon;
-  }
-}
 
 document.addEventListener('DOMContentLoaded', () => {
   /* Revealing UI */
@@ -180,378 +155,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   Nexpaq.Header.create('LED');
   //Header Customization
-  const headerStyles = {
+  Nexpaq.Header.customize({
     backgroundColor: '#FFFFFF',
     color: 'black',
     iconColor: 'black',
     borderBottom: 'none'
-  };
-  Nexpaq.Header.customize(headerStyles);
-  // TODO: replace the original picker handler with refactored version
-  Nexpaq.Header.addButton({ image: headerPickerBlackIcon, id: 'headerControlsToggleButton' }, toggleControls);
+  });
+  Nexpaq.Header.addButton({ image: headerPickerBlackIcon, id: 'headerControlsToggleButton' }, () => tile.toggleControls.call(tile));
 
   const colorWheelElement = document.getElementById('colorWheel');
   const colorWheel = Raphael.colorwheel(colorWheelElement, 220, 400);
   colorWheel.onchange(function(newColor) {
-    tile.setColor(Color.rgb(newColor.r, newColor.g, newColor.b));
-  });
-
-  document.body.removeEventListener('contextmenu', (e) => {
-    e.preventDefault();
-    return false;
+    tile.currentColor = Color.rgb(newColor.r, newColor.g, newColor.b);
   });
 });
-
-// TODO: the legacy code requires refactory
-/* LEGACY CODE */
-
-// var mode_on=false;
-
-// var flash_lefton=false;
-// var flash_righton=false;
-
-// var max_flashled_power = 8000;
-// var left=0;
-// var right=0;
-
-// var $main_button, $flashbutton_left, $flashbutton_right, $checkBox, $track, $midValue, $wheel;
-// var torchStatus;
-// var self;
-// var color;
-// var cw;
-// var check = true;
-// var RGB = {
-//   r: 0, g: 0, b: 0
-// };
-
-
-// function torchCheck() {
-// 	torchStatus = $checkBox.checked;
-// };
-
-
-// function mainButtonOn() {
-// 	this.classList.add('active');
-// 	mode_on=true;
-//   Nexpaq.API.Module.SendCommand(Nexpaq.Arguments[0], 'SetRGB', [led_color[0], led_color[1], led_color[2]]);
-// };
-
-// function mainButtonOff() {
-// 	this.classList.remove('active');
-// 	mode_on=false;
-//   Nexpaq.API.Module.SendCommand(Nexpaq.Arguments[0], 'TurnOffLeds', []);
-// };
-
-// function mainButtonTouchEndHandler(e){
-// 	self=this;
-// 	torchCheck();
-// 	if (!torchStatus) {
-// 		mainButtonOff.call(self);
-// 	};
-// }
-
-// function mainButtonTouchStartHandler(e) {
-// 	self=this;
-// 	if(!mode_on) {
-// 		mainButtonOn.call(self);
-// 	} else {
-// 		mainButtonOff.call(self);
-// 	};
-// }
-
-
-// function colorButtonClickHandler(e) {
-// 	color = this.dataset.color;
-// 	var backgroundColor = this.style.backgroundColor;
-// 	document.getElementById('wrapper').dataset.color = color;
-// 	//document.getElementById('wrapper').style.backgroundColor = backgroundColor;
-//   Nexpaq.Header.customize({backgroundColor:backgroundColor,color:"#FFFFFF",iconColor:"#FFFFFF"});
-//   Nexpaq.Header.cleanButtons();
-//   Nexpaq.Header.addButton({image: headerPickerIcon}, pickerHandler);
-  
-// 	if(color == 'white') {
-// 		led_color = [255, 255, 255];
-//     Nexpaq.Header.customize({color:"black",iconColor:"black"});
-//     Nexpaq.Header.cleanButtons();
-//     Nexpaq.Header.addButton({image: headerPickerBlackIcon}, pickerHandler);
-//     //change the fill color of picker;
-// 	} else if(color == 'red') {
-// 		led_color = [255, 0, 0];
-// 	} else if(color == 'green') {
-// 		led_color = [0, 255, 0];
-// 	} else if(color == 'blue') {
-// 		led_color = [0, 0, 255];
-// 	} else if(color == 'yellow') {
-// 		led_color = [255, 255, 0];
-// 	}
-
-// 	if (mode_on) {
-// 		mainButtonOn.call(self);
-// 	}
-// }
-// function flashButtonLeftHandler() {
-//   this.classList.toggle('active');
-  
-//   if(!flash_lefton) {
-//     left = max_flashled_power;
-//   } else {
-//     left = 0;
-//   }
-
-//   flash_lefton = !flash_lefton;
-//   if(left == 0 && right == 0) {
-//     Nexpaq.API.Module.SendCommand(Nexpaq.Arguments[0], 'TurnOffFlashs', []);
-//   } else {
-//     Nexpaq.API.Module.SendCommand(Nexpaq.Arguments[0], 'SetFlashes', [left, right]);
-//   }
-  
-// }
-
-// function flashButtonRightHandler() {
-//   this.classList.toggle('active');
-
-//   if(!flash_righton) {
-//     right = max_flashled_power;
-//   } else {
-//     right = 0;
-//   }
-
-//   flash_righton = !flash_righton;
-//   if(left == 0 && right == 0) {
-//     Nexpaq.API.Module.SendCommand(Nexpaq.Arguments[0], 'TurnOffFlashs', []);
-//   } else {
-//     Nexpaq.API.Module.SendCommand(Nexpaq.Arguments[0], 'SetFlashes', [left, right]);  
-//   }
-// }
-
-// function rgbToHsl(r, g, b){
-//   r /= 255, g /= 255, b /= 255;
-//   var max = Math.max(r, g, b), min = Math.min(r, g, b);
-//   var h, s, l = (max + min) / 2;
-
-//   if(max == min){
-//     h = s = 0; 
-//   }else{
-//     var d = max - min;
-//     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-//     switch(max){
-//       case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-//       case g: h = (b - r) / d + 2; break;
-//       case b: h = (r - g) / d + 4; break;
-//     }
-//     h /= 6;
-//   }
-
-//   return [h, s, l];
-// }
-// function hslToRgb(h, s, l){
-//   var r, g, b;
-
-//   if(s == 0){
-//     r = g = b = l; 
-//   }else{
-//     function hue2rgb(p, q, t){
-//       if(t < 0) t += 1;
-//       if(t > 1) t -= 1;
-//       if(t < 1/6) return p + (q - p) * 6 * t;
-//       if(t < 1/2) return q;
-//       if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-//       return p;
-//     }
-
-//     var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-//     var p = 2 * l - q;
-//     r = hue2rgb(p, q, h + 1/3);
-//     g = hue2rgb(p, q, h);
-//     b = hue2rgb(p, q, h - 1/3);
-//   }
-
-//   return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
-// }
-
-// function dragHandler() {
-//   var output = document.getElementById("position");
-//   var val = parseInt(this.value);
-
-//   RGB.r= Math.round(RGB.r);
-//   RGB.g= Math.round(RGB.g);
-//   RGB.b= Math.round(RGB.b);
-
-//  //converts to HSL
-//   var HSL = rgbToHsl(RGB.r,RGB.g,RGB.b);
-
-//   //changes the brightness
-//   HSL = [HSL[0],HSL[1],(val/100)];
- 
-//   //converts back to RGB
-//   var newRGB = hslToRgb(HSL[0],HSL[1],HSL[2]);
-  
-//   // //adjusts the color of the thumb based on the brightness
-//   // document.styleSheets[0].addRule('.nxprange::-webkit-slider-thumb','color: '+ 'rgb('+newRGB[0]+','+newRGB[1]+ ','+newRGB[2]+ ')');
-//   // document.styleSheets[0].insertRule('.nxprange::-webkit-slider-thumb { color: '+'rgb('+newRGB[0]+','+newRGB[1]+ ','+newRGB[2]+ ')'+' }', 0);
-  
-//   //Sets the color for data sending
-//   led_color=[newRGB[0],newRGB[1],newRGB[2]];
-//   if (mode_on) {
-//       mainButtonOn.call(self);
-//     }
- 
-// }
-
-// function pickerHandler() {
-//   document.getElementById('wrapper').dataset.color= 'white';
-//   //document.getElementById('wrapper').style.backgroundColor = 'white';
-//   Nexpaq.Header.customize({backgroundColor:"#FFFFFF",color:"black",iconColor:"black"});
-
-
-
-//   document.getElementById("wheel-control").classList.toggle('hidden'); 
-//   document.getElementById("color-control").classList.toggle('hidden'); 
-  
-//   //Changes the button title
-//   Nexpaq.Header.cleanButtons();
-//   if (check) {
-//     Nexpaq.Header.addButton({image: headerPaletteIcon}, pickerHandler);
-//   } else {
-//     Nexpaq.Header.addButton({image: headerPickerBlackIcon}, pickerHandler);
-//   }
-//   check = !check;
-  
-
-//   var colorHex;
-//   if(color == 'white') {
-//     colorHex='#ee3696';
-//     led_color=[ 238, 54, 150];
-
-//   }
-//   if(color == 'red') {
-//     colorHex='#ff4646';
-//   }
-//   if(color == 'green') {
-//     colorHex='#40d78b';
-//   }
-//   if(color == 'blue') {
-//     colorHex='#00bfde';
-//   }
-//   if(color == 'yellow') {
-//     colorHex='#fbec00';
-//   } 
-//   if(color == undefined) {
-//     colorHex = '#ee3696';
-//     led_color=[ 238, 54, 150];
-//   }
-
-//   //sets the picker to the color
-//   cw.color(colorHex);
-
-//   //Gets the RGB value of the color
-//   var RGB = cw.color();
-
-//   //sets brightness control to same color
-//   $track.style.color = colorHex;
-//   $track.value = $midValue;
-//   document.styleSheets[0].addRule('.nxprange::-webkit-slider-thumb','color: '+ colorHex);
-//   document.styleSheets[0].insertRule('.nxprange::-webkit-slider-thumb { color: '+colorHex+' }', 0);
- 
-// }
-  
-
-// function contextmenuHandler(e) {
-// 	e.preventDefault();
-// 	return false;
-// }
-
-// var led_color = [255, 255, 255],
-// 		frequency = 1,
-// 		duration_of_blink = 500,
-// 		blinking_timeout;
-
-// /** native.js */
-// function backButtonClickHandler(e) {
-// 	Nexpaq.API.Exit();
-// }
-
-// function turnLEDon(r, g, b) {
-// 	if(!window.EmulateModule) window.nexpaqAPI.LED.setColorRGB(r, g, b);
-// }
-// function turnLEDoff() {
-// 	if(!window.EmulateModule) window.nexpaqAPI.LED.turnOff();
-// }
-// function turnFlashOn (left,right) {
-//   if(!window.EmulateModule) nexpaqAPI.LED.turnFlashTorch(left,right);
-// }
-// function startBlinking() {
-// 	if(frequency === 0) return false;
-
-// 	blinkLED(led_color[0], led_color[1], led_color[2]);
-// 	blinking_timeout = setTimeout(startBlinking, frequency*1000);
-// }
-// function stopBlinking() {
-// 	clearTimeout(blinking_timeout);
-// }
-// function blinkLED(r, g, b) {
-// 	$main_button.classList.add('blink');
-// 	if(!window.EmulateModule) window.nexpaqAPI.LED.setColorRGB(r, g, b);
-// 	setTimeout(function () {
-// 		$main_button.classList.remove('blink');
-// 		if(!window.EmulateModule) turnLEDoff();
-// 	}, duration_of_blink);
-// }
-// /** end: native.js */
-
-// document.addEventListener('DOMContentLoaded', () => {
-//   $main_button = document.getElementById('main-button');
-// 	$checkBox = document.getElementById('myonoffswitch');
-//   $flashbutton_left = document.getElementById('flashbutton_left');
-//   $flashbutton_right = document.getElementById('flashbutton_right');
-//   $track= document.getElementById('nxprange');
-//   $midValue = $track.value;
-
-//   document.getElementById("wheel").style.transform = "translateX(-50%) translateY(-50%) scale("+window.innerWidth/375+")";
- 
-
-
-// 	Nexpaq.Header.addEventListener('BackButtonClicked', backButtonClickHandler);
-// 	$main_button.addEventListener('touchstart', mainButtonTouchStartHandler);
-// 	$main_button.addEventListener('touchend', mainButtonTouchEndHandler);
-//   $flashbutton_left.addEventListener('click', flashButtonLeftHandler);
-//   $flashbutton_right.addEventListener('click', flashButtonRightHandler);
-//   //Handles the color picker
-//   $track.addEventListener('input', dragHandler);
-//   // $track.addEventListener('input', dragHandler);
-
-// 	//Clears the state when switching from torch ON to OFF when the LED is ON
-// 	$checkBox.addEventListener('click', function(){mainButtonOff.call($main_button)});
-
-// 	var color_buttons = document.getElementsByClassName('color-control')[0].children;
-// 	for(var i=0; i < color_buttons.length; i++) {
-// 		color_buttons[i].addEventListener('click', colorButtonClickHandler);
-// 	}
-  
-
-
-//   //Creates the color-wheel
-//   $wheel = document.getElementById('wheel');
-//   cw = Raphael.colorwheel($wheel, 220, 400);
-
-//   cw.onchange(function(colorID){
-//     console.log(cw.color_hsb());
-//     console.log(colorID+ "color object");
-//     $track.style.color= colorID.hex;
-
-//     colorID.r= Math.round(colorID.r);
-//     colorID.g= Math.round(colorID.g);
-//     colorID.b= Math.round(colorID.b);
-//     RGB.r = colorID.r;
-//     RGB.g = colorID.g;
-//     RGB.b = colorID.b;
-
-//     document.styleSheets[0].addRule('.nxprange::-webkit-slider-thumb','color: '+ 'rgb('+RGB.r+','+RGB.g+ ','+RGB.b+ ')');
-//     document.styleSheets[0].insertRule('.nxprange::-webkit-slider-thumb { color: '+'rgb('+RGB.r+','+RGB.g+ ','+RGB.b+ ')'+' }', 0);
-//     dragHandler.call($track);
-//   });
- 
-// 	document.body.removeEventListener('contextmenu', contextmenuHandler);
-// });
-
-/* END OF LEGACY CODE */

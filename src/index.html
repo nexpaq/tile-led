@@ -40,7 +40,7 @@
       <div class="page page__controls">
         <div class="simple-controls" :class="{ hidden: controlsType != 'simple' }">
           <div class="color-control">
-            <button v-for="(color, key) in predefinedColors" @click="setColor(color.moduleColor)" :style="{ 'background-color': 'rgb(' + color.uiColor.red() +',' + color.uiColor.green() + ',' + color.uiColor.blue() + ')' }" ></button>
+            <button v-for="(color, key) in predefinedColors" @click="currentColor = color.moduleColor" :style="{ 'background-color': 'rgb(' + color.uiColor.red() +',' + color.uiColor.green() + ',' + color.uiColor.blue() + ')' }" ></button>
           </div>
         </div> <!-- /.simple-controls -->
   
@@ -63,14 +63,14 @@
           <button class="led-button" :class="{ active: ledsState }" @touchstart="ledButtonPressedHandler" @touchend="ledButtonReleasedHandler"></button>
       
           <div class="flashcontrol">
-            <button class="flashcontrol__flashbutton" :class="{ 'flashcontrol__flashbutton--active': flashLedLeftState }" @click="toggleFlashLedState('left')"></button>
+            <button class="flashcontrol__flashbutton" :class="{ 'flashcontrol__flashbutton--active': flashLedLeftState }" @click="flashLedLeftState = !flashLedLeftState;"></button>
             
             <div class="onoffswitch">
               <input type="checkbox" name="onoffswitch" class="checkbox" id="myonoffswitch" v-model="lockState">
               <label class="switch-label" for="myonoffswitch"></label>
             </div>
     
-            <button class="flashcontrol__flashbutton" :class="{ 'flashcontrol__flashbutton--active': flashLedRightState }" @click="toggleFlashLedState('right')"></button>
+            <button class="flashcontrol__flashbutton" :class="{ 'flashcontrol__flashbutton--active': flashLedRightState }" @click="flashLedRightState = !flashLedRightState;"></button>
           </div>
         </div> <!-- /.shared-controls -->
       </div> <!-- /.page__controls -->
