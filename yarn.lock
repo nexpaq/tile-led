@@ -6084,9 +6084,9 @@ webpack@^4.1.1:
     watchpack "^1.5.0"
     webpack-sources "^1.0.1"
 
-"webview-tile-header@git+https://github.com/moduware/webview-tile-header.git":
-  version "1.0.10"
-  resolved "git+https://github.com/moduware/webview-tile-header.git#2d5e4696260dab67884dc571055f982c45928ceb"
+"webview-tile-header@https://github.com/moduware/webview-tile-header.git":
+  version "1.0.11"
+  resolved "https://github.com/moduware/webview-tile-header.git#dd7988c5733a4804543961d53655cc8bf80c5270"
 
 whet.extend@~0.9.9:
   version "0.9.9"
