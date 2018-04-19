@@ -10,6 +10,7 @@ import LedPartState from './enums/LedPartState';
 import ControlsType from './enums/ControlsType';
 import predefinedColors from './predefined-colors';
 import {isSameColor, adjustColor} from './utils';
+import CommandBufferFilter from './lib/CommandBufferFilter';
 
 import $ from 'jquery';
 window.$ = $;
@@ -17,6 +18,9 @@ import Vue from 'vue';
 import Color from 'color';
 
 const maxFlashLedBrightness = 8000;
+// Creating command filter to prevent tile from sending to many commands
+const commandFilter = new CommandBufferFilter();
+commandFilter.start();
 
 const tile = new Vue({
   el: '#wrapper',
@@ -94,10 +98,10 @@ const tile = new Vue({
     ledsState: function(newState) {
       if(newState == LedPartState.On) {
         const [r, g, b] = [this.adjustedCurrentColor.red(), this.adjustedCurrentColor.green(), this.adjustedCurrentColor.blue()]; 
-        Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [r, g, b]);
+        commandFilter.setCommand(() => Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [r, g, b]));
       } else {
         // Turning LEDs off
-        Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [0, 0, 0]);
+        commandFilter.setCommand(() => Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [0, 0, 0]));
       }
     },
 
@@ -107,7 +111,7 @@ const tile = new Vue({
       if(this.ledsState != LedPartState.On) return;
       
       const [r, g, b] = [this.adjustedCurrentColor.red(), this.adjustedCurrentColor.green(), this.adjustedCurrentColor.blue()]; 
-      Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [r, g, b]);
+      commandFilter.setCommand(() => Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [r, g, b]));
     },
 
     // When flash LEDs change sending appropriate Moduware commands
