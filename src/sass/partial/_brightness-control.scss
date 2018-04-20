@@ -28,6 +28,7 @@
   top: 0; left: 0;
   height: 100%;
   background-color: black;
+  will-change: width;
 }
 
 .brightness-control__range-thumb {
@@ -37,6 +38,7 @@
   width: calc(100% - #{$thumb-size});
   height: 100%;
   border-radius: 50%;
+  will-change: transform;
 
   &::after {
     content: '';
