@@ -2,44 +2,26 @@
   position: absolute;
   top: 50%; left: 50%; 
   transform: translateX(-50%) translateY(-50%);
-  width: 35.55vw; height: 35.55vw;
-  background-size: 100%;
-  background-repeat: no-repeat;
-  border: 1.5vw solid currentColor;
-  border-radius: 50%;
-  z-index: 1;
- 
- 
-  #wrapper[data-color="white"] & {
-    color: #606060;
-  }
-  #wrapper:not([data-color="white"]) &.active {
-    box-shadow: 0 0 5px currentColor, inset 0 0 5px currentColor;
-    background-color:white;
-    color:$white;
-  }
-  &:not(.active) {
-    color: $white;
-  }
-  &.active{
-    background-color:#606060;;
-  }
   
-  #wrapper[data-color="white"] &::after, &.active::after {
-    color:#606060;
-  }
-  #wrapper[data-color="white"] &.active::after {
-  color: white;
+  #wrapper:not([data-color="white"]) & {
+    .button-circle {
+      stroke: white;
+    }
+
+    .button-path {
+      fill: white;
+    }
   }
 
-  &::after {
-    position: absolute;
-    top: 50%; left: 50%; 
-    transform: translateX(-50%) translateY(-50%);
+  &.active {
+    .button-circle {
+      fill: rgba(0, 0, 0, 0.5);
+      stroke: transparent;
+      stroke-width: 0;
+    }
 
-    font-family: 'fontello';
-    content: '\e800';
-    font-size: 16vw;
-    color: white;
+    .button-path {
+      fill: white;
+    }
   }
 }
