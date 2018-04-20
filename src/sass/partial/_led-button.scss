@@ -2,6 +2,8 @@
   position: absolute;
   top: 50%; left: 50%; 
   transform: translateX(-50%) translateY(-50%);
+  width: 128px;
+  height: 128px;
   
   #wrapper:not([data-color="white"]) & {
     .button-circle {
@@ -13,11 +15,16 @@
     }
   }
 
+  #wrapper[data-controls="picker"] & .button-circle {
+    stroke: transparent;
+  }
+
   &.active {
     .button-circle {
       fill: rgba(0, 0, 0, 0.5);
       stroke: transparent;
       stroke-width: 0;
+      r: 64;
     }
 
     .button-path {
