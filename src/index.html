@@ -24,12 +24,19 @@
           </div>
   
           <div class="brightness-control">
-            <div id="textbox">
+            <!-- <div id="textbox">
               <p class="alignleft">Darker</p>
               <p class="alignright">Lighter</p>
+            </div> -->
+            <div class="brightness-control__labels">
+              <span class="brightness-control__label brightness-control__label--left">Darker</span>
+              <span class="brightness-control__label brightness-control__label--right">Lighter</span>
             </div>
-            <input type="range" id="nxprange" class="nxprange" min="-1" max="1" step="0.01" v-model.number="lightness">
-            <output for="nxprange" id="position"></output>
+            <div class="brightness-control__range-container">
+              <input type="range" id="nxprange" class="brightness-control__range" min="-1" max="1" step="0.01" v-model.number="lightness">
+              <div class="brightness-control__range-track-filled" :style="{ width: ((lightness + 1) * 100 / 2) + '%' }"></div>
+            </div>
+            <!-- <output for="nxprange" id="position"></output> -->
           </div>
         </div> <!-- /.picker-controls -->
         
