@@ -4,6 +4,8 @@
   transform: translateX(-50%) translateY(-50%);
   width: 128px;
   height: 128px;
+  border-radius: 50%;
+  overflow: hidden;
   
   #wrapper:not([data-color="white"]) & {
     .button-circle {
