@@ -10,8 +10,58 @@
   </head>
   <body>
     <div id="wrapper" class="wrapper" :data-color="backgroundColor" :data-controls="controlsType" style="opacity: 0;">
-
-      <div class="page page__controls">
+      <div class="page page__selector">
+        <h1 class="page__selector__title">Modes</h1>
+        <ul class="modes-list">
+          <li class="modes-list-item">
+            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="modes-list-item__icon">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-33.000000, -148.000000)" fill="#000000">
+                    <g transform="translate(0.000000, 119.000000)">
+                      <g transform="translate(33.000000, 29.000000)">
+                        <path d="M12,0 C5.33333333,0 0,5.33333333 0,12 C0,18.6666667 5.33333333,24 12,24 C13.0666667,24 14,23.0666667 14,22 C14,21.4666667 13.8666667,21.0666667 13.4666667,20.6666667 C13.2,20.2666667 12.9333333,19.8666667 12.9333333,19.3333333 C12.9333333,18.2666667 13.866719,17.3333333 14.9333333,17.3333333 L17.3333333,17.3333333 C21.0666667,17.3333333 24,14.4 24,10.6666667 C24,4.8 18.6666667,0 12,0 Z M4.2,12 C3.24,12 2.4,11.16 2.4,10.2 C2.4,9.24 3.24,8.4 4.2,8.4 C5.16,8.4 6,9.24 6,10.2 C6,11.16 5.16,12 4.2,12 Z M9,6 C8.04,6 7.2,5.16 7.2,4.2 C7.2,3.24 8.04,2.4 9,2.4 C9.96,2.4 10.8,3.24 10.8,4.2 C10.8,5.16 9.96,6 9,6 Z M15,6 C14.04,6 13.2,5.16 13.2,4.2 C13.2,3.24 14.04,2.4 15,2.4 C15.96,2.4 16.8,3.24 16.8,4.2 C16.8,5.16 15.96,6 15,6 Z M18.6,12 C17.64,12 16.8,11.16 16.8,10.2 C16.8,9.24 17.64,8.4 18.6,8.4 C19.56,8.4 20.4,9.24 20.4,10.2 C20.4,11.16 19.56,12 18.6,12 Z"></path>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+            </svg>
+            Simple pallet
+            <span class="modes-list-item__description">5 simple colors to chose</span>
+          </li>
+          <li class="modes-list-item">
+            <svg width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="modes-list-item__icon">
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g transform="translate(-34.000000, -229.000000)">
+                  <g transform="translate(0.000000, 200.000000)">
+                    <g transform="translate(32.000000, 26.000000)">
+                      <polygon points="0 0 29 0 29 29 0 29"></polygon>
+                      <path d="M24.0245833,6.80291667 L21.1970833,3.97541667 C20.7258333,3.50416667 19.9645833,3.50416667 19.4933333,3.97541667 L15.7233333,7.74541667 L13.39125,5.4375 L11.6875,7.14125 L13.4033333,8.85708333 L2.625,19.6354167 L2.625,25.375 L8.36458333,25.375 L19.1429167,14.5966667 L20.85875,16.3125 L22.5625,14.60875 L20.2425,12.28875 L24.0125,8.51875 C24.4958333,8.03541667 24.4958333,7.27416667 24.0245833,6.80291667 L24.0245833,6.80291667 Z M7.36166667,22.9583333 L5.04166667,20.6383333 L14.7808333,10.8991667 L17.1008333,13.2191667 L7.36166667,22.9583333 L7.36166667,22.9583333 Z" fill="#000000"></path>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
+            Color wheel
+            <span class="modes-list-item__description">Pick your own color</span>
+          </li>
+          <li class="modes-list-item">
+            <svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="modes-list-item__icon">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-37.000000, -313.000000)" fill="#000000">
+                    <g transform="translate(0.000000, 281.000000)">
+                      <g transform="translate(34.000000, 29.000000)">
+                        <path d="M3,13 L11,13 L11,3 L3,3 L3,13 L3,13 Z M3,21 L11,21 L11,15 L3,15 L3,21 L3,21 Z M13,21 L21,21 L21,11 L13,11 L13,21 L13,21 Z M13,3 L13,9 L21,9 L21,3 L13,3 L13,3 Z"></path>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+            </svg>
+            Themes
+            <span class="modes-list-item__description">Preset light moods</span>
+          </li>
+        </ul>
+      </div>
+      <div class="page page__controls hidden">
         <div class="simple-controls" :class="{ hidden: controlsType != 'simple' }">
           <div class="color-control">
             <button v-for="(color, key) in predefinedColors" @click="currentColor = color.moduleColor" :style="{ 'background-color': 'rgb(' + color.uiColor.red() +',' + color.uiColor.green() + ',' + color.uiColor.blue() + ')' }" ></button>

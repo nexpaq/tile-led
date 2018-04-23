@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>ic_colorize</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="LED" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="LED-Modes-" transform="translate(-34.000000, -229.000000)">
+            <g id="Color-Wheel" transform="translate(0.000000, 200.000000)">
+                <g id="photo-placeholder" transform="translate(32.000000, 26.000000)">
+                    <g id="ic_colorize">
+                        <g id="Icon-24px">
+                            <polygon id="Shape" points="0 0 29 0 29 29 0 29"></polygon>
+                            <path d="M24.0245833,6.80291667 L21.1970833,3.97541667 C20.7258333,3.50416667 19.9645833,3.50416667 19.4933333,3.97541667 L15.7233333,7.74541667 L13.39125,5.4375 L11.6875,7.14125 L13.4033333,8.85708333 L2.625,19.6354167 L2.625,25.375 L8.36458333,25.375 L19.1429167,14.5966667 L20.85875,16.3125 L22.5625,14.60875 L20.2425,12.28875 L24.0125,8.51875 C24.4958333,8.03541667 24.4958333,7.27416667 24.0245833,6.80291667 L24.0245833,6.80291667 Z M7.36166667,22.9583333 L5.04166667,20.6383333 L14.7808333,10.8991667 L17.1008333,13.2191667 L7.36166667,22.9583333 L7.36166667,22.9583333 Z" id="Shape" fill="#000000"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
