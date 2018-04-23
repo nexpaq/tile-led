@@ -21,6 +21,30 @@
   height: 2px;
   margin-top: 15px;
   background: rgba(0, 0, 0, 0.26);
+
+  body.platform-ios & {
+    height: 1px;
+    background: #979898;
+  }
+
+  body.platform-ios &::before,
+  body.platform-ios &::after {
+    content: '';
+    width: 1px;
+    height: 5px;
+    background-color: #979898;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  body.platform-ios &::before {
+    left: 0;
+  }
+
+  body.platform-ios &::after {
+    right: 0;
+  }
 }
 
 .brightness-control__range-track-filled {
@@ -29,10 +53,18 @@
   height: 100%;
   background-color: black;
   will-change: width;
+
+  body.platform-ios & {
+    display: none;
+  }
 }
 
 .brightness-control__range-thumb {
   $thumb-size: 12px;
+
+  body.platform-ios & {
+    $thumb-size: 24px;
+  }
 
   position: absolute;
   width: calc(100% - #{$thumb-size});
@@ -48,7 +80,12 @@
     transform: translateY(-50%);
     width: $thumb-size; height: $thumb-size;
     border-radius: 50%;
-  }
+
+    body.platform-ios & {
+      background-color: white;
+      box-shadow: 0 1px 2px rgba(0,0,0, 0.3), 0 6px 0 rgba(0,0,0, 0.05), 0 5px 5px rgba(0,0,0, 0.1);
+    }
+  } 
 }
 
 .brightness-control__range {
