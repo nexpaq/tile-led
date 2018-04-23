@@ -7,6 +7,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  body.platform-ios & {
+    box-shadow: 0 -0.5px 0 #C8C7CC, 0 0.5px 0 #C8C7CC;
+    background-image: url(../img/chevron-icon.svg);
+    background-repeat: no-repeat;
+    background-position: calc(100% - 15px) 50%;
+  }
 }
 
 .modes-list-item__icon {
@@ -21,4 +28,8 @@
   font-size: 14px;
   color: #747474;
   margin-top: 7px;
+
+  body.platform-ios & {
+    font-size: 13px;
+  }
 }
