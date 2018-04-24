@@ -118,7 +118,7 @@
         </div> <!-- /.shared-controls -->
       </div> <!-- /.page__controls -->
       <div class="page page__themes" :class="{ hidden: controlsType != 'themes' }">
-        <button class="theme-button">
+        <button class="theme-button" :class="{ 'theme-button--active': currentTheme == 'CandleFlicker' }" @click="toggleTheme('CandleFlicker')">
           <div class="theme-button__icon-container">
             <svg width="29px" height="39px" viewBox="0 0 29 39" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="theme-button__icon">
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -134,7 +134,7 @@
           </div>
           Candle flicker
         </button>
-        <button class="theme-button">
+        <button class="theme-button" :class="{ 'theme-button--active': currentTheme == 'Romance' }" @click="toggleTheme('Romance')">
           <div class="theme-button__icon-container">
             <svg width="31px" height="29px" viewBox="0 0 31 29" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="theme-button__icon">
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -150,7 +150,7 @@
           </div>
           Romance
         </button>
-        <button class="theme-button">
+        <button class="theme-button" :class="{ 'theme-button--active': currentTheme == 'Meditation' }" @click="toggleTheme('Meditation')">
           <div class="theme-button__icon-container">
             <svg width="35px" height="36px" viewBox="0 0 35 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="theme-button__icon">
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -164,7 +164,7 @@
           </div>
           Meditation
         </button>
-        <button class="theme-button">
+        <button class="theme-button" :class="{ 'theme-button--active': currentTheme == 'SOS' }" @click="toggleTheme('SOS')">
           <div class="theme-button__icon-container">
             <svg width="36px" height="35px" viewBox="0 0 36 35" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="theme-button__icon">
                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -180,7 +180,7 @@
           </div>
           SOS
         </button>
-        <button class="theme-button">
+        <button class="theme-button" :class="{ 'theme-button--active': currentTheme == 'Study' }" @click="toggleTheme('Study')">
           <div class="theme-button__icon-container">
             <svg width="42px" height="34px" viewBox="0 0 42 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="theme-button__icon">
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -196,7 +196,7 @@
           </div>
           Study
         </button>
-        <button class="theme-button">
+        <button class="theme-button" :class="{ 'theme-button--active': currentTheme == 'Disco' }" @click="toggleTheme('Disco')">
           <div class="theme-button__icon-container">
             <svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="theme-button__icon">
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -212,7 +212,7 @@
           </div>
           Disco
         </button>
-        <button class="theme-button">
+        <button class="theme-button" :class="{ 'theme-button--active': currentTheme == 'Strobe' }" @click="toggleTheme('Strobe')">
           <div class="theme-button__icon-container">
             <svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="theme-button__icon">
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -228,7 +228,7 @@
           </div>
           Strobe
         </button>
-        <button class="theme-button">
+        <button class="theme-button" :class="{ 'theme-button--active': currentTheme == 'Police' }" @click="toggleTheme('Police')">
           <div class="theme-button__icon-container">
             <svg width="30px" height="36px" viewBox="0 0 30 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="theme-button__icon">
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

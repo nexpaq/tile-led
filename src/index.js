@@ -8,6 +8,7 @@ import headerPaletteIcon from './img/palette.svg';
 import WebViewTileHeader from 'webview-tile-header/WebViewTileHeader.js';
 import LedPartState from './enums/LedPartState';
 import ControlsType from './enums/ControlsType';
+import ThemeType from './enums/ThemeType';
 import predefinedColors from './predefined-colors';
 import {isSameColor, adjustColor} from './utils';
 import CommandBufferFilter from './lib/CommandBufferFilter';
@@ -35,6 +36,7 @@ const tile = new Vue({
 
     // Type of controls to show
     controlsType: ControlsType.Themes,
+    currentTheme: null, // ThemeType
 
     // Current user selected color for colour leds
     currentColor: Color('white'),
@@ -136,6 +138,15 @@ const tile = new Vue({
         this.ledsState = !this.ledsState;
       }
     },
+
+    toggleTheme: function(themeName) {
+      if(this.currentTheme == themeName) {
+        this.currentTheme = null;
+      } else {
+        this.currentTheme = themeName;
+      }
+    }
+
     // toggleControls: function() {
     //   // We need to change header button icon when we are switching controls
     //   const headerIconElement = document.getElementById('headerControlsToggleButton').children[0];
