@@ -13,6 +13,9 @@ import predefinedColors from './predefined-colors';
 import {isSameColor, adjustColor} from './utils';
 import CommandBufferFilter from './lib/CommandBufferFilter';
 
+import ThemePlayer from './lib/ThemePlayer';
+import CandleFlickerTheme from './themes/CandleFlickerTheme';
+
 import $ from 'jquery';
 window.$ = $;
 import Vue from 'vue';
@@ -22,6 +25,10 @@ const maxFlashLedBrightness = 8000;
 // Creating command filter to prevent tile from sending to many commands
 const commandFilter = new CommandBufferFilter();
 commandFilter.start();
+
+const candleFlickerTheme = new CandleFlickerTheme(commandFilter);
+const themePlayer = new ThemePlayer();
+themePlayer.addTheme('CandleFlicker', candleFlickerTheme);
 
 const tile = new Vue({
   el: '#wrapper',
@@ -118,7 +125,15 @@ const tile = new Vue({
 
     // When flash LEDs change sending appropriate Moduware commands
     flashLedLeftState: () => tile.watchFlashLedState(),
-    flashLedRightState: () => tile.watchFlashLedState()
+    flashLedRightState: () => tile.watchFlashLedState(),
+
+    currentTheme: function(newTheme) {
+      if(newTheme == null) {
+        themePlayer.stop();
+      } else {
+        themePlayer.play(newTheme);
+      }
+    }
   },
   methods: {
     watchFlashLedState: function() {
