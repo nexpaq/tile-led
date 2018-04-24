@@ -1,7 +1,8 @@
 const ControlsType = Object.freeze({
     Simple: 'simple',
     Picker: 'picker',
-    Selector: 'selector'
+    Selector: 'selector',
+    Themes: 'themes'
 });
 
 export default ControlsType;
