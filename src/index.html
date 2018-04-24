@@ -10,10 +10,10 @@
   </head>
   <body>
     <div id="wrapper" class="wrapper" :data-color="backgroundColor" :data-controls="controlsType" style="opacity: 0;">
-      <div class="page page__selector">
+      <div class="page page__selector" :class="{ hidden: controlsType != 'selector' }">
         <h1 class="page__selector__title">Modes</h1>
         <ul class="modes-list">
-          <li class="modes-list-item">
+          <li class="modes-list-item" @click="controlsType = 'simple'">
             <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="modes-list-item__icon">
                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                   <g transform="translate(-33.000000, -148.000000)" fill="#000000">
@@ -28,7 +28,7 @@
             Simple pallet
             <span class="modes-list-item__description">5 simple colors to chose</span>
           </li>
-          <li class="modes-list-item">
+          <li class="modes-list-item" @click="controlsType = 'picker'">
             <svg width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="modes-list-item__icon">
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g transform="translate(-34.000000, -229.000000)">
@@ -61,7 +61,7 @@
           </li>
         </ul>
       </div>
-      <div class="page page__controls hidden">
+      <div class="page page__controls" :class="{ hidden: controlsType != 'simple' && controlsType != 'picker' }">
         <div class="simple-controls" :class="{ hidden: controlsType != 'simple' }">
           <div class="color-control">
             <button v-for="(color, key) in predefinedColors" @click="currentColor = color.moduleColor" :style="{ 'background-color': 'rgb(' + color.uiColor.red() +',' + color.uiColor.green() + ',' + color.uiColor.blue() + ')' }" ></button>

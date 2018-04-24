@@ -34,7 +34,7 @@ const tile = new Vue({
     lockState: LedPartState.On,
 
     // Type of controls to show
-    controlsType: ControlsType.Simple,
+    controlsType: ControlsType.Selector,
 
     // Current user selected color for colour leds
     currentColor: Color('white'),
@@ -84,14 +84,14 @@ const tile = new Vue({
       }
 
       // In simple mode we also need adjust header button icon color
-      if(this.controlsType == ControlsType.Simple) {
-        const headerIconElement = document.getElementById('headerControlsToggleButton').children[0];
-        if(newBackgroundColor == 'white') {
-          headerIconElement.src = headerPickerBlackIcon;
-        } else {
-          headerIconElement.src = headerPickerIcon;
-        }
-      }
+      // if(this.controlsType == ControlsType.Simple) {
+      //   const headerIconElement = document.getElementById('headerControlsToggleButton').children[0];
+      //   if(newBackgroundColor == 'white') {
+      //     headerIconElement.src = headerPickerBlackIcon;
+      //   } else {
+      //     headerIconElement.src = headerPickerIcon;
+      //   }
+      // }
     },
 
     // Watching states of colour LEDS so we can send Moduware command when required
@@ -136,18 +136,18 @@ const tile = new Vue({
         this.ledsState = !this.ledsState;
       }
     },
-    toggleControls: function() {
-      // We need to change header button icon when we are switching controls
-      const headerIconElement = document.getElementById('headerControlsToggleButton').children[0];
+    // toggleControls: function() {
+    //   // We need to change header button icon when we are switching controls
+    //   const headerIconElement = document.getElementById('headerControlsToggleButton').children[0];
 
-      if(this.controlsType == ControlsType.Simple) {
-        this.controlsType = ControlsType.Picker;
-        headerIconElement.src = headerPaletteIcon;
-      } else {
-        this.controlsType = ControlsType.Simple;
-        headerIconElement.src = headerPickerBlackIcon;
-      }
-    }
+    //   if(this.controlsType == ControlsType.Simple) {
+    //     this.controlsType = ControlsType.Picker;
+    //     headerIconElement.src = headerPaletteIcon;
+    //   } else {
+    //     this.controlsType = ControlsType.Simple;
+    //     headerIconElement.src = headerPickerBlackIcon;
+    //   }
+    // }
   }
 });
 
@@ -165,7 +165,15 @@ document.addEventListener('DOMContentLoaded', () => {
     iconColor: 'black',
     borderBottom: 'none'
   });
-  WebViewTileHeader.addButton({ image: headerPickerBlackIcon, id: 'headerControlsToggleButton' }, () => tile.toggleControls.call(tile));
+
+  WebViewTileHeader.addEventListener('BackButtonClicked', () => {
+    if(tile.controlsType == ControlsType.Selector) {
+      Moduware.v0.API.Exit();
+    } else {
+      tile.controlsType = ControlsType.Selector;
+    }
+  });
+  // WebViewTileHeader.addButton({ image: headerPickerBlackIcon, id: 'headerControlsToggleButton' }, () => tile.toggleControls.call(tile));
 
   const colorWheelElement = document.getElementById('colorWheel');
   const colorWheel = Raphael.colorwheel(colorWheelElement, 220, 400);
