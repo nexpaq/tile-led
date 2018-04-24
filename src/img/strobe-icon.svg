@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="LED-v2-20/04/18" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="LED---Custom-theme-Copy" transform="translate(-45.000000, -435.000000)" fill="#FFFFFF">
+            <g id="Strobe" transform="translate(24.000000, 414.000000)">
+                <g id="ic_flare">
+                    <g transform="translate(20.000000, 20.000000)">
+                        <g id="Icon-24px">
+                            <path d="M12.25,19.25 L1.75,19.25 L1.75,22.75 L12.25,22.75 L12.25,19.25 L12.25,19.25 Z M16.0475,13.58 L12.3375,9.87 L9.87,12.3375 L13.58,16.0475 L16.0475,13.58 L16.0475,13.58 Z M22.75,1.75 L19.25,1.75 L19.25,12.25 L22.75,12.25 L22.75,1.75 L22.75,1.75 Z M32.13,12.3375 L29.6625,9.87 L25.9525,13.58 L28.42,16.0475 L32.13,12.3375 L32.13,12.3375 Z M29.75,19.25 L29.75,22.75 L40.25,22.75 L40.25,19.25 L29.75,19.25 L29.75,19.25 Z M21,15.75 C18.095,15.75 15.75,18.095 15.75,21 C15.75,23.905 18.095,26.25 21,26.25 C23.905,26.25 26.25,23.905 26.25,21 C26.25,18.095 23.905,15.75 21,15.75 L21,15.75 Z M25.9525,28.42 L29.6625,32.13 L32.13,29.6625 L28.42,25.9525 L25.9525,28.42 L25.9525,28.42 Z M9.87,29.6625 L12.3375,32.13 L16.0475,28.42 L13.58,25.9525 L9.87,29.6625 L9.87,29.6625 Z M19.25,40.25 L22.75,40.25 L22.75,29.75 L19.25,29.75 L19.25,40.25 L19.25,40.25 Z" id="Shape"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

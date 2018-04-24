@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="31px" height="29px" viewBox="0 0 31 29" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="LED-v2-20/04/18" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="LED---Custom-theme-Copy" transform="translate(-165.000000, -136.000000)" fill="#FFFFFF">
+            <g id="Romance" transform="translate(140.000000, 110.000000)">
+                <g id="ic_favorite">
+                    <g transform="translate(25.000000, 26.000000)">
+                        <g id="Icon-24px">
+                            <path d="M15.2350427,28.3320602 L13.0259615,26.2940046 C5.17991453,19.0836111 0,14.3281481 0,8.49189815 C0,3.73643519 3.68688034,0 8.3792735,0 C11.0301709,0 13.5744231,1.250625 15.2350427,3.2269213 C16.8956624,1.250625 19.4399145,0 22.090812,0 C26.7832051,0 30.4700855,3.73643519 30.4700855,8.49189815 C30.4700855,14.3281481 25.2901709,19.0836111 17.4441239,26.3094444 L15.2350427,28.3320602 L15.2350427,28.3320602 Z" id="Shape"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

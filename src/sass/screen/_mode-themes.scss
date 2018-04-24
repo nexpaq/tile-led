@@ -2,12 +2,19 @@
   position: relative;
   color: black;
   font-family: Roboto, sans-serif;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 
   body.platform-android & {
-    padding-top: 55px;
+    padding-top: calc(55px + 20px);
   }
 
   body.platform-ios & {
-    padding-top: 44px;
+    padding-top: calc(44px + 20px);
   }
+}
+
+.page__themes .theme-button {
+  margin: 0 15px 30px;
 }

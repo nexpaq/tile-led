@@ -34,7 +34,7 @@ const tile = new Vue({
     lockState: LedPartState.On,
 
     // Type of controls to show
-    controlsType: ControlsType.Selector,
+    controlsType: ControlsType.Themes,
 
     // Current user selected color for colour leds
     currentColor: Color('white'),
