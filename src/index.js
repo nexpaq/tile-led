@@ -17,6 +17,7 @@ import ThemePlayer from './lib/ThemePlayer';
 import CandleFlickerTheme from './themes/CandleFlickerTheme';
 import PoliceTheme from './themes/PoliceTheme';
 import StrobeTheme from './themes/StrobeTheme';
+import SOSTheme from './themes/SOSTheme';
 
 import $ from 'jquery';
 window.$ = $;
@@ -31,10 +32,13 @@ commandFilter.start();
 const candleFlickerTheme = new CandleFlickerTheme(commandFilter);
 const policeTheme = new PoliceTheme(commandFilter);
 const strobeTheme = new StrobeTheme(commandFilter);
+const sosTheme = new SOSTheme(commandFilter);
+
 const themePlayer = new ThemePlayer();
 themePlayer.addTheme('CandleFlicker', candleFlickerTheme);
 themePlayer.addTheme('Police', policeTheme);
 themePlayer.addTheme('Strobe', strobeTheme);
+themePlayer.addTheme('SOS', sosTheme);
 
 const tile = new Vue({
   el: '#wrapper',
