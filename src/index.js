@@ -15,6 +15,7 @@ import CommandBufferFilter from './lib/CommandBufferFilter';
 
 import ThemePlayer from './lib/ThemePlayer';
 import CandleFlickerTheme from './themes/CandleFlickerTheme';
+import PoliceTheme from './themes/PoliceTheme';
 
 import $ from 'jquery';
 window.$ = $;
@@ -27,8 +28,10 @@ const commandFilter = new CommandBufferFilter();
 commandFilter.start();
 
 const candleFlickerTheme = new CandleFlickerTheme(commandFilter);
+const policeTheme = new PoliceTheme(commandFilter);
 const themePlayer = new ThemePlayer();
 themePlayer.addTheme('CandleFlicker', candleFlickerTheme);
+themePlayer.addTheme('Police', policeTheme);
 
 const tile = new Vue({
   el: '#wrapper',
