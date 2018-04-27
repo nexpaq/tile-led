@@ -21,6 +21,7 @@ import SOSTheme from './themes/SOSTheme';
 import MeditationTheme from './themes/MeditationTheme';
 import DiscoTheme from './themes/DiscoTheme';
 import RomanceTheme from './themes/RomanceTheme';
+import StudyTheme from './themes/StudyTheme';
 
 import $ from 'jquery';
 window.$ = $;
@@ -39,6 +40,7 @@ const sosTheme = new SOSTheme(commandFilter);
 const meditationTheme = new MeditationTheme(commandFilter);
 const discoTheme = new DiscoTheme(commandFilter);
 const romanceTheme = new RomanceTheme(commandFilter);
+const studyTheme = new StudyTheme(commandFilter);
 
 const themePlayer = new ThemePlayer();
 themePlayer.addTheme('CandleFlicker', candleFlickerTheme);
@@ -48,6 +50,7 @@ themePlayer.addTheme('SOS', sosTheme);
 themePlayer.addTheme('Meditation', meditationTheme);
 themePlayer.addTheme('Disco', discoTheme);
 themePlayer.addTheme('Romance', romanceTheme);
+themePlayer.addTheme('Study', studyTheme);
 
 const tile = new Vue({
   el: '#wrapper',
