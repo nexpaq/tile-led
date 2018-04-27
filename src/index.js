@@ -64,7 +64,7 @@ const tile = new Vue({
     lockState: LedPartState.On,
 
     // Type of controls to show
-    controlsType: ControlsType.Themes,//ControlsType.Themes,
+    controlsType: ControlsType.Selector,//ControlsType.Themes,
     currentTheme: null, // ThemeType
 
     // Current user selected color for colour leds
@@ -100,6 +100,18 @@ const tile = new Vue({
     }
   },
   watch: {
+    controlsType: function(newControlsType) {
+      if(newControlsType == ControlsType.Simple) {
+        WebViewTileHeader.setTitle('Simple pallet');
+      } else if(newControlsType == ControlsType.Picker) {
+        WebViewTileHeader.setTitle('Color wheel');
+      } else if(newControlsType == ControlsType.Themes) {
+        WebViewTileHeader.setTitle('Themes');
+      } else {
+        WebViewTileHeader.setTitle('LED');
+      }
+    },
+
     // Watching changes on background color to adjust header styles
     backgroundColor: function(newBackgroundColor) {
       // Getting colour by name
@@ -113,16 +125,6 @@ const tile = new Vue({
       } else {
         WebViewTileHeader.customize({ color: 'white', iconColor: 'white' });
       }
-
-      // In simple mode we also need adjust header button icon color
-      // if(this.controlsType == ControlsType.Simple) {
-      //   const headerIconElement = document.getElementById('headerControlsToggleButton').children[0];
-      //   if(newBackgroundColor == 'white') {
-      //     headerIconElement.src = headerPickerBlackIcon;
-      //   } else {
-      //     headerIconElement.src = headerPickerIcon;
-      //   }
-      // }
     },
 
     // Watching states of colour LEDS so we can send Moduware command when required
