@@ -20,6 +20,7 @@ import StrobeTheme from './themes/StrobeTheme';
 import SOSTheme from './themes/SOSTheme';
 import MeditationTheme from './themes/MeditationTheme';
 import DiscoTheme from './themes/DiscoTheme';
+import RomanceTheme from './themes/RomanceTheme';
 
 import $ from 'jquery';
 window.$ = $;
@@ -37,6 +38,7 @@ const strobeTheme = new StrobeTheme(commandFilter);
 const sosTheme = new SOSTheme(commandFilter);
 const meditationTheme = new MeditationTheme(commandFilter);
 const discoTheme = new DiscoTheme(commandFilter);
+const romanceTheme = new RomanceTheme(commandFilter);
 
 const themePlayer = new ThemePlayer();
 themePlayer.addTheme('CandleFlicker', candleFlickerTheme);
@@ -45,6 +47,7 @@ themePlayer.addTheme('Strobe', strobeTheme);
 themePlayer.addTheme('SOS', sosTheme);
 themePlayer.addTheme('Meditation', meditationTheme);
 themePlayer.addTheme('Disco', discoTheme);
+themePlayer.addTheme('Romance', romanceTheme);
 
 const tile = new Vue({
   el: '#wrapper',
@@ -58,7 +61,7 @@ const tile = new Vue({
     lockState: LedPartState.On,
 
     // Type of controls to show
-    controlsType: ControlsType.Selector,//ControlsType.Themes,
+    controlsType: ControlsType.Themes,//ControlsType.Themes,
     currentTheme: null, // ThemeType
 
     // Current user selected color for colour leds
