@@ -19,6 +19,7 @@ import PoliceTheme from './themes/PoliceTheme';
 import StrobeTheme from './themes/StrobeTheme';
 import SOSTheme from './themes/SOSTheme';
 import MeditationTheme from './themes/MeditationTheme';
+import DiscoTheme from './themes/DiscoTheme';
 
 import $ from 'jquery';
 window.$ = $;
@@ -35,6 +36,7 @@ const policeTheme = new PoliceTheme(commandFilter);
 const strobeTheme = new StrobeTheme(commandFilter);
 const sosTheme = new SOSTheme(commandFilter);
 const meditationTheme = new MeditationTheme(commandFilter);
+const discoTheme = new DiscoTheme(commandFilter);
 
 const themePlayer = new ThemePlayer();
 themePlayer.addTheme('CandleFlicker', candleFlickerTheme);
@@ -42,6 +44,7 @@ themePlayer.addTheme('Police', policeTheme);
 themePlayer.addTheme('Strobe', strobeTheme);
 themePlayer.addTheme('SOS', sosTheme);
 themePlayer.addTheme('Meditation', meditationTheme);
+themePlayer.addTheme('Disco', discoTheme);
 
 const tile = new Vue({
   el: '#wrapper',
