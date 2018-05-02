@@ -9,10 +9,11 @@
   justify-content: center;
 
   body.platform-ios & {
-    box-shadow: 0 -0.5px 0 #C8C7CC, 0 0.5px 0 #C8C7CC;
+    box-shadow: 0 -1px 0 #C8C7CC, 0 1px 0 #C8C7CC;
     background-image: url(../img/chevron-icon.svg);
     background-repeat: no-repeat;
     background-position: calc(100% - 15px) 50%;
+    margin-top: 1px;
   }
 }
 
