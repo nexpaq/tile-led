@@ -2,9 +2,9 @@
   position: relative;
   color: black;
   font-family: Roboto, sans-serif;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-row-gap: 30px;
 
   body.platform-android & {
     padding-top: calc(55px + 20px);
@@ -16,5 +16,5 @@
 }
 
 .page__themes .theme-button {
-  margin: 0 15px 30px;
+  grid-column-start: span 1;
 }
