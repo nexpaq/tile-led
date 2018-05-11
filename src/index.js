@@ -163,7 +163,11 @@ const tile = new Vue({
     watchFlashLedState: function() {
       const left = this.flashLedLeftState ? maxFlashLedBrightness : 0;
       const right = this.flashLedRightState ? maxFlashLedBrightness : 0;
-      Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetFlashes', [left, right]);
+      if(left == 0 && right == 0) {
+        Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'TurnOffFlashs', []);
+      } else {
+        Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetFlashes', [left, right]);
+      }
     },
     
     // We are changing state of colour LEDs when user press main button
