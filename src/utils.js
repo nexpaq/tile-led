@@ -1,3 +1,7 @@
+import Color from 'color';
+
+let rgbTemperatureProtection = false;
+
 /**
  * Compares two colors
  * @param {Color} color1 First color
@@ -32,4 +36,25 @@ export function adjustColor(color, adjustment) {
   }
 
   return newColor;
+}
+
+export function setRgbColorWithTemperatureProtection(commandFilter, r, g, b) {
+  const color = Color.rgb(r, g, b);
+  const lightness = color.lightness();
+  if(lightness > 70) {
+    if(rgbTemperatureProtection == false) {
+      rgbTemperatureProtection = true;
+      console.log('turn on temperature protection');
+    }
+  } else {
+    if(rgbTemperatureProtection == true) {
+      rgbTemperatureProtection = false;
+      console.log('turn off temperature protection');
+    }
+  }
+  if(commandFilter != null) {
+    commandFilter.setCommand(() => Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [r, g, b]));
+  } else {
+    Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [r, g, b])
+  }
 }
