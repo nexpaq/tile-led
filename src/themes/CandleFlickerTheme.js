@@ -1,4 +1,5 @@
 import LedThemeBase from './LedThemeBase';
+import {setRgbColorWithTemperatureProtection as setRgbColor} from '../utils';
 
 export default class CandleFlickerTheme extends LedThemeBase {
   constructor(commandBufferFilter) {
@@ -11,13 +12,15 @@ export default class CandleFlickerTheme extends LedThemeBase {
 
   stop() {
     super.stop();
-    this._commandBufferFilter.setCommand(() => Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [0,0,0]));
+    setRgbColor(this._commandBufferFilter, 0, 0, 0);
+    // this._commandBufferFilter.setCommand(() => Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [0,0,0]));
   }
 
   update() {
     const fraction = this._getRandomArbitrary(0.7, 1.2);
     const fractionColor = this._color.map(c => c * fraction);
-    this._commandBufferFilter.setCommand(() => Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', fractionColor));
+    setRgbColor(this._commandBufferFilter, ...fractionColor);
+    // this._commandBufferFilter.setCommand(() => Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', fractionColor));
   }
 
   _getRandomArbitrary(min, max) {

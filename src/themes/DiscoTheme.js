@@ -1,5 +1,6 @@
 import Color from 'color';
 import LedThemeBase from './LedThemeBase';
+import {setRgbColorWithTemperatureProtection as setRgbColor} from '../utils';
 
 export default class DiscoTheme extends LedThemeBase {
   constructor(commandBufferFilter) {
@@ -14,7 +15,8 @@ export default class DiscoTheme extends LedThemeBase {
 
   stop() {
     super.stop();
-    this._commandBufferFilter.setCommand(() => Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [0, 0, 0]));
+    setRgbColor(this._commandBufferFilter, 0, 0, 0);
+    // this._commandBufferFilter.setCommand(() => Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [0, 0, 0]));
   }
 
   async update() {
@@ -28,7 +30,8 @@ export default class DiscoTheme extends LedThemeBase {
     // play item
     this.period = item.duration;
     const [r, g, b] = [item.r, item.g, item.b];
-    this._commandBufferFilter.setCommand(() => Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [r, g, b]));
+    setRgbColor(this._commandBufferFilter, r, g, b);
+    // this._commandBufferFilter.setCommand(() => Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [r, g, b]));
   }
 
   _discoSequence() {

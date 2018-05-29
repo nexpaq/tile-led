@@ -44,12 +44,15 @@ export function setRgbColorWithTemperatureProtection(commandFilter, r, g, b) {
   if(lightness > 70) {
     if(rgbTemperatureProtection == false) {
       rgbTemperatureProtection = true;
+      
       console.log('turn on temperature protection');
+      Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'TurnOnRgbLedTemperatureProtection', [20]);//[5*60*1000]); // 5 minutes
     }
   } else {
     if(rgbTemperatureProtection == true) {
       rgbTemperatureProtection = false;
       console.log('turn off temperature protection');
+      Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'TurnOffRgbLedTemperatureProtection', []); // off
     }
   }
   if(commandFilter != null) {
