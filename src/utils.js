@@ -46,7 +46,7 @@ export function setRgbColorWithTemperatureProtection(commandFilter, r, g, b) {
       rgbTemperatureProtection = true;
       
       console.log('turn on temperature protection');
-      Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'TurnOnRgbLedTemperatureProtection', [20]);//[5*60*1000]); // 5 minutes
+      Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'TurnOnRgbLedTemperatureProtection', [5*60*1000]); // 5 minutes
     }
   } else {
     if(rgbTemperatureProtection == true) {
