@@ -28,7 +28,7 @@ window.$ = $;
 import Vue from 'vue';
 import Color from 'color';
 
-const maxFlashLedBrightness = 8000;
+const maxFlashLedBrightness = 4000;
 // Creating command filter to prevent tile from sending to many commands
 const commandFilter = new CommandBufferFilter();
 commandFilter.start();
