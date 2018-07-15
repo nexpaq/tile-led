@@ -12,6 +12,7 @@ import ThemeType from './enums/ThemeType';
 import predefinedColors from './predefined-colors';
 import {isSameColor, adjustColor, setRgbColorWithTemperatureProtection as setRgbColor} from './utils';
 import CommandBufferFilter from './lib/CommandBufferFilter';
+import IosDeviceDetection from './lib/IosDeviceDetection';
 
 import ThemePlayer from './lib/ThemePlayer';
 import CandleFlickerTheme from './themes/CandleFlickerTheme';
@@ -73,7 +74,33 @@ const tile = new Vue({
     predefinedColors: predefinedColors,
     rgbTemperatureProtection: false,
   },
+
+  mounted: function () {
+    const wrapper = document.querySelector('.wrapper');
+    if (!this.getIos11DeviceAndAboveValue){
+      wrapper.classList.add('ios-10-below');
+    }
+  },
+
   computed: {
+    getIos11DeviceAndAboveValue: function () {
+      let isIos11DeviceAndAbove = false;
+      if (!this.isIosDevice) {
+        isIos11DeviceAndAbove = true;
+      } else if (this.isIosDevice) {
+        const iosDeviceMajorReleaseVersion = IosDeviceDetection.iosDeviceVersionArray()[0];
+        if (iosDeviceMajorReleaseVersion >= 11) {
+          isIos11DeviceAndAbove = true;
+        }
+      }
+      return isIos11DeviceAndAbove;
+    },
+
+    isIosDevice: function () {
+      let isIosDeviceValue = IosDeviceDetection.getIsIosDeviceValue();
+      return isIosDeviceValue;
+    },
+
     backgroundColor: function() {
       // Background color changes only for Simple mode
       if(this.controlsType != ControlsType.Simple) return 'white';
