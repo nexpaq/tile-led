@@ -84,16 +84,7 @@ const tile = new Vue({
 
   computed: {
     getIos11DeviceAndAboveValue: function () {
-      let isIos11DeviceAndAbove = false;
-      if (!this.isIosDevice) {
-        isIos11DeviceAndAbove = true;
-      } else if (this.isIosDevice) {
-        const iosDeviceMajorReleaseVersion = IosDeviceDetection.iosDeviceVersionArray()[0];
-        if (iosDeviceMajorReleaseVersion >= 11) {
-          isIos11DeviceAndAbove = true;
-        }
-      }
-      return isIos11DeviceAndAbove;
+      return this.getIos11DeviceAndAboveValueMethod(this.isIosDevice);
     },
 
     isIosDevice: function () {
@@ -216,6 +207,10 @@ const tile = new Vue({
       } else {
         this.currentTheme = themeName;
       }
+    },
+
+    getIos11DeviceAndAboveValueMethod: function(isIosDevice) {
+      return IosDeviceDetection.getIsIos11DeviceAndAbove(isIosDevice);
     }
 
     // toggleControls: function() {
