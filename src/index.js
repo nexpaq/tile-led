@@ -106,8 +106,10 @@ const tile = new Vue({
     controlsType: function(newControlsType) {
       if(newControlsType == ControlsType.Simple) {
         WebViewTileHeader.setTitle('Simple pallet');
+        Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'PrioritizeColorBrightness', []);
       } else if(newControlsType == ControlsType.Picker) {
         WebViewTileHeader.setTitle('Color wheel');
+        Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'PrioritizeColorAccuracy', []);
       } else if(newControlsType == ControlsType.Themes) {
         WebViewTileHeader.setTitle('Themes');
       } else {

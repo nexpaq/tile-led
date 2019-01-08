@@ -1,3 +1,5 @@
+import ColorPriority from '../enums/ColorPriority';
+
 export default class ThemePlayer {
   constructor() {
     this.themes = {};
@@ -15,6 +17,11 @@ export default class ThemePlayer {
       this._currentTheme.stop();
     }
     this._currentTheme = this.themes[name];
+    if(this._currentTheme.colorPriority == ColorPriority.Brightness) {
+      Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'PrioritizeColorBrightness', []);
+    } else if(this._currentTheme.colorPriority == ColorPriority.Accuracy) {
+      Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'PrioritizeColorAccuracy', []);
+    }
     this._currentTheme.start();
   }
 
