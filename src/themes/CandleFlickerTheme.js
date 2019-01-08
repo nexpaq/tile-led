@@ -7,7 +7,7 @@ export default class CandleFlickerTheme extends LedThemeBase {
     if(commandBufferFilter == null) throw new Exception('Command buffer required for the theme');
 
     this._commandBufferFilter = commandBufferFilter;
-    this._color = [100, 55, 0];
+    this._color = [100, 90, 0];
   }
 
   stop() {
