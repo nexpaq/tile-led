@@ -81,13 +81,15 @@ const tile = new Vue({
       // Looking in predefined colors
       for(let predefinedColorName in this.predefinedColors) {
         let predefinedColor = this.predefinedColors[predefinedColorName].moduleColor;
-        
+
         // If current color is same as one of predefined colours
         if(isSameColor(this.currentColor, predefinedColor)) {
           // returning predefined colour name
           return predefinedColorName;
         }
       }
+
+      return 'white';
     },
 
     // We are adjusting user selected colour with user selected lightness
@@ -117,9 +119,9 @@ const tile = new Vue({
     backgroundColor: function(newBackgroundColor) {
       // Getting colour by name
       const color = this.predefinedColors[newBackgroundColor].uiColor;
-      
+
       // Changing colour of header and icons in it according to the background colour
-      const [r, g, b] = [color.red(), color.green(), color.blue()]; 
+      const [r, g, b] = [color.red(), color.green(), color.blue()];
       WebViewTileHeader.customize({ backgroundColor: `rgb(${r}, ${g}, ${b})` });
       if(newBackgroundColor == 'white') {
         WebViewTileHeader.customize({ color: 'black', iconColor: 'black' });
@@ -131,7 +133,7 @@ const tile = new Vue({
     // Watching states of colour LEDS so we can send Moduware command when required
     ledsState: function(newState) {
       if(newState == LedPartState.On) {
-        const [r, g, b] = [this.adjustedCurrentColor.red(), this.adjustedCurrentColor.green(), this.adjustedCurrentColor.blue()]; 
+        const [r, g, b] = [this.adjustedCurrentColor.red(), this.adjustedCurrentColor.green(), this.adjustedCurrentColor.blue()];
         setRgbColor(commandFilter, r, g, b);
       } else {
         // Turning LEDs off
@@ -143,8 +145,8 @@ const tile = new Vue({
     adjustedCurrentColor: function(newColor) {
       // We are sending command only if LEDs are on
       if(this.ledsState != LedPartState.On) return;
-      
-      const [r, g, b] = [this.adjustedCurrentColor.red(), this.adjustedCurrentColor.green(), this.adjustedCurrentColor.blue()]; 
+
+      const [r, g, b] = [this.adjustedCurrentColor.red(), this.adjustedCurrentColor.green(), this.adjustedCurrentColor.blue()];
       setRgbColor(commandFilter, r, g, b);
     },
 
@@ -170,7 +172,7 @@ const tile = new Vue({
         Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetFlashes', [left, right]);
       }
     },
-    
+
     // We are changing state of colour LEDs when user press main button
     ledButtonPressedHandler: function() {
       this.ledsState = !this.ledsState;
