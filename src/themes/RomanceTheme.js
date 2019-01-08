@@ -1,11 +1,13 @@
 import Color from 'color';
 import LedThemeBase from './LedThemeBase';
+import ColorPriority from '../enums/ColorPriority';
 import {setRgbColorWithTemperatureProtection as setRgbColor} from '../utils';
 
 export default class RomanceTheme extends LedThemeBase {
   constructor(commandBufferFilter) {
     super();
     if(commandBufferFilter == null) throw new Exception('Command buffer required for the theme');
+    this.colorPriority = ColorPriority.Brightness;
     this._commandBufferFilter = commandBufferFilter;
 
     // this.period = 100;

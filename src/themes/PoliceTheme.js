@@ -1,11 +1,13 @@
+import ColorPriority from '../enums/ColorPriority';
 import LedThemeBase from './LedThemeBase';
 
 export default class PoliceTheme extends LedThemeBase {
   constructor(commandBufferFilter) {
     super();
     if(commandBufferFilter == null) throw new Exception('Command buffer required for the theme');
+    this.colorPriority = ColorPriority.Brightness;
     this._commandBufferFilter = commandBufferFilter;
-    
+
     this._period = 0;
 
     this._redColor = [255, 0, 0];
@@ -29,7 +31,7 @@ export default class PoliceTheme extends LedThemeBase {
       await this._sleep(128);
     }
   }
-  
+
   // T3
   // async update() {
   //   await Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetOneLEDInRGB', [0b00000111, ...this._redColor]);
@@ -52,9 +54,9 @@ export default class PoliceTheme extends LedThemeBase {
   //   await Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [0,0,0])
   //   await this._sleep(100);
   //   await Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetOneLEDInRGB', [0b00111000, ...this._blueColor]);
-  //   await this._sleep(150); 
+  //   await this._sleep(150);
   // }
-  
+
   // T2
   // async update() {
   //   await Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', this._redColor);

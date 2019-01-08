@@ -1,7 +1,10 @@
+import ColorPriority from '../enums/ColorPriority';
+
 export default class LedThemeBase {
   constructor() {
     this.active = false;
     this.period = 100; // ms
+    this.colorPriority = ColorPriority.Accuracy;
   }
 
   start() {
