@@ -12,6 +12,7 @@ import ThemeType from './enums/ThemeType';
 import predefinedColors from './predefined-colors';
 import {isSameColor, adjustColor, setRgbColorWithTemperatureProtection as setRgbColor} from './utils';
 import CommandBufferFilter from './lib/CommandBufferFilter';
+import IosDeviceDetection from './lib/IosDeviceDetection';
 
 import ThemePlayer from './lib/ThemePlayer';
 import CandleFlickerTheme from './themes/CandleFlickerTheme';
@@ -73,7 +74,24 @@ const tile = new Vue({
     predefinedColors: predefinedColors,
     rgbTemperatureProtection: false,
   },
+
+  mounted: function () {
+    const wrapper = document.querySelector('.wrapper');
+    if (!this.getIos11DeviceAndAboveValue){
+      wrapper.classList.add('ios-10-below');
+    }
+  },
+
   computed: {
+    getIos11DeviceAndAboveValue: function () {
+      return this.getIos11DeviceAndAboveValueMethod(this.isIosDevice);
+    },
+
+    isIosDevice: function () {
+      let isIosDeviceValue = IosDeviceDetection.getIsIosDeviceValue();
+      return isIosDeviceValue;
+    },
+
     backgroundColor: function() {
       // Background color changes only for Simple mode
       if(this.controlsType != ControlsType.Simple) return 'white';
@@ -193,6 +211,10 @@ const tile = new Vue({
       } else {
         this.currentTheme = themeName;
       }
+    },
+
+    getIos11DeviceAndAboveValueMethod: function(isIosDevice) {
+      return IosDeviceDetection.getIsIos11DeviceAndAbove(isIosDevice);
     }
 
     // toggleControls: function() {
