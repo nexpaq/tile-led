@@ -29,6 +29,31 @@ window.$ = $;
 import Vue from 'vue';
 import Color from 'color';
 
+import VueI18n from 'vue-i18n';
+
+Vue.use(VueI18n);
+
+const messages = {
+  en: {
+    main: {
+      instruction: 'This is an example instruction',
+      warning: 'IMPORTANT: Do not touch'
+    }
+  },
+  zh: {
+    main: {
+      instruction: 'This is an example instruction (Chinese)',
+      warning: 'IMPORTANT: Do not touch (Chinese)'
+    }
+  }
+}
+
+// Create VueI18n instance with options
+const i18n = new VueI18n({
+  locale: 'zh', // set locale
+  messages, // set locale messages
+});
+
 const maxFlashLedBrightness = 4000;
 // Creating command filter to prevent tile from sending to many commands
 const commandFilter = new CommandBufferFilter();
@@ -55,6 +80,7 @@ themePlayer.addTheme('Study', studyTheme);
 
 const tile = new Vue({
   el: '#wrapper',
+  i18n,
   data: {
     // State of 6 colour LEDs
     ledsState: LedPartState.Off,
