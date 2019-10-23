@@ -29,24 +29,6 @@ window.$ = $;
 import Vue from 'vue';
 import Color from 'color';
 
-import { ENGLISH_TRANSLATIONS } from './translation/en';
-import { CHINESE_TRANSLATIONS } from './translation/zh';
-import VueI18n from 'vue-i18n';
-
-Vue.use(VueI18n);
-
-const TRANSLATIONS = {
-  en: ENGLISH_TRANSLATIONS,
-  zh: CHINESE_TRANSLATIONS
-}
-
-// Create VueI18n instance with options
-const i18n = new VueI18n({
-  locale: 'zh', // set locale
-  fallbackLocale: 'en',
-  messages: TRANSLATIONS, // set locale messages
-});
-
 const maxFlashLedBrightness = 4000;
 // Creating command filter to prevent tile from sending to many commands
 const commandFilter = new CommandBufferFilter();
@@ -73,7 +55,6 @@ themePlayer.addTheme('Study', studyTheme);
 
 const tile = new Vue({
   el: '#wrapper',
-  i18n,
   data: {
     // State of 6 colour LEDs
     ledsState: LedPartState.Off,
@@ -138,20 +119,19 @@ const tile = new Vue({
       let adjustedColor = adjustColor(this.currentColor, this.lightness);
       return adjustedColor;
     }
-
   },
   watch: {
     controlsType: function(newControlsType) {
       if(newControlsType == ControlsType.Simple) {
-        WebViewTileHeader.setTitle(this.$t("main.pallet.title"));
+        WebViewTileHeader.setTitle('Simple pallet');
         Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'PrioritizeColorBrightness', []);
       } else if(newControlsType == ControlsType.Picker) {
-        WebViewTileHeader.setTitle(this.$t("main.wheel.title"));
+        WebViewTileHeader.setTitle('Color wheel');
         Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'PrioritizeColorAccuracy', []);
       } else if(newControlsType == ControlsType.Themes) {
-        WebViewTileHeader.setTitle(this.$t("main.themes.title"));
+        WebViewTileHeader.setTitle('Themes');
       } else {
-        WebViewTileHeader.setTitle(this.$t("main.led"));
+        WebViewTileHeader.setTitle('LED');
       }
     },
 
@@ -257,8 +237,8 @@ const tile = new Vue({
 document.addEventListener('DOMContentLoaded', () => {
   /* Revealing UI */
   document.getElementById('wrapper').style.opacity = 1;
-  const locale = tile.$i18n.locale;
-  WebViewTileHeader.create(`${tile.$i18n.messages[locale].main.led}`);
+
+  WebViewTileHeader.create('LED');
   //Header Customization
   WebViewTileHeader.customize({
     backgroundColor: '#FFFFFF',
