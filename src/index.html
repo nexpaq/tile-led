@@ -11,7 +11,7 @@
   <body>
     <div id="wrapper" class="wrapper" :data-color="backgroundColor" :data-controls="controlsType" style="opacity: 0;">
       <div class="page page__selector" :class="{ hidden: controlsType != 'selector' }">
-        <h1 class="page__selector__title">{{ $t("main.mode")}}</h1>
+        <h1 class="page__selector__title">Modes</h1>
         <ul class="modes-list">
           <li class="modes-list-item" @click="controlsType = 'simple'">
             <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="modes-list-item__icon">
@@ -25,9 +25,8 @@
                   </g>
                 </g>
             </svg>
-            {{ $t("main.pallet.title")}}
-            <!-- <span class="modes-list-item__description">5 simple colors to chose</span> -->
-            <span class="modes-list-item__description">{{ $t("main.pallet.description")}}</span>
+            Simple pallet
+            <span class="modes-list-item__description">5 simple colors to chose</span>
           </li>
           <li class="modes-list-item" @click="controlsType = 'picker'">
             <svg width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="modes-list-item__icon">
@@ -42,8 +41,8 @@
                 </g>
               </g>
             </svg>
-            {{ $t("main.wheel.title")}}
-            <span class="modes-list-item__description">{{ $t("main.wheel.description")}}</span>
+            Color wheel
+            <span class="modes-list-item__description">Pick your own color</span>
           </li>
           <li class="modes-list-item" @click="controlsType = 'themes'">
             <svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="modes-list-item__icon">
@@ -57,8 +56,8 @@
                   </g>
                 </g>
             </svg>
-            {{ $t("main.themes.title")}}
-            <span class="modes-list-item__description">{{ $t("main.themes.description")}}</span>
+            Themes
+            <span class="modes-list-item__description">Preset light moods</span>
           </li>
         </ul>
       </div><!-- /.page__selector -->
@@ -80,8 +79,8 @@
               <p class="alignright">Lighter</p>
             </div> -->
             <div class="brightness-control__labels">
-              <span class="brightness-control__label brightness-control__label--left">{{ $t("color.brightness.darker") }}</span>
-              <span class="brightness-control__label brightness-control__label--right">{{ $t("color.brightness.lighter") }}</span>
+              <span class="brightness-control__label brightness-control__label--left">Darker</span>
+              <span class="brightness-control__label brightness-control__label--right">Lighter</span>
             </div>
             <div class="brightness-control__range-container">
               <input type="range" id="nxprange" class="brightness-control__range" min="-1" max="1" step="0.01" v-model.number="lightness">
@@ -133,7 +132,7 @@
               </g>
             </svg>
           </div>
-          {{ $t("themes.candle") }}
+          Candle flicker
         </button>
         <button class="theme-button" :class="{ 'theme-button--active': currentTheme == 'Romance' }" @click="toggleTheme('Romance')">
           <div class="theme-button__icon-container">
@@ -149,7 +148,7 @@
               </g>
             </svg>
           </div>
-          {{ $t("themes.romance") }}
+          Romance
         </button>
         <button class="theme-button" :class="{ 'theme-button--active': currentTheme == 'Meditation' }" @click="toggleTheme('Meditation')">
           <div class="theme-button__icon-container">
@@ -163,7 +162,7 @@
               </g>
             </svg>
           </div>
-          {{ $t("themes.meditation") }}
+          Meditation
         </button>
         <button class="theme-button" :class="{ 'theme-button--active': currentTheme == 'SOS' }" @click="toggleTheme('SOS')">
           <div class="theme-button__icon-container">
@@ -179,7 +178,7 @@
                 </g>
             </svg>
           </div>
-          {{ $t("themes.sos") }}
+          SOS
         </button>
         <button class="theme-button" :class="{ 'theme-button--active': currentTheme == 'Study' }" @click="toggleTheme('Study')">
           <div class="theme-button__icon-container">
@@ -195,7 +194,7 @@
               </g>
             </svg>
           </div>
-          {{ $t("themes.study") }}
+          Study
         </button>
         <button class="theme-button" :class="{ 'theme-button--active': currentTheme == 'Disco' }" @click="toggleTheme('Disco')">
           <div class="theme-button__icon-container">
@@ -211,7 +210,7 @@
               </g>
             </svg>
           </div>
-          {{ $t("themes.disco") }}
+          Disco
         </button>
         <button class="theme-button" :class="{ 'theme-button--active': currentTheme == 'Strobe' }" @click="toggleTheme('Strobe')">
           <div class="theme-button__icon-container">
@@ -227,7 +226,7 @@
               </g>
             </svg>
           </div>
-          {{ $t("themes.strobe") }}
+          Strobe
         </button>
         <button class="theme-button" :class="{ 'theme-button--active': currentTheme == 'Police' }" @click="toggleTheme('Police')">
           <div class="theme-button__icon-container">
@@ -241,7 +240,7 @@
               </g>
             </svg>
           </div>
-          {{ $t("themes.police") }}
+          Police
         </button>
       </div>
     </div> <!-- /.wrapper -->
