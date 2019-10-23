@@ -1,14 +1,14 @@
 export const CHINESE_TRANSLATIONS = {
   main: {
     mode: '模式',
-    led: '发光二极管',
+    led: 'LED灯',
     pallet: {
-      title: '简易托盘',
+      title: '基础调色板',
       description: '5种简单的颜色可供选择'
     },
     wheel: {
-      title: '颜色轮',
-      description: '5种简单的颜色可供选择'
+      title: '色轮',
+      description: '选择你自己的颜色'
     },
     themes: {
       title: '主题',
@@ -24,14 +24,14 @@ export const CHINESE_TRANSLATIONS = {
   },
 
   themes: {
-    candle: '蜡烛闪烁',
+    candle: '烛光闪烁',
     romance: '浪漫',
     meditation: '冥想',
     sos: '紧急求救',
     study: '学习',
     disco: '迪斯科',
     strobe: '频闪',
-    police: '警灯s'
+    police: '警灯'
   }
 
 };
