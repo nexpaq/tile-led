@@ -1,5 +1,10 @@
-# tile-led Guide
+# Tile-LED Guide
+
+This is the Tile for LED module. Tile-LED includes all the main code which you can futher develop it and build the latest tile package for publish.
+
 ## Getting Started on development
+
+### Running Locally
 
 You can clone the desired repository to create a local copy on your computer.
 
@@ -21,15 +26,9 @@ You can clone the desired repository to create a local copy on your computer.
 
   5. Run **`$ npm install`** to install all packages in your `package.json` and any packages that it depends on in the local `/node_modules` folder.
    
-  6. Run **`$ npm install -g serve`** to install `npx serve` in your project's directory to serve a static site.
+  
 
-Refer to the [webpage][webpage] if you have this error:
-   ```bash
-   Error: EACCES: permission denied, access '/usr/local/lib/node_modules'
-   ```
-[webpage]:https://stackoverflow.com/questions/48910876/error-eacces-permission-denied-access-usr-local-lib-node-modules-react/55628400
-
-## Building the Demo
+### Simple Build for Production
 
 Run the following command:
 
@@ -40,7 +39,13 @@ and if running correctly, a folder named **`dist`** will appear inside the **`ti
 
 ## Running A Local Server
 
-  To Run local server on your machine
+For development, you will need to run a local sever to serve the static site. You can either use your prefer local server, or you can set up one follow the steps:
+
+### Install Server
+
+Run **`$ npm install -g serve`** to install `npx serve` in your project's directory.
+
+### To Run Local Server on Your Machine
 
   1. Open another tab  or window of your terminal
 
@@ -62,11 +67,9 @@ and if running correctly, a folder named **`dist`** will appear inside the **`ti
    └──────────────────────────────────────────────────┘
 
   ```
-### Running the demo locally
 
-Copy and paste the URL `http://localhost:5000` to your browser and open developer console and select either an IOS or Android device to see the component's render correctly.
+3. Copy and paste the URL `http://localhost:5000` to your browser and open developer console and select either an IOS or Android device to see the component's render correctly.
 
-   3. Shut down the local server by pressing `ctrl` and `C` together in terminal.
 
 ------------------------------------------
 Tile for LED module
@@ -84,7 +87,3 @@ gulp zip
 ```
 
 As result you will get tile.zip file in root directory containing latest tile package ready for publishing.
-
-[Live Preview][preview]
-
-[preview]: https://material.io/resizer/#device=handset&url=https%3A%2F%2Fnexpaq.github.io%2Ftile-led%2F&width=360
