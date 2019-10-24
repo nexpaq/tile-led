@@ -1,6 +1,6 @@
 # Tile-LED Guide
 
-This is the Tile for LED module. Tile-LED includes all the main code which you can futher develop it and build the latest tile package for publish.
+This is the Tile for LED module. Tile-LED includes all the main code which you can futher develop it and build the latest tile package for publishing.
 
 ## Getting Started on development
 
