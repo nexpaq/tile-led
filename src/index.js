@@ -40,11 +40,14 @@ const TRANSLATIONS = {
   zh: CHINESE_TRANSLATIONS
 }
 
+// this is just setting the initial value of language translation
+let languageLocale = "zh";
+
 // Create VueI18n instance with options
 const i18n = new VueI18n({
-  locale: 'zh', // set locale
-  fallbackLocale: 'en',
-  messages: TRANSLATIONS, // set locale messages
+  locale: languageLocale, // set locale
+  fallbackLocale: "en",
+  messages: TRANSLATIONS // set locale messages
 });
 
 const maxFlashLedBrightness = 4000;
@@ -252,13 +255,26 @@ const tile = new Vue({
   }
 });
 
+function ApiReadyActions() {
+  if(Moduware) {
+    // change the language locale based on Moduware.Arguments.language
+    tile.$root.$i18n.locale = Moduware.Arguments.language;  
+    const locale = tile.$i18n.locale;
+    WebViewTileHeader.create(`${tile.$root.$i18n.messages[locale].main.led}`);
+  }
+}
+
+if (window.ModuwareAPIIsReady) {
+  ApiReadyActions();
+} else {
+  document.addEventListener("WebViewApiReady", () => ApiReadyActions());
+}
 
 
 document.addEventListener('DOMContentLoaded', () => {
   /* Revealing UI */
   document.getElementById('wrapper').style.opacity = 1;
-  const locale = tile.$i18n.locale;
-  WebViewTileHeader.create(`${tile.$i18n.messages[locale].main.led}`);
+
   //Header Customization
   WebViewTileHeader.customize({
     backgroundColor: '#FFFFFF',
