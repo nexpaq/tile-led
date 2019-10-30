@@ -41,7 +41,7 @@ const TRANSLATIONS = {
 }
 
 // this is just setting the initial value of language translation
-let languageLocale = "zh";
+let languageLocale = "en";
 
 // Create VueI18n instance with options
 const i18n = new VueI18n({
@@ -260,7 +260,7 @@ function ApiReadyActions() {
     // change the language locale based on Moduware.Arguments.language
     tile.$root.$i18n.locale = Moduware.Arguments.language;  
     const locale = tile.$root.$i18n.locale;
-    WebViewTileHeader.create(`${tile.$root.$i18n.messages[locale].main.led}`);
+    WebViewTileHeader.setTitle(`${tile.$root.$i18n.messages[locale].main.led}`);
   }
 }
 
@@ -276,6 +276,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('wrapper').style.opacity = 1;
 
   //Header Customization
+  const headerTitle = tile.$t("main.led");
+  WebViewTileHeader.create(headerTitle);
   WebViewTileHeader.customize({
     backgroundColor: '#FFFFFF',
     color: 'black',
