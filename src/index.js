@@ -259,7 +259,7 @@ function ApiReadyActions() {
   if(Moduware) {
     // change the language locale based on Moduware.Arguments.language
     tile.$root.$i18n.locale = Moduware.Arguments.language;  
-    const locale = tile.$i18n.locale;
+    const locale = tile.$root.$i18n.locale;
     WebViewTileHeader.create(`${tile.$root.$i18n.messages[locale].main.led}`);
   }
 }
@@ -267,7 +267,7 @@ function ApiReadyActions() {
 if (window.ModuwareAPIIsReady) {
   ApiReadyActions();
 } else {
-  document.addEventListener("WebViewApiReady", () => ApiReadyActions());
+  document.addEventListener("WebViewApiReady", () => ApiReadyActions(), {once: true});
 }
 
 
