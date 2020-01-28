@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="8px" height="13px" viewBox="0 0 8 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>discolsure arrow</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="LED" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="LED-Modes-" transform="translate(-297.000000, -153.000000)" fill="#C7C7CC">
+            <g id="Simple-pallet" transform="translate(0.000000, 119.000000)">
+                <path d="M302.456657,40.5190901 L297.204041,35.2664731 L298.441477,34.0290362 L304.785503,40.3730619 L304.639475,40.5190901 L304.785503,40.6651182 L298.441477,47.0091439 L297.204041,45.771707 L302.456657,40.5190901 Z" id="discolsure-arrow"></path>
+            </g>
+        </g>
+    </g>
+</svg>
