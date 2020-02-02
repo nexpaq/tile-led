@@ -8,6 +8,9 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
+import LedPartState from '../enums/LedPartState';
+import Color from 'color';
+
 import {
 	UPDATE_PAGE,
 	MODUWARE_API_READY,
@@ -17,7 +20,15 @@ import {
 const INITIAL_STATE = {
 	page: '',
 	apiReady: false,
-	language: 'en'
+	language: 'en',
+	ledsState: LedPartState.Off,
+	flashLedLeftState: LedPartState.Off,
+	flashLedRightState: LedPartState.Off,
+	lockState: LedPartState.On,
+	currentColor: Color('white'),
+	currentTheme: null,
+	lightness: 0, // -1 <= x <= 1,
+	rgbTemperatureProtection: false,
 };
 
 const app = (state = INITIAL_STATE, action) => {
