@@ -1,0 +1,16 @@
+@import 'variables.css';
+@import 'global.css';
+@import 'main-screen.css';
+@import 'mode-selector-screen.css';
+@import 'mode-themes-screen.css';
+
+/* PARTIALS */
+@import 'partial/modes-list-item.css';
+@import 'partial/theme-button.css';
+@import 'partial/color-control.css';
+@import 'partial/flash-control.css';
+@import 'partial/led-button.css';
+@import 'partial/switch-control.css';
+@import 'partial/brightness-control.css';
+@import 'partial/wheel.css';
+

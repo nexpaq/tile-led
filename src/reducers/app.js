@@ -8,8 +8,8 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import LedPartState from '../enums/LedPartState';
-import Color from 'color';
+import LedPowerState from '../enums/LedPowerState';
+import Color from '../../node_modules/color/index.js';
 
 import {
 	UPDATE_PAGE,
@@ -21,11 +21,11 @@ const INITIAL_STATE = {
 	page: '',
 	apiReady: false,
 	language: 'en',
-	ledsState: LedPartState.Off,
-	flashLedLeftState: LedPartState.Off,
-	flashLedRightState: LedPartState.Off,
-	lockState: LedPartState.On,
-	currentColor: Color('white'),
+	ledsState: LedPowerState.Off,
+	flashLedLeftState: LedPowerState.Off,
+	flashLedRightState: LedPowerState.Off,
+	lockState: LedPowerState.On,
+	currentColor: new Color('white'),
 	currentTheme: null,
 	lightness: 0, // -1 <= x <= 1,
 	rgbTemperatureProtection: false,

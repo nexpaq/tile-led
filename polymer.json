@@ -8,7 +8,27 @@
 	"extraDependencies": [
 		"manifest.json",
 		"icon.svg",
-		"node_modules/@webcomponents/webcomponentsjs/**"
+		"node_modules/@webcomponents/webcomponentsjs/**",
+		"src/vendor/reset.css",
+		"src/css/fonts.css",
+		"src/css/global.css",
+		"src/css/main-screen.css",
+		"src/css/mode-selector-screen.css",
+		"src/css/mode-themes-screen.css",
+		"src/css/variables.css",
+		"src/css/styles.css",
+		"src/vendor/jquery-2.2.0.min.js",
+		"src/vendor/raphael.min.js",
+		"src/vendor/colorwheel.js",
+		"src/script/style.js",
+		"src/css/partial/modes-list-item.css",
+		"src/css/partial/theme-button.css",
+		"src/css/partial/color-control.css",
+		"src/css/partial/flash-control.css",
+		"src/css/partial/led-button.css",
+		"src/css/partial/switch-control.css",
+		"src/css/partial/brightness-control.css",
+		"src/css/partial/wheel.css"
 	],
 	"builds": [
 		{

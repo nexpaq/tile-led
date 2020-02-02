@@ -1,0 +1,38 @@
+.page__themes {
+  position: relative;
+  color: black;
+  font-family: Roboto, sans-serif;
+}
+
+/* wrap this in .ios-10-below class spicific rules where grid is not supported */
+.wrapper.ios-10-below .page__themes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.wrapper:not(.ios-10-below) .page__themes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-row-gap: 30px;
+}
+
+body.platform-android .page__themes {
+  padding-top: calc(55px + 20px);
+}
+
+body.platform-ios .page__themes {
+  padding-top: calc(44px + 20px);
+}
+
+.wrapper:not(.ios-10-below) .page__themes .theme-button {
+  grid-column-start: span 1;
+}
+
+.wrapper.ios-10-below .page__themes .theme-button {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: calc(32% - 10px);
+  margin: 5px;
+}
+
