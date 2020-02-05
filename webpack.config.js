@@ -1,4 +1,6 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'production',
@@ -19,13 +21,36 @@ module.exports = {
             options: { minimize: true }
           }
         ]
-      }
+      },
+      {
+        test: /\.(png|svg|jpg|gif)/,
+        use: [
+          'file-loader'
+        ]
+      },
+      {
+        test: /\.css$/,
+        use: [
+          "style-loader",
+          "css-loader"
+        ]
+      }  
     ]
   },
   plugins: [
+    new CopyWebpackPlugin([
+      'src/images/**',
+      'node_modules/@webcomponents/webcomponentsjs/**',
+      'manifest.json',
+      'icon.svg'
+    ]),
     new HtmlWebpackPlugin({
       template: "./index.html",
       filename: "./index.html"
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[id].css"
     }),
   ]
 }
