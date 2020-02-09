@@ -18,6 +18,23 @@ import 'webview-tile-header/webview-tile-header'
 import { registerTranslateConfig, use, translate, get } from "@appnest/lit-translate";
 import * as translation from '../translations/language.js';
 
+import {
+	Fonts,
+	Global,
+	MainScreen,
+	ModeSelectorScreen,
+	ModeThemesScreen,
+	BrightnessControl,
+	ColorControl,
+	FlashControl,
+	LedButton,
+	ModelListItem,
+	SwitchControl,
+	ThemeButton,
+	Wheel,
+	Variables
+} from './shared-styles.js';
+
 class MyApp extends connect(store)(LitElement) {
 
 	static get properties() {
@@ -28,6 +45,109 @@ class MyApp extends connect(store)(LitElement) {
 		};
 	}
 
+	static get styles() {
+		return [
+			Fonts,
+			Global,
+			MainScreen,
+			ModeSelectorScreen,
+			ModeThemesScreen,
+			BrightnessControl,
+			ColorControl,
+			FlashControl,
+			LedButton,
+			ModelListItem,
+			SwitchControl,
+			ThemeButton,
+			Wheel,
+			Variables,
+			css`
+        :host {
+          overflow-y: scroll;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          box-sizing: border-box;
+        }
+
+        :host {
+          padding-top: 55px;
+          font-family: Roboto;
+          /*height: calc(100vh - 55px);*/
+        }
+				
+        :host([platform='ios']) {
+          padding-top: 44px;
+					/*height: calc(100vh - 44px);*/
+					font-family: -apple-system, 'SF UI Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        :host([platform='android']) moduware-header {
+          box-shadow: none;
+        }
+
+        moduware-header {
+          position: absolute;
+        }
+
+
+        :host {
+          --moduware-brand-color: #d02e3d;
+          --item-container-z-index: 0; /* css variable for list-item .container z-index */
+
+          display: flex;
+          flex-direction: column;
+          justify-content: stretch;
+        }
+
+
+        [main-title] {
+          font-family: 'Pacifico';
+          text-transform: lowercase;
+          font-size: 30px;
+          /* In the narrow layout, the toolbar is offset by the width of the
+          drawer button, and the text looks not centered. Add a padding to
+          match that button */
+          padding-right: 44px;
+        }
+
+        /* Workaround for IE11 displaying <main> as inline */
+        main {
+          display: flex;
+        }
+
+        .main-content {
+          height: 100%;
+          flex-grow: 1;
+          /* box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          -webkit-box-sizing: border-box; */
+          /*margin-top: 72px;*/
+        }
+
+        :host([platform='ios']) .main-content {
+					background-color: #F9F9F9 !important;
+        }
+        
+        :host([platform='android']) .main-content {
+					background-color: #F2F2F2 !important;
+				}
+
+      /*.page {
+          display: none;
+        }*/
+        .page {
+          background-color: white;
+        }
+
+        .page[active] {
+          display: flex;
+        }
+
+      `
+		];
+	}
+
 	render() {
 		return html`
       <!-- Webview Header -->
@@ -35,14 +155,14 @@ class MyApp extends connect(store)(LitElement) {
         @back-button-click="${() => store.dispatch(headerBackButtonClicked())}"
 				title="${translate('home-page.title')}">
 			</moduware-header>
-      <!-- Main content -->
-      <main role="main" class="main-content">
-        <home-page class="page" ?active="${this._page === 'home-page'}"></home-page>
-        <pallet-page class="page" ?active="${this._page === 'pallet-page'}"></pallet-page>
-				<wheel-page class="page" ?active="${this._page === 'wheel-page'}"></wheel-page>
-        <themes-page class="page" ?active="${this._page === 'themes-page'}"></themes-page>
-        <error-page class="page" ?active="${this._page === 'error-page'}"></error-page>
-      </main>
+			<!-- Main content -->
+			<main role="main" class="main-content">
+					<home-page class="page" ?active="${this._page === 'home-page'}"></home-page>
+					<pallet-page class="page" ?active="${this._page === 'pallet-page'}"></pallet-page>
+					<wheel-page class="page" ?active="${this._page === 'wheel-page'}"></wheel-page>
+					<themes-page class="page" ?active="${this._page === 'themes-page'}"></themes-page>
+					<error-page class="page" ?active="${this._page === 'error-page'}"></error-page>	
+			</main>
     `;
 	}
 

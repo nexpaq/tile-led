@@ -9,8 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import LedPowerState from '../enums/LedPowerState';
-import * as Color from '../../node_modules/color/index.js';
-
+//import * as Color from '../../node_modules/color/index.js';
 import {
 	UPDATE_PAGE,
 	MODUWARE_API_READY,
@@ -25,7 +24,7 @@ const INITIAL_STATE = {
 	flashLedLeftState: LedPowerState.Off,
 	flashLedRightState: LedPowerState.Off,
 	lockState: LedPowerState.On,
-	currentColor: Color('white'),
+	//currentColor: new Color('white'),
 	currentTheme: null,
 	lightness: 0, // -1 <= x <= 1,
 	rgbTemperatureProtection: false,

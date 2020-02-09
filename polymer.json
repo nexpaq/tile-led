@@ -3,7 +3,8 @@
 	"basePath": "./",
 	"shell": "src/components/my-app.js",
 	"sources": [
-		"images/**/*"
+		"images/**/*",
+		"fonts/**/*"
 	],
 	"extraDependencies": [
 		"manifest.json",

@@ -32,9 +32,9 @@ export const moduwareApiReady = () => async dispatch => {
 	dispatch({ type: MODUWARE_API_READY });
 	dispatch(loadLanguageTranslation());
 
-	// Moduware.v1.Bluetooth.addEventListener('ConnectionLost', () => {
-	// 	dispatch(connectionLost());
-	// });
+	Moduware.API.addEventListener('HardwareBackButtonPressed', () => {
+		dispatch(hardwareBackButtonPressed());
+	});
 }
 
 export const navigate = (path) => (dispatch) => {
@@ -91,3 +91,12 @@ export const headerBackButtonClicked = () => (dispatch, getState) => {
 	}
 };
 
+export const hardwareBackButtonPressed = () => (dispatch, getState) => {
+	if (Moduware) {
+		if (getState().app.page === 'pallet-page' || getState().app.page === 'wheel-page' || getState().app.page === 'themes-page' || getState().app.page === 'error-page') {
+			dispatch(navigate('/home-page'))
+		} else {
+			Moduware.API.Exit();
+		}
+	}
+}
