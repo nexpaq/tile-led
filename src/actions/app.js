@@ -82,10 +82,11 @@ const updatePage = (page) => {
 
 export const headerBackButtonClicked = () => (dispatch, getState) => {
 	console.log('Webview header back button clicked!');
-	if (Moduware) {
-		if (getState().app.page === 'pallet-page' || getState().app.page === 'wheel-page' || getState().app.page === 'themes-page' || getState().app.page === 'error-page') {
-			dispatch(navigate('/home-page'))
-		} else {
+
+	if (getState().app.page === 'pallet-page' || getState().app.page === 'wheel-page' || getState().app.page === 'themes-page' || getState().app.page === 'error-page') {
+		dispatch(navigate('/home-page'))
+	} else {
+		if (getState().app.apiReady) {
 			Moduware.API.Exit();
 		}
 	}

@@ -96,7 +96,7 @@ export const Global = css`
 
 export const MainScreen = css`
 	.wrapper {
-		background-color: currentColor;
+		background-color:white;
 	}
 
 	.wrapper[data-color='white'] {

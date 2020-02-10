@@ -33,6 +33,8 @@ import app from '../reducers/app.js';
 import './icons.js';
 import { registerTranslateConfig, use, translate, get } from "@appnest/lit-translate";
 import * as translation from '../translations/language.js';
+import predefinedColors from '../predefined-colors.js'
+
 
 class HomePage extends connect(store)(PageViewElement) {
 
@@ -66,6 +68,7 @@ class HomePage extends connect(store)(PageViewElement) {
 		if (changedProperties.has('_language')) {
 			use(this._language);
 		}
+		console.log('heloo there form home-page.js', predefinedColors);
 	}
 
 	async connectedCallback() {
@@ -137,6 +140,7 @@ class HomePage extends connect(store)(PageViewElement) {
 	stateChanged(state) {
 		this._page = state.app.page;
 		this._language = state.app.language;
+		console.log(state);
 	}
 
 }
