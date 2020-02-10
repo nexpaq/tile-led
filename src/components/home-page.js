@@ -18,6 +18,7 @@ import app from '../reducers/app.js';
 import './icons.js';
 import { registerTranslateConfig, use, translate, get } from "@appnest/lit-translate";
 import * as translation from '../translations/language.js';
+import predefinedColors from '../predefined-colors.js'
 
 class HomePage extends connect(store)(PageViewElement) {
 
@@ -31,7 +32,8 @@ class HomePage extends connect(store)(PageViewElement) {
 	updated(changedProperties) {
 		if (changedProperties.has('_language')) {
 			use(this._language);
-		}
+    }
+    console.log('heloo there form pallet-page.js', predefinedColors);
 	}
 
 	async connectedCallback() {

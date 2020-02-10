@@ -32,6 +32,7 @@ const INITIAL_STATE = {
 };
 
 const app = (state = INITIAL_STATE, action) => {
+	console.log('reducer...', INITIAL_STATE);
 	switch (action.type) {
 		case MODUWARE_API_READY:
 			return {

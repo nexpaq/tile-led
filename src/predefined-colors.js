@@ -23,4 +23,6 @@ const predefinedColors = {
   }
 };
 
+console.log('hello from predefined-colors.js');
+
 export default predefinedColors;
