@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
-import { navigate } from '../actions/app.js';
+import { navigate, changeCurrentUiColor, switchOnMainLight, switchOffMainLight } from '../actions/app.js';
 import { store } from '../store.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import {
@@ -26,23 +26,31 @@ import {
 	ModelListItem,
 	SwitchControl,
 	ThemeButton,
-	Wheel, 
+	Wheel,
 	Variables
 } from './shared-styles.js';
 import app from '../reducers/app.js';
 import './icons.js';
 import { registerTranslateConfig, use, translate, get } from "@appnest/lit-translate";
 import * as translation from '../translations/language.js';
+import { addListener } from '@polymer/polymer/lib/utils/gestures.js';
+import predefinedColors from '../predefined-colors.js'
+import LedPowerState from '../enums/LedPowerState';
 
 class PalletPage extends connect(store)(PageViewElement) {
+
 	static get properties() {
 		return {
 			_page: { type: String },
 			_language: { type: String },
+			_currentUiColor: { type: String },
+			_mainLightState: { type: Boolean }
 		};
 	}
+
 	static get styles() {
 		return [
+			Variables,
 			Fonts,
 			Global,
 			MainScreen,
@@ -55,26 +63,26 @@ class PalletPage extends connect(store)(PageViewElement) {
 			ModelListItem,
 			SwitchControl,
 			ThemeButton,
-			Wheel,
-			Variables
+			Wheel
 		];
 	}
+
 	render() {
 		return html`
-		<div data-color="white" id="wrapper" class="wrapper">
+		<div style="background-color: ${this._currentUiColor}" id="wrapper" class="wrapper">
 			<div class="page page__controls ">
         <div class="simple-controls ">
           <div class="color-control">
-            <button style="background-color: rgb(238, 54, 54);" ></button>
-            <button style="background-color: rgb(1, 207, 88);" ></button>
-            <button style="background-color: rgb(17, 169, 255);" ></button>
-            <button style="background-color: rgb(252, 187, 64);" ></button>
-            <button style="background-color: rgb(255, 255, 255);" ></button>
+            <button style="background-color: rgb(238, 54, 54);" @click="${() => store.dispatch(changeCurrentUiColor(predefinedColors.red))}"></button>
+            <button style="background-color: rgb(1, 207, 88);"  @click="${() => store.dispatch(changeCurrentUiColor(predefinedColors.green))}"></button>
+            <button style="background-color: rgb(17, 169, 255);"  @click="${() => store.dispatch(changeCurrentUiColor(predefinedColors.blue))}"></button>
+            <button style="background-color: rgb(252, 187, 64);"  @click="${() => store.dispatch(changeCurrentUiColor(predefinedColors.yellow))}"></button>
+            <button style="background-color: rgb(255, 255, 255);"  @click="${() => store.dispatch(changeCurrentUiColor(predefinedColors.white))}"></button>
           </div>
         </div> <!-- /.simple-controls -->
 
         <div class="shared-controls">
-          <button class="led-button %active">
+          <button class="led-button ${this._mainLightState ? 'active' : ''}" id="power-button">
             <svg width="128px" height="128px" viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                   <g transform="translate(-116.000000, -256.000000)">
@@ -86,15 +94,12 @@ class PalletPage extends connect(store)(PageViewElement) {
               </g>
             </svg>
           </button>
-      
           <div class="flashcontrol">
             <button class="flashcontrol__flashbutton %flashcontrol__flashbutton--active"></button>
-            
             <div class="onoffswitch">
               <input type="checkbox" name="onoffswitch" class="checkbox" id="myonoffswitch">
               <label class="switch-label" for="myonoffswitch"></label>
             </div>
-    
             <button class="flashcontrol__flashbutton flashcontrol__flashbutton--active"></button>
           </div>
         </div> <!-- /.shared-controls -->
@@ -103,21 +108,38 @@ class PalletPage extends connect(store)(PageViewElement) {
     `;
 	}
 
+	firstUpdated() {
+		super.firstUpdated();
+		addListener(this.shadowRoot.getElementById('power-button'), 'down', e => this._powerButtonPressedHandler(e));
+		addListener(this.shadowRoot.getElementById('power-button'), 'up', e => this._powerButtonReleasedHandler(e));
+	}
+
 	updated(changedProperties) {
 		if (changedProperties.has('_language')) {
 			use(this._language);
 		}
 	}
+
 	async connectedCallback() {
 		registerTranslateConfig({
 			loader: (lang) => Promise.resolve(translation[lang])
 		});
-
 		super.connectedCallback();
 	}
+
+	_powerButtonPressedHandler(e) {
+		store.dispatch(switchOnMainLight());
+	}
+
+	_powerButtonReleasedHandler(e) {
+		store.dispatch(switchOffMainLight());
+	}
+
 	stateChanged(state) {
 		this._page = state.app.page;
 		this._language = state.app.language;
+		this._currentUiColor = state.app.currentUiColor;
+		this._mainLightState = state.app.ledsState;
 	}
 }
 

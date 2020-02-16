@@ -14,7 +14,6 @@ export default class CommandBufferFilter {
      * Indicates if command buffer is running
      */
 		this.active = false;
-
 		this._commandToSend = null;
 	}
 

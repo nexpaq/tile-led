@@ -8,10 +8,52 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
+import ThemePlayer from '../lib/ThemePlayer'
+import CandleFlickerTheme from '../themes/CandleFlickerTheme';
+import PoliceTheme from '../themes/PoliceTheme';
+import StrobeTheme from '../themes/StrobeTheme';
+import SOSTheme from '../themes/SOSTheme';
+import MeditationTheme from '../themes/MeditationTheme';
+import DiscoTheme from '../themes/DiscoTheme';
+import RomanceTheme from '../themes/RomanceTheme';
+import StudyTheme from '../themes/StudyTheme';
+import CommandBufferFilter from '../lib/CommandBufferFilter';
+import { isSameColor, adjustColor, setRgbColorWithTemperatureProtection as setRgbColor } from '../utils';
+import IosDeviceDetection from '../lib/IosDeviceDetection';
+import LedPowerState from '../enums/LedPowerState';
+
+const commandFilter = new CommandBufferFilter();
+commandFilter.start();
+
+const candleFlickerTheme = new CandleFlickerTheme(commandFilter);
+const policeTheme = new PoliceTheme(commandFilter);
+const strobeTheme = new StrobeTheme(commandFilter);
+const sosTheme = new SOSTheme(commandFilter);
+const meditationTheme = new MeditationTheme(commandFilter);
+const discoTheme = new DiscoTheme(commandFilter);
+const romanceTheme = new RomanceTheme(commandFilter);
+const studyTheme = new StudyTheme(commandFilter);
+
+
+const themePlayer = new ThemePlayer();
+themePlayer.addTheme('CandleFlicker', candleFlickerTheme);
+themePlayer.addTheme('Police', policeTheme);
+themePlayer.addTheme('Strobe', strobeTheme);
+themePlayer.addTheme('SOS', sosTheme);
+themePlayer.addTheme('Meditation', meditationTheme);
+themePlayer.addTheme('Disco', discoTheme);
+themePlayer.addTheme('Romance', romanceTheme);
+themePlayer.addTheme('Study', studyTheme);
+
+
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 export const MODUWARE_API_READY = 'MODUWARE_API_READY';
 export const LOAD_LANGUAGE_TRANSLATION = 'LOAD_LANGUAGE_TRANSLATION';
 export const TOGGLE_LEDS_STATE = 'TOGGLE_LEDS_STATE';
+export const THEME_TOGGLED = 'THEME_TOGGLED';
+export const CURRENT_UI_COLOR_CHANGED = 'CURRENT_UI_COLOR_CHANGED';
+export const CURRENT_COLOR_CHANGED = 'CURRENT_COLOR_CHANGED';
+export const MAIN_LIGHT_STATE_CHANGED = 'MAIN_LIGHT_STATE_CHANGED';
 
 // This is a fix to iOS not auto connecting and not finding any devices
 export const initializeModuwareApiAsync = () => async dispatch => {
@@ -43,7 +85,6 @@ export const navigate = (path) => (dispatch) => {
 };
 
 export const loadLanguageTranslation = () => async dispatch => {
-	//let language = Moduware.Arguments.language;
 	console.log(Moduware.Arguments);
 	dispatch({ type: LOAD_LANGUAGE_TRANSLATION, language: Moduware.Arguments.language });
 }
@@ -51,10 +92,7 @@ export const loadLanguageTranslation = () => async dispatch => {
 const loadPage = (page) => (dispatch) => {
 	switch (page) {
 		case 'home-page':
-			import('../components/home-page.js').then((module) => {
-				// Put code in here that you want to run every time when
-				// navigating to view1 after my-view1.js is loaded.
-			});
+			import('../components/home-page.js');
 			break;
 		case 'pallet-page':
 			import('../components/pallet-page.js');
@@ -100,4 +138,35 @@ export const hardwareBackButtonPressed = () => (dispatch, getState) => {
 			Moduware.API.Exit();
 		}
 	}
+}
+
+export const toggleTheme = (newTheme) => (dispatch, getState) => {
+
+	if (getState().app.currentTheme === null) {
+		themePlayer.play(newTheme);
+		dispatch({ type: THEME_TOGGLED, currentTheme: newTheme });
+	} else if (getState().app.currentTheme === newTheme) {
+		themePlayer.stop();
+		dispatch({ type: THEME_TOGGLED, currentTheme: null });
+	} else if (getState().app.currentTheme !== newTheme) {
+		themePlayer.play(newTheme);
+		dispatch({ type: THEME_TOGGLED, currentTheme: newTheme });
+	}
+}
+
+export const changeCurrentUiColor = (color) => (dispatch) => {
+	dispatch({ type: CURRENT_UI_COLOR_CHANGED, color: color.uiColorString });
+	dispatch({ type: CURRENT_COLOR_CHANGED, color: color.moduleColor });
+}
+
+export const switchOnMainLight = () => (dispatch, getState) => {
+	let adjustedColor = adjustColor(getState().app.currentColor, getState().app.lightness);
+	const [r, g, b] = [adjustedColor.red(), adjustedColor.green(), adjustedColor.blue()];
+	setRgbColor(commandFilter, r, g, b);
+	dispatch({ type: MAIN_LIGHT_STATE_CHANGED, state: LedPowerState.On });
+}
+
+export const switchOffMainLight = () => (dispatch, getState) => {
+	setRgbColor(commandFilter, 0, 0, 0);
+	dispatch({ type: MAIN_LIGHT_STATE_CHANGED, state: LedPowerState.Off });
 }

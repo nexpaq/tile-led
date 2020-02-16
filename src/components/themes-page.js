@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
-import { navigate } from '../actions/app.js';
+import { navigate, toggleTheme } from '../actions/app.js';
 import { store } from '../store.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import {
@@ -36,11 +36,12 @@ import * as translation from '../translations/language.js';
 
 
 class ThemesPage extends connect(store)(PageViewElement) {
-	
+
 	static get properties() {
 		return {
 			_page: { type: String },
-			_language: { type: String }
+			_language: { type: String },
+			_currentTheme: { type: String }
 		};
 	}
 
@@ -81,7 +82,7 @@ class ThemesPage extends connect(store)(PageViewElement) {
 		return html`
 			<div data-color="white" id="wrapper" class="wrapper">
 				<div class="page page__themes">
-					<button class="theme-button theme-button--active">
+					<button class="theme-button ${this._currentTheme === 'CandleFlicker' ? 'theme-button--active' : ''}" @click="${() => store.dispatch(toggleTheme('CandleFlicker'))}">
 						<div class="theme-button__icon-container">
 							<svg width="29px" height="39px" viewBox="0 0 29 39" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="theme-button__icon">
 								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -97,7 +98,7 @@ class ThemesPage extends connect(store)(PageViewElement) {
 						</div>
 						Candle flicker
 					</button>
-					<button class="theme-button">
+					<button class="theme-button ${this._currentTheme === 'Romance' ? 'theme-button--active' : ''}" @click="${() => store.dispatch(toggleTheme('Romance'))}">
 						<div class="theme-button__icon-container">
 							<svg width="31px" height="29px" viewBox="0 0 31 29" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="theme-button__icon">
 								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -113,7 +114,7 @@ class ThemesPage extends connect(store)(PageViewElement) {
 						</div>
 						Romance
 					</button>
-					<button class="theme-button">
+					<button class="theme-button ${this._currentTheme === 'Meditation' ? 'theme-button--active' : ''}" @click="${() => store.dispatch(toggleTheme('Meditation'))}">
 						<div class="theme-button__icon-container">
 							<svg width="35px" height="36px" viewBox="0 0 35 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="theme-button__icon">
 								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -127,7 +128,7 @@ class ThemesPage extends connect(store)(PageViewElement) {
 						</div>
 						Meditation
 					</button>
-					<button class="theme-button">
+					<button class="theme-button ${this._currentTheme === 'SOS' ? 'theme-button--active' : ''}" @click="${() => store.dispatch(toggleTheme('SOS'))}">
 						<div class="theme-button__icon-container">
 							<svg width="36px" height="35px" viewBox="0 0 36 35" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="theme-button__icon">
 									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -143,7 +144,7 @@ class ThemesPage extends connect(store)(PageViewElement) {
 						</div>
 						SOS
 					</button>
-					<button class="theme-button">
+					<button class="theme-button ${this._currentTheme === 'Study' ? 'theme-button--active' : ''}" @click="${() => store.dispatch(toggleTheme('Study'))}">
 						<div class="theme-button__icon-container">
 							<svg width="42px" height="34px" viewBox="0 0 42 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="theme-button__icon">
 								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -159,7 +160,7 @@ class ThemesPage extends connect(store)(PageViewElement) {
 						</div>
 						Study
 					</button>
-					<button class="theme-button">
+					<button class="theme-button ${this._currentTheme === 'Disco' ? 'theme-button--active' : ''}" @click="${() => store.dispatch(toggleTheme('Disco'))}">
 						<div class="theme-button__icon-container">
 							<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="theme-button__icon">
 								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -175,7 +176,7 @@ class ThemesPage extends connect(store)(PageViewElement) {
 						</div>
 						Disco
 					</button>
-					<button class="theme-button">
+					<button class="theme-button ${this._currentTheme === 'Strobe' ? 'theme-button--active' : ''}" @click="${() => store.dispatch(toggleTheme('Strobe'))}">
 						<div class="theme-button__icon-container">
 							<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="theme-button__icon">
 								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -191,7 +192,7 @@ class ThemesPage extends connect(store)(PageViewElement) {
 						</div>
 						Strobe
 					</button>
-					<button class="theme-button">
+					<button class="theme-button ${this._currentTheme === 'Police' ? 'theme-button--active' : ''}" @click="${() => store.dispatch(toggleTheme('Police'))}">
 						<div class="theme-button__icon-container">
 							<svg width="30px" height="36px" viewBox="0 0 30 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="theme-button__icon">
 								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -213,6 +214,7 @@ class ThemesPage extends connect(store)(PageViewElement) {
 	stateChanged(state) {
 		this._page = state.app.page;
 		this._language = state.app.language;
+		this._currentTheme = state.app.currentTheme;
 	}
 }
 

@@ -96,7 +96,7 @@ export const Global = css`
 
 export const MainScreen = css`
 	.wrapper {
-		background-color:white;
+		
 	}
 
 	.wrapper[data-color='white'] {
@@ -217,9 +217,7 @@ export const Variables = css`
 /* COLORS */
   --hr-color: rgb(82, 80, 88);
   --text-color: rgb(255, 255, 255);
-
   --black: rgb(42, 42, 42);
-
   --red: rgb(238, 54, 54);
   --green: rgb(1, 207, 88);
   --blue: rgb(17, 169, 255);
@@ -230,11 +228,11 @@ export const Variables = css`
 `;
 export const BrightnessControl = css`
 	.brightness-control {
-  position: absolute;
-  top: 90%; left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  width: calc(100% - 16px * 2);
-}
+		position: absolute;
+		top: 90%; left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		width: calc(100% - 16px * 2);
+	}
 
 .brightness-control__labels {
   display: flex;

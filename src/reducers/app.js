@@ -10,12 +10,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import LedPowerState from '../enums/LedPowerState';
 import Color from '../../node_modules/color/index.js';
-
+import predefinedColors from '../predefined-colors';
 
 import {
 	UPDATE_PAGE,
 	MODUWARE_API_READY,
 	LOAD_LANGUAGE_TRANSLATION,
+	THEME_TOGGLED,
+	CURRENT_UI_COLOR_CHANGED,
+	CURRENT_COLOR_CHANGED,
+	MAIN_LIGHT_STATE_CHANGED
 } from '../actions/app.js';
 
 const INITIAL_STATE = {
@@ -26,7 +30,8 @@ const INITIAL_STATE = {
 	flashLedLeftState: LedPowerState.Off,
 	flashLedRightState: LedPowerState.Off,
 	lockState: LedPowerState.On,
-	currentColor: new Color('white'),
+	currentColor: Color('white'),
+	currentUiColor: 'rgb(255, 255, 255)',
 	currentTheme: null,
 	lightness: 0, // -1 <= x <= 1,
 	rgbTemperatureProtection: false,
@@ -48,6 +53,26 @@ const app = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				language: action.language
+			};
+		case THEME_TOGGLED:
+			return {
+				...state,
+				currentTheme: action.currentTheme
+			};
+		case CURRENT_UI_COLOR_CHANGED:
+			return {
+				...state,
+				currentUiColor: action.color
+			};
+		case CURRENT_COLOR_CHANGED:
+			return {
+				...state,
+				currentColor: action.color
+			}
+		case MAIN_LIGHT_STATE_CHANGED:
+			return {
+				...state,
+				ledsState: action.state
 			}
 		default:
 			return state;
