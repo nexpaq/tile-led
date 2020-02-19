@@ -20,7 +20,7 @@ import StudyTheme from '../themes/StudyTheme';
 import CommandBufferFilter from '../lib/CommandBufferFilter';
 import { isSameColor, adjustColor, setRgbColorWithTemperatureProtection as setRgbColor } from '../utils';
 import IosDeviceDetection from '../lib/IosDeviceDetection';
-import LedPowerState from '../enums/LedPowerState';
+import PowerState from '../enums/PowerState';
 
 const commandFilter = new CommandBufferFilter();
 commandFilter.start();
@@ -54,6 +54,7 @@ export const THEME_TOGGLED = 'THEME_TOGGLED';
 export const CURRENT_UI_COLOR_CHANGED = 'CURRENT_UI_COLOR_CHANGED';
 export const CURRENT_COLOR_CHANGED = 'CURRENT_COLOR_CHANGED';
 export const MAIN_LIGHT_STATE_CHANGED = 'MAIN_LIGHT_STATE_CHANGED';
+export const LOCK_TOGGLED = 'LOCK_TOGGLED';
 
 // This is a fix to iOS not auto connecting and not finding any devices
 export const initializeModuwareApiAsync = () => async dispatch => {
@@ -142,6 +143,12 @@ export const hardwareBackButtonPressed = () => (dispatch, getState) => {
 
 export const toggleTheme = (newTheme) => (dispatch, getState) => {
 
+	// if theme is toggled, we switch off the main light 
+	// to make sure that theme and main light don't conflict
+	if (getState().app.ledsState === PowerState.On) {
+		dispatch(switchOffMainLight());
+	}
+
 	if (getState().app.currentTheme === null) {
 		themePlayer.play(newTheme);
 		dispatch({ type: THEME_TOGGLED, currentTheme: newTheme });
@@ -154,19 +161,54 @@ export const toggleTheme = (newTheme) => (dispatch, getState) => {
 	}
 }
 
-export const changeCurrentUiColor = (color) => (dispatch) => {
-	dispatch({ type: CURRENT_UI_COLOR_CHANGED, color: color.uiColorString });
+export const toggleLock = () => (dispatch, getState) => {
+	if (getState().app.lockState === PowerState.On) {
+		dispatch({ type: LOCK_TOGGLED, state: PowerState.Off })
+
+		// if we are disabling the lock then we must close the main light if it's on
+		if (getState().app.ledsState === PowerState.On) {
+			dispatch(switchOffMainLight());
+		}
+	} else {
+		dispatch({ type: LOCK_TOGGLED, state: PowerState.On })
+	}
+}
+
+export const toggleMainLight = () => (dispatch, getState) => {
+	if (getState().app.ledsState === PowerState.On) {
+		dispatch(switchOffMainLight());
+	} else {
+		dispatch(switchOnMainLight());
+	}
+}
+
+export const changeCurrentUiColor = color => (dispatch, getState) => {
+	dispatch({ type: CURRENT_UI_COLOR_CHANGED, color: color });
 	dispatch({ type: CURRENT_COLOR_CHANGED, color: color.moduleColor });
+
+	// if the main light is On then we call switchOnMainLight to make sure that
+	// the new color is reflected to the main light
+	if (getState().app.ledsState === PowerState.On) {
+		dispatch(switchOnMainLight());
+	}
 }
 
 export const switchOnMainLight = () => (dispatch, getState) => {
+
+	// we check for the current theme, if it is not null then we have
+	// to stop it so it don't conflict with the main light
+	if (getState().app.currentTheme !== null) {
+		themePlayer.stop();
+		dispatch({ type: THEME_TOGGLED, currentTheme: null });
+	}
+
 	let adjustedColor = adjustColor(getState().app.currentColor, getState().app.lightness);
 	const [r, g, b] = [adjustedColor.red(), adjustedColor.green(), adjustedColor.blue()];
 	setRgbColor(commandFilter, r, g, b);
-	dispatch({ type: MAIN_LIGHT_STATE_CHANGED, state: LedPowerState.On });
+	dispatch({ type: MAIN_LIGHT_STATE_CHANGED, state: PowerState.On });
 }
 
-export const switchOffMainLight = () => (dispatch, getState) => {
+export const switchOffMainLight = () => dispatch => {
 	setRgbColor(commandFilter, 0, 0, 0);
-	dispatch({ type: MAIN_LIGHT_STATE_CHANGED, state: LedPowerState.Off });
+	dispatch({ type: MAIN_LIGHT_STATE_CHANGED, state: PowerState.Off });
 }

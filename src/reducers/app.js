@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import LedPowerState from '../enums/LedPowerState';
+import PowerState from '../enums/PowerState';
 import Color from '../../node_modules/color/index.js';
 import predefinedColors from '../predefined-colors';
 
@@ -19,19 +19,21 @@ import {
 	THEME_TOGGLED,
 	CURRENT_UI_COLOR_CHANGED,
 	CURRENT_COLOR_CHANGED,
-	MAIN_LIGHT_STATE_CHANGED
+	MAIN_LIGHT_STATE_CHANGED,
+	LOCK_TOGGLED
 } from '../actions/app.js';
 
 const INITIAL_STATE = {
 	page: '',
 	apiReady: false,
 	language: 'en',
-	ledsState: LedPowerState.Off,
-	flashLedLeftState: LedPowerState.Off,
-	flashLedRightState: LedPowerState.Off,
-	lockState: LedPowerState.On,
+	ledsState: PowerState.Off,
+	flashLedLeftState: PowerState.Off,
+	flashLedRightState: PowerState.Off,
+	lockState: PowerState.On,
 	currentColor: Color('white'),
 	currentUiColor: 'rgb(255, 255, 255)',
+	currentUiColorName: 'white',
 	currentTheme: null,
 	lightness: 0, // -1 <= x <= 1,
 	rgbTemperatureProtection: false,
@@ -62,17 +64,23 @@ const app = (state = INITIAL_STATE, action) => {
 		case CURRENT_UI_COLOR_CHANGED:
 			return {
 				...state,
-				currentUiColor: action.color
+				currentUiColor: action.color.uiColorString,
+				currentUiColorName: action.color.uiColorName
 			};
 		case CURRENT_COLOR_CHANGED:
 			return {
 				...state,
 				currentColor: action.color
-			}
+			};
 		case MAIN_LIGHT_STATE_CHANGED:
 			return {
 				...state,
 				ledsState: action.state
+			};
+		case LOCK_TOGGLED:
+			return {
+				...state,
+				lockState: action.state
 			}
 		default:
 			return state;

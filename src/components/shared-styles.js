@@ -497,9 +497,9 @@ body.platform-ios .modes-list-item__description {
 export const SwitchControl = css`
 
 	.onoffswitch {
-  width:44px;
-  height:44px;
-}
+		width:44px;
+		height:44px;
+	}
 
 .checkbox {
   display: none;
