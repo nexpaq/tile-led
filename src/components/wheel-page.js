@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
-import { navigate } from '../actions/app.js';
+import { navigate, changeCurrentUiColor, switchOnMainLight, switchOffMainLight, toggleLock, toggleMainLight, toggleRightFlash, toggleLeftFlash } from '../actions/app.js';
 import { store } from '../store.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import {
@@ -33,13 +33,22 @@ import app from '../reducers/app.js';
 import './icons.js';
 import { registerTranslateConfig, use, translate, get } from "@appnest/lit-translate";
 import * as translation from '../translations/language.js';
-
+import { addListener } from '@polymer/polymer/lib/utils/gestures.js';
+import predefinedColors from '../predefined-colors.js'
+import PowerState from '../enums/PowerState';
 
 class WheelPage extends connect(store)(PageViewElement) {
+
 	static get properties() {
 		return {
 			_page: { type: String },
-			_language: { type: String }
+			_language: { type: String },
+			_currentUiColor: { type: String },
+			_currentUiColorName: { type: String },
+			_mainLightState: { type: Boolean },
+			_lockState: { type: Boolean },
+			_rightFlashState: { type: Boolean },
+			_leftFlashState: { type: Boolean }
 		};
 	}
 
@@ -104,7 +113,7 @@ class WheelPage extends connect(store)(PageViewElement) {
 				</div> <!-- /.picker-controls -->
 				
         <div class="shared-controls">
-          <button class="led-button %active">
+          <button class="led-button ${this._mainLightState === PowerState.On ? 'active' : ''}">
             <svg width="128px" height="128px" viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                   <g transform="translate(-116.000000, -256.000000)">
@@ -118,12 +127,16 @@ class WheelPage extends connect(store)(PageViewElement) {
           </button>
       
           <div class="flashcontrol">
-            <button class="flashcontrol__flashbutton %flashcontrol__flashbutton--active"></button>
+            <button class="flashcontrol__flashbutton ${this._leftFlashState === PowerState.On ? 'flashcontrol__flashbutton--active' : ''}" 
+										@click="${() => store.dispatch(toggleLeftFlash())}"></button>
             <div class="onoffswitch">
-              <input type="checkbox" name="onoffswitch" class="checkbox" id="myonoffswitch">
-              <label class="switch-label" for="myonoffswitch"></label>
+              <input type="checkbox" class="checkbox" 
+											?checked="${this._lockState === PowerState.On}" 
+											@click="${() => store.dispatch(toggleLock())}" id="myonoffswitch2">
+              <label class="switch-label" for="myonoffswitch2"></label>
             </div>
-            <button class="flashcontrol__flashbutton flashcontrol__flashbutton--active"></button>
+            <button class="flashcontrol__flashbutton ${this._rightFlashState === PowerState.On ? 'flashcontrol__flashbutton--active' : ''}" 
+										@click="${() => store.dispatch(toggleRightFlash())}"></button>
           </div>
         </div> <!-- /.shared-controls -->
       </div> <!-- /.page__controls -->
@@ -131,9 +144,40 @@ class WheelPage extends connect(store)(PageViewElement) {
     `;
 	}
 
+	firstUpdated() {
+		super.firstUpdated();
+
+		const colorWheelElement = this.shadowRoot.getElementById('colorWheel');
+		const colorWheel = Raphael.colorwheel(colorWheelElement, 220, 400);
+		console.log(colorWheelElement);
+		// $(colorWheelElement).on('touchmove', function (e) {
+		// 	e.preventDefault();
+
+		// 	//console.log('touch move');
+		// 	if (e.cancelable) {
+		// 		console.log(e);
+
+		// 		e.preventDefault();
+		// 	}
+		// });
+
+
+		colorWheel.onchange(function (newColor) {
+			//console.log(newColor)
+			//tile.currentColor = Color.rgb(newColor.r, newColor.g, newColor.b);
+		});
+	}
+
+
 	stateChanged(state) {
 		this._page = state.app.page;
 		this._language = state.app.language;
+		this._currentUiColor = state.app.currentUiColor;
+		this._currentUiColorName = state.app.currentUiColorName;
+		this._mainLightState = state.app.ledsState;
+		this._lockState = state.app.lockState;
+		this._leftFlashState = state.app.flashLedLeftState;
+		this._rightFlashState = state.app.flashLedRightState;
 	}
 }
 

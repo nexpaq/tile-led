@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
-import { navigate, changeCurrentUiColor, switchOnMainLight, switchOffMainLight, toggleLock, toggleMainLight } from '../actions/app.js';
+import { navigate, changeCurrentUiColor, switchOnMainLight, switchOffMainLight, toggleLock, toggleMainLight, toggleRightFlash, toggleLeftFlash } from '../actions/app.js';
 import { store } from '../store.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import {
@@ -46,7 +46,9 @@ class PalletPage extends connect(store)(PageViewElement) {
 			_currentUiColor: { type: String },
 			_currentUiColorName: { type: String },
 			_mainLightState: { type: Boolean },
-			_lockState: { type: Boolean }
+			_lockState: { type: Boolean },
+			_rightFlashState: { type: Boolean },
+			_leftFlashState: { type: Boolean }
 		};
 	}
 
@@ -97,12 +99,16 @@ class PalletPage extends connect(store)(PageViewElement) {
 						</svg>
 					</button>
           <div class="flashcontrol">
-            <button class="flashcontrol__flashbutton flashcontrol__flashbutton--active"></button>
+            <button class="flashcontrol__flashbutton ${this._leftFlashState === PowerState.On ? 'flashcontrol__flashbutton--active' : ''}" 
+										@click="${() => store.dispatch(toggleLeftFlash())}"></button>
             <div class="onoffswitch">
-              <input type="checkbox" name="onoffswitch" class="checkbox" ?checked="${this._lockState}" @click="${() => store.dispatch(toggleLock())}" id="myonoffswitch">
-              <label class="switch-label" for="myonoffswitch"></label>
+							<input type="checkbox" class="checkbox" 
+										 ?checked="${this._lockState === PowerState.On}" 
+										 @click="${() => store.dispatch(toggleLock())}" id="myonoffswitch1">
+              <label class="switch-label" for="myonoffswitch1"></label>
             </div>
-            <button class="flashcontrol__flashbutton %flashcontrol__flashbutton--active"></button>
+            <button class="flashcontrol__flashbutton ${this._rightFlashState === PowerState.On ? 'flashcontrol__flashbutton--active' : ''}" 
+										@click="${() => store.dispatch(toggleRightFlash())}"></button>
           </div>
         </div> <!-- /.shared-controls -->
       </div> <!-- /.page__controls -->
@@ -154,6 +160,8 @@ class PalletPage extends connect(store)(PageViewElement) {
 		this._currentUiColorName = state.app.currentUiColorName;
 		this._mainLightState = state.app.ledsState;
 		this._lockState = state.app.lockState;
+		this._leftFlashState = state.app.flashLedLeftState;
+		this._rightFlashState = state.app.flashLedRightState;
 	}
 }
 

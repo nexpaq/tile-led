@@ -20,7 +20,8 @@ import {
 	CURRENT_UI_COLOR_CHANGED,
 	CURRENT_COLOR_CHANGED,
 	MAIN_LIGHT_STATE_CHANGED,
-	LOCK_TOGGLED
+	LOCK_TOGGLED,
+	FLASH_TOGGLED
 } from '../actions/app.js';
 
 const INITIAL_STATE = {
@@ -81,7 +82,13 @@ const app = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				lockState: action.state
-			}
+			};
+		case FLASH_TOGGLED:
+			return {
+				...state,
+				flashLedLeftState: action.leftState,
+				flashLedRightState: action.rightState
+			};
 		default:
 			return state;
 	}

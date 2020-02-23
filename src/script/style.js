@@ -20,7 +20,7 @@
   renderBrightnessRange(parseFloat(brRange.value));
 
   // COLORWHEEL
-  var colorWheelElement = document.getElementById('colorWheel');
-  var colorWheel = Raphael.colorwheel(colorWheelElement, 220, 400);
+  // var colorWheelElement = document.getElementById('colorWheel');
+  // var colorWheel = Raphael.colorwheel(colorWheelElement, 220, 400);
 
 })();

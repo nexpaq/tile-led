@@ -55,6 +55,8 @@ export const CURRENT_UI_COLOR_CHANGED = 'CURRENT_UI_COLOR_CHANGED';
 export const CURRENT_COLOR_CHANGED = 'CURRENT_COLOR_CHANGED';
 export const MAIN_LIGHT_STATE_CHANGED = 'MAIN_LIGHT_STATE_CHANGED';
 export const LOCK_TOGGLED = 'LOCK_TOGGLED';
+export const FLASH_TOGGLED = 'FLASH_TOGGLED';
+
 
 // This is a fix to iOS not auto connecting and not finding any devices
 export const initializeModuwareApiAsync = () => async dispatch => {
@@ -143,21 +145,37 @@ export const hardwareBackButtonPressed = () => (dispatch, getState) => {
 
 export const toggleTheme = (newTheme) => (dispatch, getState) => {
 
-	// if theme is toggled, we switch off the main light 
-	// to make sure that theme and main light don't conflict
-	if (getState().app.ledsState === PowerState.On) {
-		dispatch(switchOffMainLight());
-	}
-
-	if (getState().app.currentTheme === null) {
-		themePlayer.play(newTheme);
-		dispatch({ type: THEME_TOGGLED, currentTheme: newTheme });
-	} else if (getState().app.currentTheme === newTheme) {
+	if (newTheme === '') {
+		
 		themePlayer.stop();
 		dispatch({ type: THEME_TOGGLED, currentTheme: null });
-	} else if (getState().app.currentTheme !== newTheme) {
-		themePlayer.play(newTheme);
-		dispatch({ type: THEME_TOGGLED, currentTheme: newTheme });
+
+	} else {
+		if (getState().app.currentTheme === null) {
+
+			// if theme is toggled, we switch off the main light 
+			// to make sure that theme and main light don't conflict
+			if (getState().app.ledsState === PowerState.On) {
+				dispatch(switchOffMainLight());
+			}
+
+			themePlayer.play(newTheme);
+			dispatch({ type: THEME_TOGGLED, currentTheme: newTheme });
+
+		} else if (getState().app.currentTheme === newTheme) {
+			themePlayer.stop();
+			dispatch({ type: THEME_TOGGLED, currentTheme: null });
+
+		} else if (getState().app.currentTheme !== newTheme) {
+
+			// if theme is toggled, we switch off the main light 
+			// to make sure that theme and main light don't conflict
+			if (getState().app.ledsState === PowerState.On) {
+				dispatch(switchOffMainLight());
+			}
+			themePlayer.play(newTheme);
+			dispatch({ type: THEME_TOGGLED, currentTheme: newTheme });
+		}
 	}
 }
 
@@ -198,8 +216,7 @@ export const switchOnMainLight = () => (dispatch, getState) => {
 	// we check for the current theme, if it is not null then we have
 	// to stop it so it don't conflict with the main light
 	if (getState().app.currentTheme !== null) {
-		themePlayer.stop();
-		dispatch({ type: THEME_TOGGLED, currentTheme: null });
+		dispatch(toggleTheme(''));
 	}
 
 	let adjustedColor = adjustColor(getState().app.currentColor, getState().app.lightness);
@@ -211,4 +228,35 @@ export const switchOnMainLight = () => (dispatch, getState) => {
 export const switchOffMainLight = () => dispatch => {
 	setRgbColor(commandFilter, 0, 0, 0);
 	dispatch({ type: MAIN_LIGHT_STATE_CHANGED, state: PowerState.Off });
+}
+
+const maxFlashLedBrightness = 4000;
+
+export const toggleRightFlash = () => (dispatch, getState) => {
+	// we get the state of the left flash and keep it as is whitout changing the brightness
+	var leftFlashBrightness = getState().app.flashLedLeftState === PowerState.On ? maxFlashLedBrightness : 0;
+	// here we toggle the brightness of the right flash
+	var rightFlashBrightness = getState().app.flashLedRightState === PowerState.On ? 0 : maxFlashLedBrightness;
+	dispatch(toggleFlashes(leftFlashBrightness, rightFlashBrightness));
+}
+
+export const toggleLeftFlash = () => (dispatch, getState) => {
+	// we get the state of the right flash and keep it as is whitout changing the brightness
+	var rightFlashBrightness = getState().app.flashLedRightState === PowerState.On ? maxFlashLedBrightness : 0;
+	// here we toggle the brightness of the right flash
+	var leftFlashBrightness = getState().app.flashLedLeftState === PowerState.On ? 0 : maxFlashLedBrightness;
+	dispatch(toggleFlashes(leftFlashBrightness, rightFlashBrightness));
+}
+
+export const toggleFlashes = (left, right) => dispatch => {
+	if (left === 0 && right === 0) {
+		Moduware.v1.Module.ExecuteCommand(Moduware.Arguments.uuid, 'TurnOffFlashs', []);
+	} else {
+		Moduware.v1.Module.ExecuteCommand(Moduware.Arguments.uuid, 'SetFlashes', [left, right]);
+	}
+	dispatch({
+		type: FLASH_TOGGLED,
+		leftState: left === 0 ? PowerState.Off : PowerState.On,
+		rightState: right === 0 ? PowerState.Off : PowerState.On
+	});
 }
