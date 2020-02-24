@@ -10,7 +10,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
-import { navigate, changeCurrentUiColor, switchOnMainLight, switchOffMainLight, toggleLock, toggleMainLight, toggleRightFlash, toggleLeftFlash } from '../actions/app.js';
+import {
+	navigate,
+	changeCurrentUiColor,
+	switchOnMainLight,
+	switchOffMainLight,
+	toggleLock,
+	toggleMainLight,
+	toggleRightFlash,
+	toggleLeftFlash,
+	changeWheelColor,
+	changeLightness
+} from '../actions/app.js';
 import { store } from '../store.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import {
@@ -36,6 +47,7 @@ import * as translation from '../translations/language.js';
 import { addListener } from '@polymer/polymer/lib/utils/gestures.js';
 import predefinedColors from '../predefined-colors.js'
 import PowerState from '../enums/PowerState';
+import Color from '../../node_modules/color/index.js';
 
 class WheelPage extends connect(store)(PageViewElement) {
 
@@ -48,7 +60,8 @@ class WheelPage extends connect(store)(PageViewElement) {
 			_mainLightState: { type: Boolean },
 			_lockState: { type: Boolean },
 			_rightFlashState: { type: Boolean },
-			_leftFlashState: { type: Boolean }
+			_leftFlashState: { type: Boolean },
+			_lightness: { type: Number }
 		};
 	}
 
@@ -104,7 +117,7 @@ class WheelPage extends connect(store)(PageViewElement) {
               <span class="brightness-control__label brightness-control__label--right">Lighter</span>
             </div>
             <div class="brightness-control__range-container">
-              <input type="range" id="nxprange" class="brightness-control__range" min="-1" max="1" step="0.01" value="0">
+              <input type="range" id="nxprange" class="brightness-control__range" min="-1" max="1" step="0.01" value="${this._lightness}" @input="${(e) => this._lightnessChangeHandler(e)}" >
               <div class="brightness-control__range-track-filled"></div>
               <div class="brightness-control__range-thumb"></div>
             </div>
@@ -113,7 +126,7 @@ class WheelPage extends connect(store)(PageViewElement) {
 				</div> <!-- /.picker-controls -->
 				
         <div class="shared-controls">
-          <button class="led-button ${this._mainLightState === PowerState.On ? 'active' : ''}">
+          <button class="led-button ${this._mainLightState === PowerState.On ? 'active' : ''}" id="power-button2"  @click="${() => this._powerButtonClickHandler()}">
             <svg width="128px" height="128px" viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                   <g transform="translate(-116.000000, -256.000000)">
@@ -146,10 +159,52 @@ class WheelPage extends connect(store)(PageViewElement) {
 
 	firstUpdated() {
 		super.firstUpdated();
+		addListener(this.shadowRoot.getElementById('power-button2'), 'down', e => this._powerButtonPressedHandler(e));
+		addListener(this.shadowRoot.getElementById('power-button2'), 'up', e => this._powerButtonReleasedHandler(e));
+		const colorWheel = Raphael.colorwheel(this.shadowRoot.getElementById('colorWheel'), 220, 400);
 
-		const colorWheelElement = this.shadowRoot.getElementById('colorWheel');
-		const colorWheel = Raphael.colorwheel(colorWheelElement, 220, 400);
-		console.log(colorWheelElement);
+		colorWheel.onchange(function (newColor) {
+			store.dispatch(changeWheelColor(Color.rgb(newColor.r, newColor.g, newColor.b)));
+		});
+	}
+
+	_lightnessChangeHandler(e) {
+		store.dispatch(changeLightness(Number(this.shadowRoot.getElementById('nxprange').value)));
+	}
+
+	_powerButtonClickHandler() {
+		if (this._lockState === PowerState.On) {
+			store.dispatch(toggleMainLight());
+		}
+	}
+
+	_powerButtonPressedHandler(e) {
+		if (this._lockState === PowerState.Off) {
+			store.dispatch(switchOnMainLight());
+		}
+	}
+
+	_powerButtonReleasedHandler(e) {
+		if (this._lockState === PowerState.Off) {
+			store.dispatch(switchOffMainLight());
+		}
+	}
+
+	stateChanged(state) {
+		this._page = state.app.page;
+		this._language = state.app.language;
+		this._currentUiColor = state.app.currentUiColor;
+		this._currentUiColorName = state.app.currentUiColorName;
+		this._mainLightState = state.app.ledsState;
+		this._lockState = state.app.lockState;
+		this._leftFlashState = state.app.flashLedLeftState;
+		this._rightFlashState = state.app.flashLedRightState;
+		this._lightness = state.app.lightness;
+	}
+}
+window.customElements.define('wheel-page', WheelPage);
+
+
 		// $(colorWheelElement).on('touchmove', function (e) {
 		// 	e.preventDefault();
 
@@ -161,24 +216,3 @@ class WheelPage extends connect(store)(PageViewElement) {
 		// 	}
 		// });
 
-
-		colorWheel.onchange(function (newColor) {
-			//console.log(newColor)
-			//tile.currentColor = Color.rgb(newColor.r, newColor.g, newColor.b);
-		});
-	}
-
-
-	stateChanged(state) {
-		this._page = state.app.page;
-		this._language = state.app.language;
-		this._currentUiColor = state.app.currentUiColor;
-		this._currentUiColorName = state.app.currentUiColorName;
-		this._mainLightState = state.app.ledsState;
-		this._lockState = state.app.lockState;
-		this._leftFlashState = state.app.flashLedLeftState;
-		this._rightFlashState = state.app.flashLedRightState;
-	}
-}
-
-window.customElements.define('wheel-page', WheelPage);

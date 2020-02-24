@@ -21,6 +21,7 @@ import CommandBufferFilter from '../lib/CommandBufferFilter';
 import { isSameColor, adjustColor, setRgbColorWithTemperatureProtection as setRgbColor } from '../utils';
 import IosDeviceDetection from '../lib/IosDeviceDetection';
 import PowerState from '../enums/PowerState';
+import Color from '../../node_modules/color/index.js';
 
 const commandFilter = new CommandBufferFilter();
 commandFilter.start();
@@ -56,7 +57,7 @@ export const CURRENT_COLOR_CHANGED = 'CURRENT_COLOR_CHANGED';
 export const MAIN_LIGHT_STATE_CHANGED = 'MAIN_LIGHT_STATE_CHANGED';
 export const LOCK_TOGGLED = 'LOCK_TOGGLED';
 export const FLASH_TOGGLED = 'FLASH_TOGGLED';
-
+export const LIGHTNESS_CHANGED = 'LIGHTNESS_CHANGED';
 
 // This is a fix to iOS not auto connecting and not finding any devices
 export const initializeModuwareApiAsync = () => async dispatch => {
@@ -88,7 +89,6 @@ export const navigate = (path) => (dispatch) => {
 };
 
 export const loadLanguageTranslation = () => async dispatch => {
-	console.log(Moduware.Arguments);
 	dispatch({ type: LOAD_LANGUAGE_TRANSLATION, language: Moduware.Arguments.language });
 }
 
@@ -122,8 +122,6 @@ const updatePage = (page) => {
 };
 
 export const headerBackButtonClicked = () => (dispatch, getState) => {
-	console.log('Webview header back button clicked!');
-
 	if (getState().app.page === 'pallet-page' || getState().app.page === 'wheel-page' || getState().app.page === 'themes-page' || getState().app.page === 'error-page') {
 		dispatch(navigate('/home-page'))
 	} else {
@@ -146,7 +144,7 @@ export const hardwareBackButtonPressed = () => (dispatch, getState) => {
 export const toggleTheme = (newTheme) => (dispatch, getState) => {
 
 	if (newTheme === '') {
-		
+
 		themePlayer.stop();
 		dispatch({ type: THEME_TOGGLED, currentTheme: null });
 
@@ -213,6 +211,10 @@ export const changeCurrentUiColor = color => (dispatch, getState) => {
 
 export const switchOnMainLight = () => (dispatch, getState) => {
 
+	if (getState().app.page === 'pallet-page') {
+		dispatch({ type: CURRENT_COLOR_CHANGED, color: Color(getState().app.currentUiColorName) });
+	}
+
 	// we check for the current theme, if it is not null then we have
 	// to stop it so it don't conflict with the main light
 	if (getState().app.currentTheme !== null) {
@@ -243,7 +245,8 @@ export const toggleRightFlash = () => (dispatch, getState) => {
 export const toggleLeftFlash = () => (dispatch, getState) => {
 	// we get the state of the right flash and keep it as is whitout changing the brightness
 	var rightFlashBrightness = getState().app.flashLedRightState === PowerState.On ? maxFlashLedBrightness : 0;
-	// here we toggle the brightness of the right flash
+
+	// here we toggle the brightness of the left flash
 	var leftFlashBrightness = getState().app.flashLedLeftState === PowerState.On ? 0 : maxFlashLedBrightness;
 	dispatch(toggleFlashes(leftFlashBrightness, rightFlashBrightness));
 }
@@ -259,4 +262,22 @@ export const toggleFlashes = (left, right) => dispatch => {
 		leftState: left === 0 ? PowerState.Off : PowerState.On,
 		rightState: right === 0 ? PowerState.Off : PowerState.On
 	});
+}
+
+export const changeWheelColor = (color) => (dispatch, getState) => {
+	
+	dispatch({ type: CURRENT_COLOR_CHANGED, color: color });
+
+	if (getState().app.ledsState === PowerState.On) {
+		dispatch(switchOnMainLight());
+	}
+}
+
+export const changeLightness = lightness => (dispatch, getState) => {
+
+	dispatch({ type: LIGHTNESS_CHANGED, lightness: lightness });
+
+	if (getState().app.ledsState === PowerState.On) {
+		dispatch(switchOnMainLight());
+	}
 }

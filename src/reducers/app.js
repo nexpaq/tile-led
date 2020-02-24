@@ -21,7 +21,8 @@ import {
 	CURRENT_COLOR_CHANGED,
 	MAIN_LIGHT_STATE_CHANGED,
 	LOCK_TOGGLED,
-	FLASH_TOGGLED
+	FLASH_TOGGLED,
+	LIGHTNESS_CHANGED
 } from '../actions/app.js';
 
 const INITIAL_STATE = {
@@ -88,6 +89,11 @@ const app = (state = INITIAL_STATE, action) => {
 				...state,
 				flashLedLeftState: action.leftState,
 				flashLedRightState: action.rightState
+			};
+		case LIGHTNESS_CHANGED:
+			return {
+				...state,
+				lightness: action.lightness,
 			};
 		default:
 			return state;
