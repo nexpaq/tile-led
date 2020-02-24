@@ -144,7 +144,6 @@ export const hardwareBackButtonPressed = () => (dispatch, getState) => {
 export const toggleTheme = (newTheme) => (dispatch, getState) => {
 
 	if (newTheme === '') {
-
 		themePlayer.stop();
 		dispatch({ type: THEME_TOGGLED, currentTheme: null });
 
@@ -160,6 +159,8 @@ export const toggleTheme = (newTheme) => (dispatch, getState) => {
 			themePlayer.play(newTheme);
 			dispatch({ type: THEME_TOGGLED, currentTheme: newTheme });
 
+			// if the current theme is equal to the new theme 
+			// it means we trying to stop theme playing
 		} else if (getState().app.currentTheme === newTheme) {
 			themePlayer.stop();
 			dispatch({ type: THEME_TOGGLED, currentTheme: null });
@@ -211,6 +212,8 @@ export const changeCurrentUiColor = color => (dispatch, getState) => {
 
 export const switchOnMainLight = () => (dispatch, getState) => {
 
+	// checking if the current page is the pallet page and making sure that
+	// to set current color equal to the ui color (one of 5 sample colors in pallet page)
 	if (getState().app.page === 'pallet-page') {
 		dispatch({ type: CURRENT_COLOR_CHANGED, color: Color(getState().app.currentUiColorName) });
 	}
@@ -235,14 +238,17 @@ export const switchOffMainLight = () => dispatch => {
 const maxFlashLedBrightness = 4000;
 
 export const toggleRightFlash = () => (dispatch, getState) => {
+
 	// we get the state of the left flash and keep it as is whitout changing the brightness
 	var leftFlashBrightness = getState().app.flashLedLeftState === PowerState.On ? maxFlashLedBrightness : 0;
+
 	// here we toggle the brightness of the right flash
 	var rightFlashBrightness = getState().app.flashLedRightState === PowerState.On ? 0 : maxFlashLedBrightness;
 	dispatch(toggleFlashes(leftFlashBrightness, rightFlashBrightness));
 }
 
 export const toggleLeftFlash = () => (dispatch, getState) => {
+
 	// we get the state of the right flash and keep it as is whitout changing the brightness
 	var rightFlashBrightness = getState().app.flashLedRightState === PowerState.On ? maxFlashLedBrightness : 0;
 
@@ -265,7 +271,7 @@ export const toggleFlashes = (left, right) => dispatch => {
 }
 
 export const changeWheelColor = (color) => (dispatch, getState) => {
-	
+
 	dispatch({ type: CURRENT_COLOR_CHANGED, color: color });
 
 	if (getState().app.ledsState === PowerState.On) {
