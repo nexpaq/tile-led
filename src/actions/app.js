@@ -22,6 +22,7 @@ import { isSameColor, adjustColor, setRgbColorWithTemperatureProtection as setRg
 import IosDeviceDetection from '../lib/IosDeviceDetection';
 import PowerState from '../enums/PowerState';
 import Color from '../../node_modules/color/index.js';
+import { registerTranslateConfig, use, translate, get } from "@appnest/lit-translate";
 
 const commandFilter = new CommandBufferFilter();
 commandFilter.start();
@@ -58,6 +59,7 @@ export const MAIN_LIGHT_STATE_CHANGED = 'MAIN_LIGHT_STATE_CHANGED';
 export const LOCK_TOGGLED = 'LOCK_TOGGLED';
 export const FLASH_TOGGLED = 'FLASH_TOGGLED';
 export const LIGHTNESS_CHANGED = 'LIGHTNESS_CHANGED';
+export const UPDATE_HEADER_TITLE = 'UPDATE_HEADER_TITLE';
 
 // This is a fix to iOS not auto connecting and not finding any devices
 export const initializeModuwareApiAsync = () => async dispatch => {
@@ -77,7 +79,6 @@ export const moduwareApiReady = () => async dispatch => {
 
 	dispatch({ type: MODUWARE_API_READY });
 	dispatch(loadLanguageTranslation());
-
 	Moduware.API.addEventListener('HardwareBackButtonPressed', () => {
 		dispatch(hardwareBackButtonPressed());
 	});
@@ -95,20 +96,30 @@ export const loadLanguageTranslation = () => async dispatch => {
 const loadPage = (page) => (dispatch) => {
 	switch (page) {
 		case 'home-page':
-			import('../components/home-page.js');
+			import('../components/home-page.js').then(() => {
+				dispatch(updateHeaderTitle(get('home-page.title')));
+			});
 			break;
 		case 'pallet-page':
-			import('../components/pallet-page.js');
+			import('../components/pallet-page.js').then(() => {
+				dispatch(updateHeaderTitle(get('pallet-page.title')));
+			});
 			break;
 		case 'wheel-page':
-			import('../components/wheel-page.js');
+			import('../components/wheel-page.js').then(() => {
+				dispatch(updateHeaderTitle(get('wheel-page.title')));
+			});
 			break;
 		case 'themes-page':
-			import('../components/themes-page.js');
+			import('../components/themes-page.js').then(() => {
+				dispatch(updateHeaderTitle(get('themes-page.title')));
+			});
 			break;
 		default:
 			page = 'error-page';
-			import('../components/error-page.js');
+			import('../components/error-page.js').then(() => {
+				dispatch(updateHeaderTitle('error'));
+			});
 	}
 
 	dispatch(updatePage(page));
@@ -287,3 +298,10 @@ export const changeLightness = lightness => (dispatch, getState) => {
 		dispatch(switchOnMainLight());
 	}
 }
+
+export const updateHeaderTitle = headerTitle => {
+	return {
+		type: UPDATE_HEADER_TITLE,
+		headerTitle
+	};
+};

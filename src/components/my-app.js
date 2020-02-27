@@ -12,7 +12,7 @@ import { LitElement, html, css } from 'lit-element';
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
-import { navigate, headerBackButtonClicked, initializeModuwareApiAsync, loadLanguageTranslation } from '../actions/app.js';
+import { navigate, headerBackButtonClicked, initializeModuwareApiAsync, loadLanguageTranslation, updateHeaderTitle } from '../actions/app.js';
 import './icons.js';
 import 'webview-tile-header/webview-tile-header'
 import { registerTranslateConfig, use, translate, get } from "@appnest/lit-translate";
@@ -40,6 +40,7 @@ class MyApp extends connect(store)(LitElement) {
 	static get properties() {
 		return {
 			appTitle: { type: String },
+			_headerTitle: { type: String },
 			_page: { type: String },
 			_language: { type: String },
 		};
@@ -210,7 +211,7 @@ class MyApp extends connect(store)(LitElement) {
       <!-- Webview Header -->
       <moduware-header	
         @back-button-click="${() => store.dispatch(headerBackButtonClicked())}"
-				title="${translate('home-page.title')}">
+				title="${this._headerTitle}">
 			</moduware-header>
 			<!-- Main content -->
 			<main role="main" class="main-content">
@@ -244,6 +245,7 @@ class MyApp extends connect(store)(LitElement) {
 	firstUpdated() {
 		store.dispatch(navigate("/home-page"));
 		store.dispatch(initializeModuwareApiAsync());
+		store.dispatch(updateHeaderTitle(get('home-page.title')));
 	}
 
 	updated(changedProperties) {
@@ -258,6 +260,7 @@ class MyApp extends connect(store)(LitElement) {
 	stateChanged(state) {
 		this._page = state.app.page;
 		this._language = state.app.language;
+		this._headerTitle = state.app.headerTitle;
 	}
 }
 

@@ -22,7 +22,8 @@ import {
 	MAIN_LIGHT_STATE_CHANGED,
 	LOCK_TOGGLED,
 	FLASH_TOGGLED,
-	LIGHTNESS_CHANGED
+	LIGHTNESS_CHANGED,
+	UPDATE_HEADER_TITLE
 } from '../actions/app.js';
 
 const INITIAL_STATE = {
@@ -39,6 +40,7 @@ const INITIAL_STATE = {
 	currentTheme: null,
 	lightness: 0, // -1 <= x <= 1,
 	rgbTemperatureProtection: false,
+	headerTitle: '',
 };
 
 const app = (state = INITIAL_STATE, action) => {
@@ -94,6 +96,11 @@ const app = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				lightness: action.lightness,
+			};
+		case UPDATE_HEADER_TITLE:
+			return {
+				...state,
+				headerTitle: action.headerTitle
 			};
 		default:
 			return state;

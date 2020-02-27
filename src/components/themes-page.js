@@ -96,7 +96,7 @@ class ThemesPage extends connect(store)(PageViewElement) {
 								</g>
 							</svg>
 						</div>
-						Candle flicker
+						${translate('themes.candle')}
 					</button>
 					<button class="theme-button ${this._currentTheme === 'Romance' ? 'theme-button--active' : ''}" @click="${() => store.dispatch(toggleTheme('Romance'))}">
 						<div class="theme-button__icon-container">
@@ -112,7 +112,7 @@ class ThemesPage extends connect(store)(PageViewElement) {
 								</g>
 							</svg>
 						</div>
-						Romance
+						${translate('themes.romance')}
 					</button>
 					<button class="theme-button ${this._currentTheme === 'Meditation' ? 'theme-button--active' : ''}" @click="${() => store.dispatch(toggleTheme('Meditation'))}">
 						<div class="theme-button__icon-container">
@@ -126,7 +126,7 @@ class ThemesPage extends connect(store)(PageViewElement) {
 								</g>
 							</svg>
 						</div>
-						Meditation
+						${translate('themes.meditation')}
 					</button>
 					<button class="theme-button ${this._currentTheme === 'SOS' ? 'theme-button--active' : ''}" @click="${() => store.dispatch(toggleTheme('SOS'))}">
 						<div class="theme-button__icon-container">
@@ -142,7 +142,7 @@ class ThemesPage extends connect(store)(PageViewElement) {
 									</g>
 							</svg>
 						</div>
-						SOS
+						${translate('themes.sos')}
 					</button>
 					<button class="theme-button ${this._currentTheme === 'Study' ? 'theme-button--active' : ''}" @click="${() => store.dispatch(toggleTheme('Study'))}">
 						<div class="theme-button__icon-container">
@@ -158,7 +158,7 @@ class ThemesPage extends connect(store)(PageViewElement) {
 								</g>
 							</svg>
 						</div>
-						Study
+						${translate('themes.study')}
 					</button>
 					<button class="theme-button ${this._currentTheme === 'Disco' ? 'theme-button--active' : ''}" @click="${() => store.dispatch(toggleTheme('Disco'))}">
 						<div class="theme-button__icon-container">
@@ -174,7 +174,7 @@ class ThemesPage extends connect(store)(PageViewElement) {
 								</g>
 							</svg>
 						</div>
-						Disco
+						${translate('themes.disco')}
 					</button>
 					<button class="theme-button ${this._currentTheme === 'Strobe' ? 'theme-button--active' : ''}" @click="${() => store.dispatch(toggleTheme('Strobe'))}">
 						<div class="theme-button__icon-container">
@@ -190,7 +190,7 @@ class ThemesPage extends connect(store)(PageViewElement) {
 								</g>
 							</svg>
 						</div>
-						Strobe
+						${translate('themes.strobe')}
 					</button>
 					<button class="theme-button ${this._currentTheme === 'Police' ? 'theme-button--active' : ''}" @click="${() => store.dispatch(toggleTheme('Police'))}">
 						<div class="theme-button__icon-container">
@@ -204,7 +204,7 @@ class ThemesPage extends connect(store)(PageViewElement) {
 								</g>
 							</svg>
 						</div>
-						Police
+						${translate('themes.police')}
 					</button>
 				</div>
 			</div>

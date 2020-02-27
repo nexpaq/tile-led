@@ -113,8 +113,8 @@ class WheelPage extends connect(store)(PageViewElement) {
               <p class="alignright">Lighter</p>
             </div> -->
             <div class="brightness-control__labels">
-              <span class="brightness-control__label brightness-control__label--left">Darker</span>
-              <span class="brightness-control__label brightness-control__label--right">Lighter</span>
+              <span class="brightness-control__label brightness-control__label--left">${translate('brightness.darker')}</span>
+              <span class="brightness-control__label brightness-control__label--right">${translate('brightness.lighter')}</span>
             </div>
             <div class="brightness-control__range-container">
               <input type="range" id="nxprange" class="brightness-control__range" min="-1" max="1" step="0.01" value="${this._lightness}" @input="${(e) => this._lightnessChangeHandler(e)}" >

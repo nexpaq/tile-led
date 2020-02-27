@@ -83,7 +83,7 @@ class HomePage extends connect(store)(PageViewElement) {
 		return html`
 			<div data-color="white" id="wrapper" class="wrapper">
 				<div class="page page__selector">
-					<h1 class="page__selector__title">Modes</h1>
+					<h1 class="page__selector__title">${translate('home-page.modes')}</h1>
 					<ul class="modes-list">
 						<li class="modes-list-item" @click="${() => store.dispatch(navigate('/pallet-page'))}">
 							<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="modes-list-item__icon">
@@ -97,8 +97,8 @@ class HomePage extends connect(store)(PageViewElement) {
 										</g>
 									</g>
 							</svg>
-							Simple pallet
-							<span class="modes-list-item__description">5 simple colors to chose</span>
+							${translate('pallet-page.title')}
+							<span class="modes-list-item__description">${translate('pallet-page.description')}</span>
 						</li>
 						<li class="modes-list-item" @click="${() => store.dispatch(navigate('/wheel-page'))}">
 							<svg width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="modes-list-item__icon">
@@ -113,8 +113,8 @@ class HomePage extends connect(store)(PageViewElement) {
 									</g>
 								</g>
 							</svg>
-							Color wheel
-							<span class="modes-list-item__description">Pick your own color</span>
+							${translate('wheel-page.title')}
+							<span class="modes-list-item__description">${translate('wheel-page.description')}</span>
 						</li>
 						<li class="modes-list-item" @click="${() => store.dispatch(navigate('/themes-page'))}">
 							<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="modes-list-item__icon">
@@ -128,8 +128,8 @@ class HomePage extends connect(store)(PageViewElement) {
 										</g>
 									</g>
 							</svg>
-							Themes
-							<span class="modes-list-item__description">Preset light moods</span>
+							${translate('themes-page.title')}
+							<span class="modes-list-item__description">${translate('themes-page.description')}</span>
 						</li>
 					</ul>
 				</div>
