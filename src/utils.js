@@ -46,18 +46,18 @@ export function setRgbColorWithTemperatureProtection(commandFilter, r, g, b) {
 			rgbTemperatureProtection = true;
 
 			console.log('turn on temperature protection');
-			Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'TurnOnRgbLedTemperatureProtection', [5 * 60]); // 5 minutes
+			Moduware.v1.Module.ExecuteCommand(Moduware.Arguments.uuid, 'TurnOnRgbLedTemperatureProtection', [5 * 60]); // 5 minutes
 		}
 	} else {
 		if (rgbTemperatureProtection == true) {
 			rgbTemperatureProtection = false;
 			console.log('turn off temperature protection');
-			Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'TurnOffRgbLedTemperatureProtection', []); // off
+			Moduware.v1.Module.ExecuteCommand(Moduware.Arguments.uuid, 'TurnOffRgbLedTemperatureProtection', []); // off
 		}
 	}
 	if (commandFilter != null) {
-		commandFilter.setCommand(() => Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [r, g, b]));
+		commandFilter.setCommand(() => Moduware.v1.Module.ExecuteCommand(Moduware.Arguments.uuid, 'SetRGB', [r, g, b]));
 	} else {
-		Moduware.v0.API.Module.SendCommand(Moduware.Arguments.uuid, 'SetRGB', [r, g, b])
+		Moduware.v1.Module.ExecuteCommand(Moduware.Arguments.uuid, 'SetRGB', [r, g, b])
 	}
 }

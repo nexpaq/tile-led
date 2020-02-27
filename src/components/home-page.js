@@ -140,7 +140,6 @@ class HomePage extends connect(store)(PageViewElement) {
 	stateChanged(state) {
 		this._page = state.app.page;
 		this._language = state.app.language;
-		console.log(state);
 	}
 
 }
