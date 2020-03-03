@@ -8,6 +8,8 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
+import { getPlatform } from '@moduware/lit-utils';
+
 import ThemePlayer from '../lib/ThemePlayer'
 import CandleFlickerTheme from '../themes/CandleFlickerTheme';
 import PoliceTheme from '../themes/PoliceTheme';
@@ -48,6 +50,7 @@ themePlayer.addTheme('Romance', romanceTheme);
 themePlayer.addTheme('Study', studyTheme);
 
 
+export const GET_PLATFORM = 'GET_PLATFORM';
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 export const MODUWARE_API_READY = 'MODUWARE_API_READY';
 export const LOAD_LANGUAGE_TRANSLATION = 'LOAD_LANGUAGE_TRANSLATION';
@@ -73,6 +76,14 @@ export const initializeModuwareApiAsync = () => async dispatch => {
 
 	await promise;
 	dispatch(moduwareApiReady());
+}
+
+export const getPlatformInfo = () => {
+	var platform = getPlatform();
+	return {
+		type: GET_PLATFORM,
+		platform
+	};
 }
 
 export const moduwareApiReady = () => async dispatch => {
@@ -161,7 +172,7 @@ export const toggleTheme = (newTheme) => (dispatch, getState) => {
 	} else {
 		if (getState().app.currentTheme === null) {
 
-			// if theme is toggled, we switch off the main light 
+			// if theme is toggled, we switch off the main light
 			// to make sure that theme and main light don't conflict
 			if (getState().app.ledsState === PowerState.On) {
 				dispatch(switchOffMainLight());
@@ -170,7 +181,7 @@ export const toggleTheme = (newTheme) => (dispatch, getState) => {
 			themePlayer.play(newTheme);
 			dispatch({ type: THEME_TOGGLED, currentTheme: newTheme });
 
-			// if the current theme is equal to the new theme 
+			// if the current theme is equal to the new theme
 			// it means we trying to stop theme playing
 		} else if (getState().app.currentTheme === newTheme) {
 			themePlayer.stop();
@@ -178,7 +189,7 @@ export const toggleTheme = (newTheme) => (dispatch, getState) => {
 
 		} else if (getState().app.currentTheme !== newTheme) {
 
-			// if theme is toggled, we switch off the main light 
+			// if theme is toggled, we switch off the main light
 			// to make sure that theme and main light don't conflict
 			if (getState().app.ledsState === PowerState.On) {
 				dispatch(switchOffMainLight());

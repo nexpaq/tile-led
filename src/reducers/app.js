@@ -23,7 +23,8 @@ import {
 	LOCK_TOGGLED,
 	FLASH_TOGGLED,
 	LIGHTNESS_CHANGED,
-	UPDATE_HEADER_TITLE
+	UPDATE_HEADER_TITLE,
+  GET_PLATFORM
 } from '../actions/app.js';
 
 const INITIAL_STATE = {
@@ -41,6 +42,7 @@ const INITIAL_STATE = {
 	lightness: 0, // -1 <= x <= 1,
 	rgbTemperatureProtection: false,
 	headerTitle: '',
+  platform: ''
 };
 
 const app = (state = INITIAL_STATE, action) => {
@@ -49,6 +51,11 @@ const app = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				apiReady: true
+			};
+    case GET_PLATFORM:
+			return {
+				...state,
+				platform: action.platform
 			};
 		case UPDATE_PAGE:
 			return {

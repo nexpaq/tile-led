@@ -12,7 +12,7 @@ import { LitElement, html, css } from 'lit-element';
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
-import { navigate, headerBackButtonClicked, initializeModuwareApiAsync, loadLanguageTranslation, updateHeaderTitle } from '../actions/app.js';
+import { navigate, headerBackButtonClicked, initializeModuwareApiAsync, loadLanguageTranslation, updateHeaderTitle, getPlatformInfo } from '../actions/app.js';
 import './icons.js';
 import 'webview-tile-header/webview-tile-header'
 import { registerTranslateConfig, use, translate, get } from "@appnest/lit-translate";
@@ -39,10 +39,15 @@ class MyApp extends connect(store)(LitElement) {
 
 	static get properties() {
 		return {
+      platform: {
+				type: String,
+				reflect: true
+			},
 			appTitle: { type: String },
 			_headerTitle: { type: String },
 			_page: { type: String },
 			_language: { type: String },
+			_currentUiColorName: { type: String },
 		};
 	}
 
@@ -75,7 +80,7 @@ class MyApp extends connect(store)(LitElement) {
           --app-section-even-color: #f7f7f7;
           --app-section-odd-color: white;
 
-          --app-header-background-color: white;
+          --app-header-background-color: transparent;
           --app-header-text-color: var(--app-dark-text-color);
           --app-header-selected-color: var(--app-primary-color);
 
@@ -167,9 +172,12 @@ class MyApp extends connect(store)(LitElement) {
         .main-content {
           display: flex;
           box-sizing: border-box;
-          padding-top: 55px;
           min-height: 100vh;
         }
+
+      :host([platform="android"]) .main-content {
+        padding-top: 55px;
+      }
 
         .page {
           display: none;
@@ -218,7 +226,8 @@ class MyApp extends connect(store)(LitElement) {
       <!-- Webview Header -->
       <moduware-header
         @back-button-click="${() => store.dispatch(headerBackButtonClicked())}"
-				title="${this._headerTitle}">
+        title="${this._headerTitle}"
+        style="color: ${this._page != 'pallet-page' || this._currentUiColorName == 'white' ? 'black' : 'white'}; --back-button-color: ${this._page != 'pallet-page' || this._currentUiColorName == 'white' ? 'black' : 'white'};" >
 			</moduware-header>
 			<!-- Main content -->
 			<main role="main" class="main-content">
@@ -235,6 +244,7 @@ class MyApp extends connect(store)(LitElement) {
 		super();
 		// To force all event listeners for gestures to be passive.
 		// See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
+    store.dispatch(getPlatformInfo());
 		setPassiveTouchGestures(true);
 	}
 
@@ -265,9 +275,11 @@ class MyApp extends connect(store)(LitElement) {
 	}
 
 	stateChanged(state) {
+    this.platform = state.app.platform;
 		this._page = state.app.page;
 		this._language = state.app.language;
 		this._headerTitle = state.app.headerTitle;
+		this._currentUiColorName = state.app.currentUiColorName;
 	}
 }
 
