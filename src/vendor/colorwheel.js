@@ -44,7 +44,7 @@ Raphael.colorwheel = function(target, color_wheel_size, no_segments){
     center   = size/2;
     parent   = $(target);
     canvas   = Raphael(parent[0],size, size);
-    
+
     create_bs_square();
     create_hue_ring();
     hue_ring.cursor = cursor_create(16);
@@ -106,8 +106,10 @@ Raphael.colorwheel = function(target, color_wheel_size, no_segments){
 
     page = e.originalEvent.touches ? e.originalEvent.touches[0] : e;
 
-    x = page.pageX - (parent.offset().left + center);
-    y = page.pageY - (parent.offset().top + center);
+    // x = page.pageX - (parent.offset().left + center);
+    // y = page.pageY - (parent.offset().top + center);
+    x = page.pageX - (parent[0].offsetLeft);
+    y = page.pageY - (parent[0].offsetTop);
 
     if(drag_target == hue_ring){
       set_hue_cursor(x,y);
@@ -145,7 +147,7 @@ Raphael.colorwheel = function(target, color_wheel_size, no_segments){
   function events_setup(){
     $([hue_ring.event.node,hue_ring.cursor[0].node]).on("mousedown touchstart",
                                                         function(e){start_drag(e,hue_ring);});
-   
+
   }
 
   function cursor_create(size){
