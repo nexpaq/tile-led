@@ -13,6 +13,7 @@ import { PageViewElement } from './page-view-element.js';
 import { navigate } from '../actions/app.js';
 import { store } from '../store.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
+import { ResetStyles } from '../vendor/reset.css.js';
 import {
 	Fonts,
 	Global,
@@ -47,6 +48,7 @@ class HomePage extends connect(store)(PageViewElement) {
 
 	static get styles() {
 		return [
+      ResetStyles,
 			Fonts,
 			Global,
 			MainScreen,
