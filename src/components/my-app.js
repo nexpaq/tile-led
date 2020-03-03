@@ -260,9 +260,11 @@ class MyApp extends connect(store)(LitElement) {
 	}
 
 	firstUpdated() {
-		store.dispatch(navigate("/home-page"));
+    //store.dispatch(navigate("/home-page"));
+		store.dispatch(navigate("/wheel-page"));
 		store.dispatch(initializeModuwareApiAsync());
-		store.dispatch(updateHeaderTitle(get('home-page.title')));
+    //store.dispatch(updateHeaderTitle(get('home-page.title')));
+		store.dispatch(updateHeaderTitle(get('wheel-page.title')));
 	}
 
 	updated(changedProperties) {

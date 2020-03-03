@@ -66,15 +66,15 @@ class PalletPage extends connect(store)(PageViewElement) {
 						</svg>
 					</button>
           <div class="flashcontrol">
-            <button class="flashcontrol__flashbutton ${this._leftFlashState === PowerState.On ? 'flashcontrol__flashbutton--active' : ''}" 
+            <button class="flashcontrol__flashbutton ${this._leftFlashState === PowerState.On ? 'flashcontrol__flashbutton--active' : ''}"
 										@click="${() => store.dispatch(toggleLeftFlash())}"></button>
             <div class="onoffswitch">
-							<input type="checkbox" class="checkbox" 
-										 ?checked="${this._lockState === PowerState.On}" 
+							<input type="checkbox" class="checkbox"
+										 ?checked="${this._lockState === PowerState.On}"
 										 @click="${() => store.dispatch(toggleLock())}" id="myonoffswitch1">
               <label class="switch-label" for="myonoffswitch1"></label>
             </div>
-            <button class="flashcontrol__flashbutton ${this._rightFlashState === PowerState.On ? 'flashcontrol__flashbutton--active' : ''}" 
+            <button class="flashcontrol__flashbutton ${this._rightFlashState === PowerState.On ? 'flashcontrol__flashbutton--active' : ''}"
 										@click="${() => store.dispatch(toggleRightFlash())}"></button>
           </div>
         </div> <!-- /.shared-controls -->
@@ -111,7 +111,12 @@ class PalletPage extends connect(store)(PageViewElement) {
 			ModelListItem,
 			SwitchControl,
 			ThemeButton,
-			Wheel
+			Wheel,
+      css`
+      #wrapper {
+        top: -55px;
+        height: calc(100% + 55px);
+      }`
 		];
 	}
 

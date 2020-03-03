@@ -274,6 +274,7 @@ body.platform-ios .brightness-control__range-thumb {
   transform: translateY(-50%);
   width: var(--thumb-size); height: var(--thumb-size);
   border-radius: 50%;
+  pointer-events: none;
 }
 
 body.platform-ios .brightness-control__range-thumb::after {
@@ -290,6 +291,20 @@ body.platform-ios .brightness-control__range-thumb::after {
   margin: 0;
 
 }
+  .brightness-control__range::-webkit-slider-thumb {
+    --clickable-area: 30px;
+
+    box-sizing: border-box;
+    position: relative;
+    width: var(--clickable-area); height: var(--clickable-area);
+    transform: translateY(calc(-50% + 1px));
+    box-shadow: none;
+    border-style: none;
+    opacity: 0;
+    -webkit-appearance: none;
+    cursor: pointer;
+    z-index: 1;
+  }
 
 .brightness-control__range::-webkit-slider-runnable-track,
 .brightness-control__range::-moz-range-track {
@@ -304,7 +319,7 @@ body.platform-ios .brightness-control__range-thumb::after {
   box-shadow: none;
 }
 
-.brightness-control__range::-webkit-slider-thumb,
+  /*.brightness-control__range::-webkit-slider-thumb,
 .brightness-control__range::-moz-range-thumb {
   --clickable-area: 30px;
 
@@ -319,7 +334,7 @@ body.platform-ios .brightness-control__range-thumb::after {
   cursor: pointer;
   z-index: 1;
 }
-
+*/
 
 `;
 
