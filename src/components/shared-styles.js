@@ -11,45 +11,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { css } from 'lit-element';
 
 export const Fonts = css`
-@font-face {
-  font-family: Roboto;
-  src: url('./fonts/Roboto-Light.woff') format('woff');
-  font-weight: 300;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url('./fonts/Roboto-Regular.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-}
-
-[class^="icon-"]:before, [class*=" icon-"]:before {
-  font-family: "fontello";
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  /* Preferred icon size */
-  display: inline-block;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
-  /* Support for all WebKit browsers. */
-  -webkit-font-smoothing: antialiased;
-  /* Support for Safari and Chrome. */
-  text-rendering: optimizeLegibility;
-  /* Support for Firefox. */
-  -moz-osx-font-smoothing: grayscale;
-  /* Support for IE. */
-  font-feature-settings: 'liga';
-}
-
-.icon-off:before { content: '\e800'; }
-
 `;
 
 
@@ -96,7 +57,7 @@ export const Global = css`
 
 export const MainScreen = css`
 	.wrapper {
-		
+
 	}
 
 	.wrapper[data-color='white'] {
@@ -313,7 +274,7 @@ body.platform-ios .brightness-control__range-thumb {
   transform: translateY(-50%);
   width: var(--thumb-size); height: var(--thumb-size);
   border-radius: 50%;
-} 
+}
 
 body.platform-ios .brightness-control__range-thumb::after {
   background-color: white;
@@ -327,7 +288,7 @@ body.platform-ios .brightness-control__range-thumb::after {
   width: 100%;
   height: 2px;
   margin: 0;
-  
+
 }
 
 .brightness-control__range::-webkit-slider-runnable-track,
@@ -396,7 +357,7 @@ export const FlashControl = css`
 }
 
 .flashcontrol__flashbutton {
-  width: 44px; 
+  width: 44px;
   height: 44px;
   background-image: url(./images/flash.svg);
 }
@@ -417,7 +378,7 @@ export const LedButton = css`
 
 .led-button {
   position: absolute;
-  top: 50%; left: 50%; 
+  top: 50%; left: 50%;
   transform: translateX(-50%) translateY(-50%);
   width: 128px;
   height: 128px;
@@ -524,22 +485,22 @@ export const SwitchControl = css`
 
 
 .switch-label {
-  display: block; 
+  display: block;
   position: relative;
-  overflow: hidden; 
+  overflow: hidden;
   width:44px;
-  height:44px; 
+  height:44px;
 }
 
 .switch-label::before {
   content:"";
-  display: block; 
+  display: block;
   position: relative;
   top:50%;
   left:50%;
   transform: translateX(-50%) translateY(-50%);
   width:24px;
-  height:24px; 
+  height:24px;
   background-image: url(./images/lock_black.svg);
   background-repeat: no-repeat;
   background-size: auto 100%;

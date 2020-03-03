@@ -84,7 +84,7 @@ class MyApp extends connect(store)(LitElement) {
           --app-drawer-selected-color: #78909C;
         }
 
-        app-header {
+        moduware-header {
           position: fixed;
           top: 0;
           left: 0;
@@ -92,7 +92,10 @@ class MyApp extends connect(store)(LitElement) {
           text-align: center;
           background-color: var(--app-header-background-color);
           color: var(--app-header-text-color);
-          border-bottom: 1px solid #eee;
+          /*border-bottom: 1px solid #eee;*/
+          border: none;
+          box-shadow: none;
+          --back-button-color: black;
         }
 
         .toolbar-top {
@@ -162,12 +165,16 @@ class MyApp extends connect(store)(LitElement) {
         }
 
         .main-content {
-          padding-top: 64px;
+          display: flex;
+          box-sizing: border-box;
+          padding-top: 55px;
           min-height: 100vh;
         }
 
         .page {
           display: none;
+          flex-grow: 1;
+          position: relative;
         }
 
         .page[active] {
@@ -209,7 +216,7 @@ class MyApp extends connect(store)(LitElement) {
 	render() {
 		return html`
       <!-- Webview Header -->
-      <moduware-header	
+      <moduware-header
         @back-button-click="${() => store.dispatch(headerBackButtonClicked())}"
 				title="${this._headerTitle}">
 			</moduware-header>
@@ -219,7 +226,7 @@ class MyApp extends connect(store)(LitElement) {
 					<pallet-page class="page" ?active="${this._page === 'pallet-page'}"></pallet-page>
 					<wheel-page class="page" ?active="${this._page === 'wheel-page'}"></wheel-page>
 					<themes-page class="page" ?active="${this._page === 'themes-page'}"></themes-page>
-					<error-page class="page" ?active="${this._page === 'error-page'}"></error-page>	
+					<error-page class="page" ?active="${this._page === 'error-page'}"></error-page>
 			</main>
     `;
 	}
