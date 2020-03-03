@@ -20,7 +20,7 @@
 
       Instead of manually editing the `<base>` tag yourself, you should generally either:
       a) Add a `basePath` property to the build configuration in your `polymer.json`.
-      b) Use the `--base-path` command-line option for `polymer build`.
+      b) Use the `base-path` command-line option for `polymer build`.
     -->
 	<base href="./">
 
@@ -32,6 +32,7 @@
 	</script>
 
 	<!-- Add any global styles for body, document, etc. -->
+  <link rel="stylesheet" type="text/css" href="fonts/fonts.css">
 	<style>
 		@font-face {
 			font-family: 'Pacifico';
@@ -46,11 +47,12 @@
 		}
 
 		body {
+      font-family: Roboto, sans-serif;
 			margin: 0;
+      line-height: 1;
 			/* This is a font-stack that tries to use the system-default sans-serifs first */
-			font-family: Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-			line-height: 1.5;
-			min-height: 100vh;
+			/*font-family: Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
+			/*min-height: 100vh;*/
 			-webkit-font-smoothing: antialiased;
 		}
 	</style>
