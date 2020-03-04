@@ -99,13 +99,13 @@ export const ModeSelectorScreen = css`
 		font-family: Roboto, sans-serif;
 	}
 
-	body.platform-android .page__selector {
+  /*:host([platform="android"]) .page__selector {
 		padding-top: 55px;
 	}
 
-	body.platform-ios .page__selector {
+	:host([platform="ios"]) .page__selector {
 		padding-top: 44px;
-	}
+	}*/
 
 	.page__selector__title {
 		padding: 20px 17px;
@@ -115,7 +115,7 @@ export const ModeSelectorScreen = css`
 
 	}
 
-	body.platform-ios .page__selector__title {
+	:host([platform="ios"]) .page__selector__title {
 		text-transform: uppercase;
 		font-size: 13px;
 		color: #6E6E70;
@@ -145,7 +145,7 @@ export const ModeThemesScreen = css`
   grid-row-gap: 30px;
 }
 
-body.platform-android .page__themes {
+  /*body.platform-android .page__themes {
   padding-top: calc(55px + 20px);
 }
 
@@ -214,13 +214,13 @@ export const BrightnessControl = css`
 
 }
 
-body.platform-ios .brightness-control__range-container {
+:host([platform="ios"]) .brightness-control__range-container {
   height: 1px;
   background: #979898;
 }
 
-body.platform-ios .brightness-control__range-container::before,
-body.platform-ios .brightness-control__range-container::after {
+:host([platform="ios"]) .brightness-control__range-container::before,
+:host([platform="ios"]) .brightness-control__range-container::after {
   content: '';
   width: 1px;
   height: 5px;
@@ -230,11 +230,11 @@ body.platform-ios .brightness-control__range-container::after {
   transform: translateY(-50%);
 }
 
-body.platform-ios .brightness-control__range-container::before {
+:host([platform="ios"]) .brightness-control__range-container::before {
   left: 0;
 }
 
-body.platform-ios .brightness-control__range-container::after {
+:host([platform="ios"]) .brightness-control__range-container::after {
   right: 0;
 }
 
@@ -247,7 +247,7 @@ body.platform-ios .brightness-control__range-container::after {
 
 }
 
-body.platform-ios .brightness-control__range-track-filled {
+:host([platform="ios"]) .brightness-control__range-track-filled {
   display: none;
 }
 
@@ -262,7 +262,7 @@ body.platform-ios .brightness-control__range-track-filled {
   z-index: 1;
 }
 
-body.platform-ios .brightness-control__range-thumb {
+:host([platform="ios"]) .brightness-control__range-thumb {
   --thumb-size: 24px;
 }
 
@@ -277,7 +277,7 @@ body.platform-ios .brightness-control__range-thumb {
   pointer-events: none;
 }
 
-body.platform-ios .brightness-control__range-thumb::after {
+:host([platform="ios"]) .brightness-control__range-thumb::after {
   background-color: white;
   box-shadow: 0 1px 2px rgba(0,0,0, 0.3), 0 6px 0 rgba(0,0,0, 0.05), 0 5px 5px rgba(0,0,0, 0.1);
 }
@@ -440,7 +440,7 @@ export const ModelListItem = css`
   justify-content: center;
 }
 
-body.platform-ios .modes-list-item {
+:host([platform="ios"]) .modes-list-item {
   box-shadow: 0 -1px 0 #C8C7CC, 0 1px 0 #C8C7CC;
   background-image: url(./images/chevron-icon.svg);
   background-repeat: no-repeat;
@@ -462,7 +462,7 @@ body.platform-ios .modes-list-item {
   margin-top: 7px;
 }
 
-body.platform-ios .modes-list-item__description {
+:host([platform="ios"]) .modes-list-item__description {
   font-size: 13px;
 }
 

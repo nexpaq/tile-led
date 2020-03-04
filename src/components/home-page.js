@@ -32,7 +32,7 @@ import {
 } from './shared-styles.js';
 import app from '../reducers/app.js';
 import './icons.js';
-import { registerTranslateConfig, use, translate, get } from "@appnest/lit-translate";
+import { registerTranslateConfig, use, translate, get, getPlatformInfo } from "@appnest/lit-translate";
 import * as translation from '../translations/language.js';
 import predefinedColors from '../predefined-colors.js'
 
@@ -41,6 +41,10 @@ class HomePage extends connect(store)(PageViewElement) {
 
 	static get properties() {
 		return {
+      platform: {
+				type: String,
+				reflect: true
+			},
 			_page: { type: String },
 			_language: { type: String }
 		};
@@ -140,6 +144,7 @@ class HomePage extends connect(store)(PageViewElement) {
 	}
 
 	stateChanged(state) {
+    this.platform = state.app.platform;
 		this._page = state.app.page;
 		this._language = state.app.language;
 	}

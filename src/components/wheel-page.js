@@ -20,7 +20,8 @@ import {
 	toggleRightFlash,
 	toggleLeftFlash,
 	changeWheelColor,
-	changeLightness
+  changeLightness,
+  getPlatformInfo
 } from '../actions/app.js';
 import { store } from '../store.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
@@ -109,6 +110,10 @@ class WheelPage extends connect(store)(PageViewElement) {
 
 	static get properties() {
 		return {
+      platform: {
+				type: String,
+				reflect: true
+			},
 			_page: { type: String },
 			_language: { type: String },
 			_currentUiColor: { type: String },
@@ -210,6 +215,7 @@ class WheelPage extends connect(store)(PageViewElement) {
 	}
 
 	stateChanged(state) {
+    this.platform = state.app.platform;
 		this._page = state.app.page;
 		this._language = state.app.language;
 		this._currentUiColor = state.app.currentUiColor;

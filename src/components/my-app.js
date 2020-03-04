@@ -179,6 +179,10 @@ class MyApp extends connect(store)(LitElement) {
         padding-top: 55px;
       }
 
+      :host([platform="ios"]) .main-content {
+        padding-top: 44px;
+      }
+
         .page {
           display: none;
           flex-grow: 1;
