@@ -166,7 +166,7 @@ class WheelPage extends connect(store)(PageViewElement) {
 		addListener(this.shadowRoot.getElementById('power-button2'), 'up', e => this._powerButtonReleasedHandler(e));
 		var colorWheel = Raphael.colorwheel(this.shadowRoot.getElementById('colorWheel'), 220, 400);
 		colorWheel.onchange(function (newColor) {
-			store.dispatch(changeWheelColor(Color.rgb(newColor.r, newColor.g, newColor.b)));
+      store.dispatch(changeWheelColor(Color.rgb(newColor.r, newColor.g, newColor.b)));
 		});
 		var slider = this.shadowRoot.getElementById('nxprange');
 		slider.addEventListener('input', (e) => this._renderBrightnessRange(parseFloat(e.target.value)));

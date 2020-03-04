@@ -60,7 +60,12 @@ class ThemesPage extends connect(store)(PageViewElement) {
 			SwitchControl,
 			ThemeButton,
 			Wheel,
-			Variables
+      Variables,
+      css`
+      #wrapper {
+        padding-top: 22px;
+      }
+      `
 		];
 	}
 
