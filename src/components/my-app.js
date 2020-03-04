@@ -69,7 +69,8 @@ class MyApp extends connect(store)(LitElement) {
 			Variables,
 			css`
         :host {
-          display: block;
+          display: flex;
+          height: 100%;
 
           --app-drawer-width: 256px;
 
@@ -90,7 +91,7 @@ class MyApp extends connect(store)(LitElement) {
         }
 
         moduware-header {
-          position: fixed;
+          position: absolute;
           top: 0;
           left: 0;
           width: 100%;
@@ -172,7 +173,9 @@ class MyApp extends connect(store)(LitElement) {
         .main-content {
           display: flex;
           box-sizing: border-box;
-          min-height: 100vh;
+          /*min-height: 100vh;*/
+          min-height: auto;
+          flex-grow: 1;
         }
 
       :host([platform="android"]) .main-content {
