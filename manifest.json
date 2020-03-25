@@ -1,13 +1,13 @@
 {
-	"id": "nexpaq.tile.led.developPwa",
+	"id": "nexpaq.tile.led",
 	"name": "LED",
-	"description": "LED module interface (develop pwa)",
+	"description": "LED module interface",
 	"versions": {
 		"stable": "1.2.6",
-		"alpha": "1.2.7"
+		"alpha": "2.0.0"
 	},
-	"version": "1.2.6",
-	"changes": "ColorPriority for better colors: brighter and more accurate",
+	"version": "2.0.0",
+	"changes": "Complete rewrite",
 	"minumumAppVersion": "1.1.8",
 	"modules": [
 		"nexpaq.module.led",
