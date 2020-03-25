@@ -2,10 +2,6 @@
 	"id": "nexpaq.tile.led",
 	"name": "LED",
 	"description": "LED module interface",
-	"versions": {
-		"stable": "1.2.6",
-		"alpha": "2.0.0"
-	},
 	"version": "2.0.0",
 	"changes": "Complete rewrite",
 	"minumumAppVersion": "1.1.8",

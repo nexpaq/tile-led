@@ -33,7 +33,7 @@
 	],
 	"builds": [
 		{
-			"name": "nexpaq.tile.led.developPwa",
+			"name": "nexpaq.tile.led",
 			"js": {
 				"compile": "es5",
 				"minify": false,
