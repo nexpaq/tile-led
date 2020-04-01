@@ -114,6 +114,7 @@ const loadPage = (page) => (dispatch) => {
 		case 'pallet-page':
 			import('../components/pallet-page.js').then(() => {
 				dispatch(updateHeaderTitle(get('pallet-page.title')));
+				dispatch(changeLightness(0));
 			});
 			break;
 		case 'wheel-page':

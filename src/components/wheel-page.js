@@ -225,19 +225,11 @@ class WheelPage extends connect(store)(PageViewElement) {
 		this._leftFlashState = state.app.flashLedLeftState;
 		this._rightFlashState = state.app.flashLedRightState;
 		this._lightness = state.app.lightness;
+
+		var slider = this.shadowRoot.getElementById('nxprange');
+		slider.value = this._lightness;
+		this._renderBrightnessRange(parseFloat(slider.value));
 	}
 }
 window.customElements.define('wheel-page', WheelPage);
-
-
-		// $(colorWheelElement).on('touchmove', function (e) {
-		// 	e.preventDefault();
-
-		// 	//console.log('touch move');
-		// 	if (e.cancelable) {
-		// 		console.log(e);
-
-		// 		e.preventDefault();
-		// 	}
-		// });
 
