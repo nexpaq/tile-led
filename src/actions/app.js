@@ -25,6 +25,7 @@ import IosDeviceDetection from '../lib/IosDeviceDetection';
 import PowerState from '../enums/PowerState';
 import Color from '../../node_modules/color/index.js';
 import { registerTranslateConfig, use, translate, get } from "@appnest/lit-translate";
+import predefinedColors from '../predefined-colors';
 
 const commandFilter = new CommandBufferFilter();
 commandFilter.start();
@@ -63,6 +64,8 @@ export const LOCK_TOGGLED = 'LOCK_TOGGLED';
 export const FLASH_TOGGLED = 'FLASH_TOGGLED';
 export const LIGHTNESS_CHANGED = 'LIGHTNESS_CHANGED';
 export const UPDATE_HEADER_TITLE = 'UPDATE_HEADER_TITLE';
+export const LED_STATE_RECEIVED = 'LED_STATE_RECEIVED';
+
 
 // This is a fix to iOS not auto connecting and not finding any devices
 export const initializeModuwareApiAsync = () => async dispatch => {
@@ -86,13 +89,52 @@ export const getPlatformInfo = () => {
 	};
 }
 
-export const moduwareApiReady = () => async dispatch => {
+export const moduwareApiReady = () => async (dispatch, getState) => {
 
 	dispatch({ type: MODUWARE_API_READY });
 	dispatch(loadLanguageTranslation());
+
 	Moduware.API.addEventListener('HardwareBackButtonPressed', () => {
 		dispatch(hardwareBackButtonPressed());
 	});
+
+	Moduware.v1.Module.addEventListener('MessageReceived', async (e) => {
+		if (e.ModuleUuid === Moduware.Arguments.uuid && e.Message.dataSource === 'RequestStatusResponse' && getState().app.ledStateReceived === false) {
+
+			var c = Color.rgb(parseFloat(e.Message.variables.led0ColorR), parseFloat(e.Message.variables.led0ColorG), parseFloat(e.Message.variables.led0ColorB));
+			
+			if (c.color[0] === predefinedColors.red.moduleColor.color[0] &&
+				c.color[1] === predefinedColors.red.moduleColor.color[1] &&
+				c.color[2] === predefinedColors.red.moduleColor.color[2]) {
+				dispatch(changeCurrentUiColor(predefinedColors.red))
+			} else if (c.color[0] === predefinedColors.green.moduleColor.color[0] &&
+				c.color[1] === predefinedColors.green.moduleColor.color[1] &&
+				c.color[2] === predefinedColors.green.moduleColor.color[2]) {
+				dispatch(changeCurrentUiColor(predefinedColors.green))
+			} else if (c.color[0] === predefinedColors.blue.moduleColor.color[0] &&
+				c.color[1] === predefinedColors.blue.moduleColor.color[1] &&
+				c.color[2] === predefinedColors.blue.moduleColor.color[2]) {
+				dispatch(changeCurrentUiColor(predefinedColors.blue))
+			} else if (c.color[0] === predefinedColors.yellow.moduleColor.color[0] &&
+				c.color[1] === predefinedColors.yellow.moduleColor.color[1] &&
+				c.color[2] === predefinedColors.yellow.moduleColor.color[2]) {
+				dispatch(changeCurrentUiColor(predefinedColors.yellow))
+			} else if (c.color[0] === predefinedColors.white.moduleColor.color[0] &&
+				c.color[1] === predefinedColors.white.moduleColor.color[1] &&
+				c.color[2] === predefinedColors.white.moduleColor.color[2]) {
+				dispatch(changeCurrentUiColor(predefinedColors.white))
+			}
+
+			dispatch({
+				type: LED_STATE_RECEIVED,
+				flashLedLeftState: e.Message.variables.flash1OnOff === '0' ? PowerState.Off : PowerState.On,
+				flashLedRightState: e.Message.variables.flash2OnOff === '0' ? PowerState.Off : PowerState.On,
+				ledsState: e.Message.variables.led0State === '0' ? PowerState.Off : PowerState.On
+			});
+		}
+	});
+
+	Moduware.v1.Module.ExecuteCommand(Moduware.Arguments.uuid, 'RequestStatus', []);
 }
 
 export const navigate = (path) => (dispatch) => {

@@ -24,7 +24,8 @@ import {
 	FLASH_TOGGLED,
 	LIGHTNESS_CHANGED,
 	UPDATE_HEADER_TITLE,
-  GET_PLATFORM
+	GET_PLATFORM,
+	LED_STATE_RECEIVED
 } from '../actions/app.js';
 
 const INITIAL_STATE = {
@@ -42,7 +43,8 @@ const INITIAL_STATE = {
 	lightness: 0, // -1 <= x <= 1,
 	rgbTemperatureProtection: false,
 	headerTitle: '',
-  platform: ''
+	platform: '',
+	ledStateReceived: false
 };
 
 const app = (state = INITIAL_STATE, action) => {
@@ -52,7 +54,15 @@ const app = (state = INITIAL_STATE, action) => {
 				...state,
 				apiReady: true
 			};
-    case GET_PLATFORM:
+		case LED_STATE_RECEIVED:
+			return {
+				...state,
+				ledStateReceived: true,
+				flashLedLeftState: action.flashLedLeftState,
+				flashLedRightState: action.flashLedRightState,
+				ledsState: action.ledsState
+			};
+		case GET_PLATFORM:
 			return {
 				...state,
 				platform: action.platform
